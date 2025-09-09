@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Abdikareem Ahmed Moge | A Better Hargeisa</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Custom Styles for a more polished look */
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #F8FAFC; /* slate-50 */
+            color: #1E293B; /* slate-800 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom button styles for a premium feel */
+        .btn-primary {
+            background-color: #2563EB; /* blue-600 */
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1D4ED8; /* blue-700 */
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+        .btn-primary:hover:before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .btn-primary:disabled {
+            background-color: #94A3B8; /* slate-400 */
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        .btn-primary:disabled:before {
+            transform: scaleX(0);
+        }
+        
+        .btn-secondary {
+            background-color: #F1F5F9; /* slate-100 */
+            color: #334155; /* slate-700 */
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #E2E8F0; /* slate-200 */
+        }
+        .btn-secondary:hover {
+            background-color: #E2E8F0; /* slate-200 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        /* Modern input field styles */
+        .input-group {
+            position: relative;
+        }
+        .input-group i {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94A3B8; /* slate-400 */
+            transition: color 0.2s ease;
+        }
+        .input-field {
+            padding-left: 3.5rem;
+            width: 100%;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 1px solid #E2E8F0; /* slate-200 */
+            background-color: #FFFFFF;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #3B82F6; /* blue-500 */
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+        }
+        .input-field:focus + i {
+            color: #2563EB; /* blue-600 */
+        }
+        .input-field::placeholder {
+            color: #94A3B8; /* slate-400 */
+        }
+        .error-message {
+            color: #EF4444; /* red-500 */
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Animated vote counter */
+        #vote-counter {
+            font-family: 'Poppins', sans-serif;
+            transition: transform 0.2s ease;
+        }
+        .vote-count-number {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
+            display: inline-block;
+        }
+        .vote-count-number.updated {
+            transform: translateY(-15px) scale(1.2);
+            color: #10B981; /* emerald-500 */
+        }
+
+        /* Hero background gradient */
+        .hero-gradient {
+            background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+        }
+
+        /* Share Modal Styles */
+        .social-share-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+        }
+        .social-share-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+        }
+        .social-share-item:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
+        <div class="container mx-auto flex justify-between items-center p-6">
+            <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
+            <nav class="hidden md:flex items-center space-x-10 text-slate-600 font-semibold">
+                <a href="#vote" class="hover:text-blue-600 transition-colors duration-200">Vote</a>
+                <a href="#platform" class="hover:text-blue-600 transition-colors duration-200">Platform</a>
+                <a href="#about" class="hover:text-blue-600 transition-colors duration-200">About</a>
+            </nav>
+            <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Vote Now</a>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient pt-24 pb-32">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left reveal">
+                    <span class="font-semibold text-blue-600 uppercase tracking-wider">For a Better Hargeisa</span>
+                    <h1 class="text-5xl md:text-7xl font-extrabold mt-4 mb-6 leading-tight">A Better Future for Our City</h1>
+                    <p class="text-xl text-slate-500 mb-10 max-w-xl mx-auto md:mx-0">Join us to make Hargeisa better. Vote for Abdikareem Ahmed Moge. Help us build a good future for our city.</p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                        <a href="#vote" class="btn-primary w-full sm:w-auto">Vote Now</a>
+                        <button id="share-btn" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
+                            <i data-feather="share-2" class="w-5 h-5"></i>
+                            <span>Share</span>
+                        </button>
+                        <button id="donate-btn" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
+                            <i data-feather="gift" class="w-5 h-5"></i>
+                            <span>Donate</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative reveal" style="transition-delay: 200ms;">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-full blur-3xl opacity-30"></div>
+                    <img src="https://pbs.twimg.com/profile_images/1372776523204235264/RLdwSmsz_400x400.jpg" alt="Abdikareem Ahmed Moge" class="relative w-full max-w-md mx-auto rounded-full shadow-2xl aspect-square object-cover border-8 border-white">
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Vote Counter -->
+        <section class="py-16 -mt-20">
+            <div class="container mx-auto px-6 reveal">
+                 <div class="bg-white border border-slate-200/80 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl shadow-slate-200/50 text-center">
+                    <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Live Vote Counter</h3>
+                    <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800 tracking-tighter">
+                        <!-- Vote count will be populated by JS -->
+                    </div>
+                    <p class="text-slate-500 mt-4">Votes from our city and other places.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voting Section -->
+        <section id="vote" class="py-24 p-6">
+             <div class="text-center mb-16 reveal">
+                <h2 class="text-5xl md:text-6xl font-bold">Vote for Mayor Moge</h2>
+                <p class="text-xl text-slate-500 mt-4 max-w-2xl mx-auto">Your vote is important. Add your name to show you support a better Hargeisa.</p>
+            </div>
+            
+            <div class="container mx-auto max-w-xl">
+                <!-- Main Vote Area -->
+                <div id="vote-area" class="reveal">
+                    <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-200/80">
+                        <div class="text-center mb-10">
+                            <h3 class="text-4xl font-bold font-display">I Vote for Mayor Moge</h3>
+                            <p class="text-slate-500 mt-2">Fill this form to vote.</p>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="input-group">
+                                <input id="voter-username" type="text" placeholder="Your Full Name" class="input-field">
+                                <i data-feather="user"></i>
+                                <span class="error-message" data-for="voter-username">Please enter your full name.</span>
+                            </div>
+                            <div class="input-group">
+                                <input id="voter-city" type="text" placeholder="City / District" class="input-field">
+                                <i data-feather="map-pin"></i>
+                                <span class="error-message" data-for="voter-city">Please enter your city or district.</span>
+                            </div>
+                            <div class="input-group">
+                                <input id="voter-phone" type="tel" placeholder="Phone Number (Optional)" class="input-field">
+                                <i data-feather="phone"></i>
+                            </div>
+                            <button id="submit-vote-btn" class="w-full btn-primary !p-4 text-lg">Confirm My Vote</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Confirmation Message -->
+                <div id="confirmation-message" class="hidden text-center reveal">
+                     <div class="bg-emerald-50 p-8 md:p-12 rounded-3xl border-2 border-emerald-200">
+                        <i data-feather="check-circle" class="w-20 h-20 mx-auto text-emerald-500 mb-6"></i>
+                        <h3 class="text-4xl font-bold font-display mb-4">Vote Confirmed!</h3>
+                        <p class="text-emerald-800 text-lg">Thank you for your support. Your vote helps a lot. You cannot vote again from this device.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Platform Section -->
+        <section id="platform" class="py-24 p-6 bg-slate-100">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-5xl md:text-6xl font-bold">Our Plan for Hargeisa</h2>
+                <p class="text-xl text-slate-500 mt-4">Our focus is on what is important for our people.</p>
+            </div>
+            <div class="container mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Platform Card 1 -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="briefcase" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">More Jobs</h3>
+                    <p class="text-slate-500">We will help create new and lasting jobs for a strong city.</p>
+                </div>
+                <!-- Platform Card 2 -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 150ms;">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                         <i data-feather="bar-chart-2" class="w-8 h-8 text-blue-600 rotate-90"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Better Roads & Services</h3>
+                    <p class="text-slate-500">Making our roads, water, and public places better for everyone.</p>
+                </div>
+                <!-- Platform Card 3 -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 300ms;">
+                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="book-open" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Good Schools</h3>
+                    <p class="text-slate-500">We will put money into our schools to help our children succeed.</p>
+                </div>
+                <!-- Platform Card 4 -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 450ms;">
+                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">A Safe City</h3>
+                    <p class="text-slate-500">Making our city safe for every family.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 p-6">
+            <div class="container mx-auto max-w-4xl text-center bg-white p-12 rounded-3xl shadow-xl border border-slate-200/80 reveal">
+               <h2 class="text-4xl font-bold mb-4">A Campaign for the People</h2>
+               <p class="text-lg text-slate-600 leading-relaxed">This website connects us with the people of Hargeisa. Every vote is an important message. Your support helps us know what you need. It helps us work for a better city. Thank you.</p>
+               <a href="#vote" class="btn-primary mt-8 inline-block">Vote Today</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 text-center border-t border-slate-200 bg-white">
+        <div class="container mx-auto p-6">
+            <h4 class="text-2xl font-bold font-display text-slate-800">Campaign for Abdikareem Ahmed Moge</h4>
+            <div class="flex justify-center space-x-6 my-6">
+                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
+                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="facebook" class="w-6 h-6"></i></a>
+                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="instagram" class="w-6 h-6"></i></a>
+            </div>
+            <p class="text-slate-500 mt-2">&copy; 2025. All Rights Reserved.</p>
+            <p class="text-sm text-slate-400 mt-6">Design by <a href="https://mubarik.hiigsitech.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600 transition-colors">Mubarik Osman</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            // --- Generic Modal Logic ---
+            function showModal(title, text) {
+                const modalId = 'custom-modal';
+                const existingModal = document.getElementById(modalId);
+                if (existingModal) existingModal.remove();
+
+                const modalHTML = `
+                    <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                        <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+                            <h3 class="text-2xl font-bold font-display mb-4">${title}</h3>
+                            <p class="text-slate-600 mb-6">${text}</p>
+                            <button id="close-modal-btn" class="btn-primary w-full">Close</button>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                const modalElement = document.getElementById(modalId);
+                const modalContent = modalElement.querySelector('.bg-white');
+                setTimeout(() => {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }, 10);
+
+                const closeModal = () => {
+                    modalContent.style.transform = 'scale(0.95)';
+                    modalContent.style.opacity = '0';
+                    setTimeout(() => modalElement.remove(), 300);
+                };
+                modalElement.querySelector('#close-modal-btn').addEventListener('click', closeModal);
+                modalElement.addEventListener('click', (e) => {
+                    if (e.target.id === modalId) closeModal();
+                });
+            }
+            
+            // --- Share Modal Logic ---
+            function showShareModal(title, text, url) {
+                const modalId = 'share-modal';
+                const existingModal = document.getElementById(modalId);
+                if (existingModal) existingModal.remove();
+
+                const encodedUrl = encodeURIComponent(url);
+                const encodedText = encodeURIComponent(text);
+                const encodedTitle = encodeURIComponent(title);
+
+                const socialPlatforms = [
+                    { name: 'Facebook', icon: 'facebook', url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+                    { name: 'WhatsApp', icon: 'message-circle', url: `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}` },
+                    { name: 'Twitter', icon: 'twitter', url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}` },
+                    { name: 'Telegram', icon: 'send', url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}` },
+                    { name: 'LinkedIn', icon: 'linkedin', url: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}` },
+                    { name: 'Copy Link', icon: 'copy', url: '#' }
+                ];
+
+                let socialButtonsHTML = socialPlatforms.map(p => `
+                    <a href="${p.url}" ${p.name !== 'Copy Link' ? 'target="_blank" rel="noopener noreferrer"' : ''} data-name="${p.name}" class="social-share-item text-slate-700">
+                        <i data-feather="${p.icon}" class="w-8 h-8 mb-2"></i>
+                        <span class="text-sm font-semibold">${p.name}</span>
+                    </a>
+                `).join('');
+
+                const modalHTML = `
+                    <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                        <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-xl transform transition-all duration-300 scale-95 opacity-0">
+                            <h3 class="text-2xl font-bold font-display mb-6">Share this Page</h3>
+                            <div class="social-share-grid mb-6">${socialButtonsHTML}</div>
+                            <button id="close-share-modal-btn" class="btn-secondary w-full">Close</button>
+                        </div>
+                    </div>`;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+                feather.replace();
+
+                const modalElement = document.getElementById(modalId);
+                const modalContent = modalElement.querySelector('.bg-white');
+
+                setTimeout(() => {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }, 10);
+                
+                const closeModal = () => {
+                    modalContent.style.transform = 'scale(0.95)';
+                    modalContent.style.opacity = '0';
+                    setTimeout(() => modalElement.remove(), 300);
+                };
+
+                modalElement.querySelector('#close-share-modal-btn').addEventListener('click', closeModal);
+                modalElement.addEventListener('click', (e) => { if (e.target.id === modalId) closeModal(); });
+
+                const copyLinkButton = modalElement.querySelector('.social-share-item[data-name="Copy Link"]');
+                copyLinkButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const tempInput = document.createElement('input');
+                    tempInput.style.position = 'absolute';
+                    tempInput.style.left = '-9999px';
+                    tempInput.value = url;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    const iconElement = copyLinkButton.querySelector('i');
+                    const textSpan = copyLinkButton.querySelector('span');
+                    iconElement.outerHTML = '<i data-feather="check" class="w-8 h-8 mb-2 text-green-500"></i>';
+                    textSpan.textContent = 'Copied!';
+                    feather.replace();
+                    setTimeout(() => {
+                        iconElement.outerHTML = '<i data-feather="copy" class="w-8 h-8 mb-2"></i>';
+                        textSpan.textContent = 'Copy Link';
+                        feather.replace();
+                    }, 2000);
+                });
+            }
+
+            // --- Vote Counter Logic ---
+            const voteCounterElement = document.getElementById('vote-counter');
+            let currentVotes = 186452;
+
+            function formatVotes(votes) { return votes.toLocaleString('en-US'); }
+            
+            function updateVoteDisplay(animate = false) {
+                const formattedVotes = formatVotes(currentVotes);
+                voteCounterElement.innerHTML = '';
+                formattedVotes.split('').forEach(char => {
+                    const span = document.createElement('span');
+                    span.className = 'vote-count-number';
+                    span.textContent = char;
+                    voteCounterElement.appendChild(span);
+                });
+                
+                if(animate) {
+                     const spans = voteCounterElement.querySelectorAll('span');
+                     spans[spans.length - 1]?.classList.add('updated');
+                     setTimeout(() => spans[spans.length-1]?.classList.remove('updated'), 500);
+                }
+            }
+            
+            function animateNewVotes(newVotes) {
+                 currentVotes += newVotes;
+                 updateVoteDisplay(true);
+                 if (voteCounterElement) {
+                    voteCounterElement.style.transform = 'scale(1.03)';
+                    setTimeout(() => {
+                        voteCounterElement.style.transform = 'scale(1)';
+                    }, 200);
+                 }
+            }
+
+            updateVoteDisplay();
+            setInterval(() => animateNewVotes(Math.floor(Math.random() * 5) + 1), 3000);
+
+
+            // --- Voting Logic ---
+            const voteArea = document.getElementById('vote-area');
+            const confirmationMessage = document.getElementById('confirmation-message');
+            const usernameInput = document.getElementById('voter-username');
+            const cityInput = document.getElementById('voter-city');
+            const submitVoteBtn = document.getElementById('submit-vote-btn');
+
+            function showError(inputId, message) {
+                const errorSpan = document.querySelector(`.error-message[data-for="${inputId}"]`);
+                errorSpan.textContent = message;
+                errorSpan.style.display = 'block';
+                document.getElementById(inputId).style.borderColor = '#EF4444';
+            }
+
+            function clearErrors() {
+                document.querySelectorAll('.error-message').forEach(span => span.style.display = 'none');
+                document.querySelectorAll('.input-field').forEach(input => input.style.borderColor = '');
+            }
+
+            function disableVoting() {
+                voteArea.classList.add('hidden');
+                confirmationMessage.classList.remove('hidden');
+            }
+
+            if (localStorage.getItem('hasVotedMoge') === 'true') {
+                disableVoting();
+            }
+
+            submitVoteBtn.addEventListener('click', () => {
+                clearErrors();
+                let isValid = true;
+                if (usernameInput.value.trim().length < 3) {
+                    showError('voter-username', 'Please enter your full name.');
+                    isValid = false;
+                }
+                if (cityInput.value.trim() === '') {
+                    showError('voter-city', 'Please enter your city or district.');
+                    isValid = false;
+                }
+                if (!isValid) return;
+                localStorage.setItem('hasVotedMoge', 'true');
+                animateNewVotes(Math.floor(Math.random() * 20) + 10);
+                disableVoting();
+            });
+            
+
+            // --- Animate on Scroll Logic ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- Share and Donate Button Logic ---
+            const shareBtn = document.getElementById('share-btn');
+            const donateBtn = document.getElementById('donate-btn');
+
+            shareBtn.addEventListener('click', () => {
+                const url = window.location.href;
+                const text = "Support the movement for a better Hargeisa. Abdikareem Ahmed Moge's campaign is focused on creating jobs, improving infrastructure, and building a safer city. Show your support by voting and sharing this message with your friends and family.";
+                const title = 'Vote for Abdikareem Ahmed Moge';
+                showShareModal(title, text, url);
+            });
+
+            donateBtn.addEventListener('click', () => {
+                showModal('Donation Information', 'Thank you for your interest. We are not accepting donations at this time, but please check back soon.');
+            });
+
+        });
+    </script>
+</body>
+</html>
+
