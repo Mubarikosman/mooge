@@ -192,10 +192,21 @@
             <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
             <nav class="hidden md:flex items-center space-x-10 text-slate-600 font-semibold">
                 <a href="#vote" class="hover:text-blue-600 transition-colors duration-200">Codee</a>
-                <a href="#platform" class="hover:text-blue-600 transition-colors duration-200">Qorshaheena</a>
+                <a href="#platform" class="hover:text-blue-600 transition-colors duration-200">Qorshaha</a>
                 <a href="#about" class="hover:text-blue-600 transition-colors duration-200">Nagu Saabsan</a>
             </nav>
-            <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Codee Hadda</a>
+            <div class="flex items-center gap-4">
+                <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Codee Hadda</a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md text-slate-700 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span id="menu-open-icon"><i data-feather="menu" class="w-6 h-6"></i></span>
+                    <span id="menu-close-icon" class="hidden"><i data-feather="x" class="w-6 h-6"></i></span>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+             <a href="#vote" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Codee</a>
+             <a href="#platform" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Qorshaha</a>
+             <a href="#about" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Nagu Saabsan</a>
         </div>
     </header>
     
@@ -204,7 +215,7 @@
             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-center md:text-left reveal">
                     <span class="font-semibold text-blue-600 uppercase tracking-wider">Hargeisa Wanaagsan Darted</span>
-                    <h1 class="text-5xl md:text-7xl font-extrabold mt-4 mb-6 leading-tight">Magaaladeena u horseeda Mustaqbal Wanaagsan</h1>
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mt-4 mb-6 leading-tight">Magaaladeena u horseeda Mustaqbal Wanaagsan</h1>
                     <p class="text-xl text-slate-500 mb-10 max-w-xl mx-auto md:mx-0">Nagu soo biir si aan Hargeisa u hormarino. U codee Abdikareem Ahmed Moge. Naga caawi inaan dhisno mustaqbal ifaya oo ay magaaladeenu yeelato.</p>
                     <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                         <a href="#vote" class="btn-primary w-full sm:w-auto">Codee Hadda</a>
@@ -282,8 +293,8 @@
         
         <section id="platform" class="py-24 p-6 bg-slate-100">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-5xl md:text-6xl font-bold">Qorshaheena Horumarinta Hargeisa</h2>
-                <p class="text-xl text-slate-500 mt-4">Diiradeenu waa waxa muhiimka u ah dadkeena.</p>
+                <h2 class="text-5xl md:text-6xl font-bold">Maxaan ka Filan Karnaa Maayar Mooge?</h2>
+                <p class="text-xl text-slate-500 mt-4">Halkan waxaan ku eegaynaa qodobada muhiimka ah ee uu Maayarku wax ka qaban doono.</p>
             </div>
             <div class="container mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
@@ -343,6 +354,28 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             feather.replace();
+
+            // --- Mobile Menu Logic ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    openIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                });
+            });
 
             // --- Generic Modal Logic ---
             function showModal(title, text) {
@@ -436,25 +469,18 @@
                 copyLinkButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    const tempInput = document.createElement('input');
-                    tempInput.style.position = 'absolute';
-                    tempInput.style.left = '-9999px';
-                    tempInput.value = url;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-
-                    const iconElement = copyLinkButton.querySelector('i');
-                    const textSpan = copyLinkButton.querySelector('span');
-                    iconElement.outerHTML = '<i data-feather="check" class="w-8 h-8 mb-2 text-green-500"></i>';
-                    textSpan.textContent = 'Waa la Koobiyeeyay!';
-                    feather.replace();
-                    setTimeout(() => {
-                        iconElement.outerHTML = '<i data-feather="copy" class="w-8 h-8 mb-2"></i>';
-                        textSpan.textContent = 'Koobi Garee';
+                    navigator.clipboard.writeText(url).then(() => {
+                        const iconElement = copyLinkButton.querySelector('i');
+                        const textSpan = copyLinkButton.querySelector('span');
+                        iconElement.outerHTML = '<i data-feather="check" class="w-8 h-8 mb-2 text-green-500"></i>';
+                        textSpan.textContent = 'Waa la Koobiyeeyay!';
                         feather.replace();
-                    }, 2000);
+                        setTimeout(() => {
+                            iconElement.outerHTML = '<i data-feather="copy" class="w-8 h-8 mb-2"></i>';
+                            textSpan.textContent = 'Koobi Garee';
+                            feather.replace();
+                        }, 2000);
+                    });
                 });
             }
 
@@ -466,18 +492,20 @@
             
             function updateVoteDisplay(animate = false) {
                 const formattedVotes = formatVotes(currentVotes);
-                voteCounterElement.innerHTML = '';
-                formattedVotes.split('').forEach(char => {
-                    const span = document.createElement('span');
-                    span.className = 'vote-count-number';
-                    span.textContent = char;
-                    voteCounterElement.appendChild(span);
-                });
-                
-                if(animate) {
-                    const spans = voteCounterElement.querySelectorAll('span');
-                    spans[spans.length - 1]?.classList.add('updated');
-                    setTimeout(() => spans[spans.length-1]?.classList.remove('updated'), 500);
+                if (voteCounterElement) {
+                    voteCounterElement.innerHTML = '';
+                    formattedVotes.split('').forEach(char => {
+                        const span = document.createElement('span');
+                        span.className = 'vote-count-number';
+                        span.textContent = char;
+                        voteCounterElement.appendChild(span);
+                    });
+                    
+                    if(animate) {
+                        const spans = voteCounterElement.querySelectorAll('span');
+                        spans[spans.length - 1]?.classList.add('updated');
+                        setTimeout(() => spans[spans.length-1]?.classList.remove('updated'), 500);
+                    }
                 }
             }
             
@@ -516,15 +544,17 @@
             }
 
             function disableVoting() {
-                voteArea.classList.add('hidden');
-                confirmationMessage.classList.remove('hidden');
+                if (voteArea && confirmationMessage) {
+                    voteArea.classList.add('hidden');
+                    confirmationMessage.classList.remove('hidden');
+                }
             }
 
             if (localStorage.getItem('hasVotedMoge') === 'true') {
                 disableVoting();
             }
 
-            submitVoteBtn.addEventListener('click', () => {
+            submitVoteBtn?.addEventListener('click', () => {
                 clearErrors();
                 let isValid = true;
                 if (usernameInput.value.trim().length < 3) {
@@ -558,14 +588,14 @@
             const shareBtn = document.getElementById('share-btn');
             const donateBtn = document.getElementById('donate-btn');
 
-            shareBtn.addEventListener('click', () => {
+            shareBtn?.addEventListener('click', () => {
                 const url = window.location.href;
                 const text = "Taageer isbeddelka loo wado Hargeisa wanaagsan. Ololaha Maayar Cabdikariim Axmed Mooge wuxuu diiradda saarayaa abuurista shaqooyin, horumarinta kaabayaasha dhaqaalaha, iyo dhisidda magaalo ammaan ah. Muuji taageeradaada adigoo codaynaya oo fariintan la wadaagaya asxaabtaada iyo qoyskaaga.";
                 const title = 'U Codee Abdikareem Ahmed Moge';
                 showShareModal(title, text, url);
             });
 
-            donateBtn.addEventListener('click', () => {
+            donateBtn?.addEventListener('click', () => {
                 showModal('Macluumaadka Deeqda', 'Waad ku mahadsan tahay xiisahaaga. Hadda ma aqbalayno deeqo, laakiin fadlan mar kale soo eeg mustaqbalka.');
             });
 
