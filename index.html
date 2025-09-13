@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="so" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vote for Abdikareem Ahmed Moge | A Better Hargeisa</title>
+    <title>U Codee Abdikareem Ahmed Moge | Hargeisa Wanaagsan</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
 
     <style>
@@ -190,170 +187,156 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- Header -->
     <header class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
         <div class="container mx-auto flex justify-between items-center p-6">
             <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
             <nav class="hidden md:flex items-center space-x-10 text-slate-600 font-semibold">
-                <a href="#vote" class="hover:text-blue-600 transition-colors duration-200">Vote</a>
-                <a href="#platform" class="hover:text-blue-600 transition-colors duration-200">Platform</a>
-                <a href="#about" class="hover:text-blue-600 transition-colors duration-200">About</a>
+                <a href="#vote" class="hover:text-blue-600 transition-colors duration-200">Codee</a>
+                <a href="#platform" class="hover:text-blue-600 transition-colors duration-200">Qorshaheena</a>
+                <a href="#about" class="hover:text-blue-600 transition-colors duration-200">Nagu Saabsan</a>
             </nav>
-            <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Vote Now</a>
+            <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Codee Hadda</a>
         </div>
     </header>
     
     <main>
-        <!-- Hero Section -->
         <section class="hero-gradient pt-24 pb-32">
             <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-center md:text-left reveal">
-                    <span class="font-semibold text-blue-600 uppercase tracking-wider">For a Better Hargeisa</span>
-                    <h1 class="text-5xl md:text-7xl font-extrabold mt-4 mb-6 leading-tight">A Better Future for Our City</h1>
-                    <p class="text-xl text-slate-500 mb-10 max-w-xl mx-auto md:mx-0">Join us to make Hargeisa better. Vote for Abdikareem Ahmed Moge. Help us build a good future for our city.</p>
+                    <span class="font-semibold text-blue-600 uppercase tracking-wider">Hargeisa Wanaagsan Darted</span>
+                    <h1 class="text-5xl md:text-7xl font-extrabold mt-4 mb-6 leading-tight">Magaaladeena u horseeda Mustaqbal Wanaagsan</h1>
+                    <p class="text-xl text-slate-500 mb-10 max-w-xl mx-auto md:mx-0">Nagu soo biir si aan Hargeisa u hormarino. U codee Abdikareem Ahmed Moge. Naga caawi inaan dhisno mustaqbal ifaya oo ay magaaladeenu yeelato.</p>
                     <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-                        <a href="#vote" class="btn-primary w-full sm:w-auto">Vote Now</a>
+                        <a href="#vote" class="btn-primary w-full sm:w-auto">Codee Hadda</a>
                         <button id="share-btn" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
                             <i data-feather="share-2" class="w-5 h-5"></i>
-                            <span>Share</span>
+                            <span>La Wadaag</span>
                         </button>
                         <button id="donate-btn" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
                             <i data-feather="gift" class="w-5 h-5"></i>
-                            <span>Donate</span>
+                            <span>Ku Deeq</span>
                         </button>
                     </div>
                 </div>
                 <div class="relative reveal" style="transition-delay: 200ms;">
                     <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-full blur-3xl opacity-30"></div>
-                    <img src="https://pbs.twimg.com/profile_images/1372776523204235264/RLdwSmsz_400x400.jpg" alt="Abdikareem Ahmed Moge" class="relative w-full max-w-md mx-auto rounded-full shadow-2xl aspect-square object-cover border-8 border-white">
+                    <img src="https://pbs.twimg.com/profile_images/1372776523204235264/RLdwSmsz_400x400.jpg" alt="Sawirka Maayar Cabdikariim Axmed Mooge" class="relative w-full max-w-md mx-auto rounded-full shadow-2xl aspect-square object-cover border-8 border-white">
                 </div>
             </div>
         </section>
 
-        <!-- Live Vote Counter -->
         <section class="py-16 -mt-20">
             <div class="container mx-auto px-6 reveal">
                  <div class="bg-white border border-slate-200/80 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl shadow-slate-200/50 text-center">
-                    <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Live Vote Counter</h3>
+                    <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Tirinta Codadka Tooska ah</h3>
                     <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800 tracking-tighter">
-                        <!-- Vote count will be populated by JS -->
-                    </div>
-                    <p class="text-slate-500 mt-4">Votes from our city and other places.</p>
+                        </div>
+                    <p class="text-slate-500 mt-4">Codadka ka yimid magaaladeena iyo meelaha kale.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Voting Section -->
         <section id="vote" class="py-24 p-6">
              <div class="text-center mb-16 reveal">
-                <h2 class="text-5xl md:text-6xl font-bold">Vote for Mayor Moge</h2>
-                <p class="text-xl text-slate-500 mt-4 max-w-2xl mx-auto">Your vote is important. Add your name to show you support a better Hargeisa.</p>
+                <h2 class="text-5xl md:text-6xl font-bold">U Codee Maayar Mooge</h2>
+                <p class="text-xl text-slate-500 mt-4 max-w-2xl mx-auto">Codkaagu waa muhiim. Magacaaga ku dar si aad u muujiso taageeradaada Hargeisa wanaagsan.</p>
             </div>
             
             <div class="container mx-auto max-w-xl">
-                <!-- Main Vote Area -->
                 <div id="vote-area" class="reveal">
                     <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-200/80">
                         <div class="text-center mb-10">
-                            <h3 class="text-4xl font-bold font-display">I Vote for Mayor Moge</h3>
-                            <p class="text-slate-500 mt-2">Fill this form to vote.</p>
+                            <h3 class="text-4xl font-bold font-display">Codkaygu Waa Maayar Mooge</h3>
+                            <p class="text-slate-500 mt-2">Foomkan buuxi si aad u codayso.</p>
                         </div>
                         
                         <div class="space-y-6">
                             <div class="input-group">
-                                <input id="voter-username" type="text" placeholder="Your Full Name" class="input-field">
+                                <input id="voter-username" type="text" placeholder="Magacaaga oo Dhamaystiran" class="input-field">
                                 <i data-feather="user"></i>
-                                <span class="error-message" data-for="voter-username">Please enter your full name.</span>
+                                <span class="error-message" data-for="voter-username">Fadlan geli magacaaga oo buuxa.</span>
                             </div>
                             <div class="input-group">
-                                <input id="voter-city" type="text" placeholder="City / District" class="input-field">
+                                <input id="voter-city" type="text" placeholder="Magaalada / Degmada" class="input-field">
                                 <i data-feather="map-pin"></i>
-                                <span class="error-message" data-for="voter-city">Please enter your city or district.</span>
+                                <span class="error-message" data-for="voter-city">Fadlan geli magaaladaada ama degmadaada.</span>
                             </div>
                             <div class="input-group">
-                                <input id="voter-phone" type="tel" placeholder="Phone Number (Optional)" class="input-field">
+                                <input id="voter-phone" type="tel" placeholder="Telefoon (Haddii aad rabto)" class="input-field">
                                 <i data-feather="phone"></i>
                             </div>
-                            <button id="submit-vote-btn" class="w-full btn-primary !p-4 text-lg">Confirm My Vote</button>
+                            <button id="submit-vote-btn" class="w-full btn-primary !p-4 text-lg">Xaqiiji Codkayga</button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Confirmation Message -->
                 <div id="confirmation-message" class="hidden text-center reveal">
                      <div class="bg-emerald-50 p-8 md:p-12 rounded-3xl border-2 border-emerald-200">
                         <i data-feather="check-circle" class="w-20 h-20 mx-auto text-emerald-500 mb-6"></i>
-                        <h3 class="text-4xl font-bold font-display mb-4">Vote Confirmed!</h3>
-                        <p class="text-emerald-800 text-lg">Thank you for your support. Your vote helps a lot. You cannot vote again from this device.</p>
+                        <h3 class="text-4xl font-bold font-display mb-4">Codkaaga Waa la Xaqiijiyay!</h3>
+                        <p class="text-emerald-800 text-lg">Waad ku mahadsan tahay taageeradaada. Codkaagu wax weyn buu noo tarayaa. Mar kale kama codayn kartid qalabkan.</p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Platform Section -->
         <section id="platform" class="py-24 p-6 bg-slate-100">
             <div class="text-center mb-16 reveal">
-                <h2 class="text-5xl md:text-6xl font-bold">Our Plan for Hargeisa</h2>
-                <p class="text-xl text-slate-500 mt-4">Our focus is on what is important for our people.</p>
+                <h2 class="text-5xl md:text-6xl font-bold">Qorshaheena Horumarinta Hargeisa</h2>
+                <p class="text-xl text-slate-500 mt-4">Diiradeenu waa waxa muhiimka u ah dadkeena.</p>
             </div>
             <div class="container mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Platform Card 1 -->
                 <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i data-feather="briefcase" class="w-8 h-8 text-blue-600"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">More Jobs</h3>
-                    <p class="text-slate-500">We will help create new and lasting jobs for a strong city.</p>
+                    <h3 class="text-2xl font-bold mb-2">Shaqo Abuur</h3>
+                    <p class="text-slate-500">Waxaan ka qayb qaadan doonaa abuurista shaqooyin cusub oo waara si aan u dhisno bulsho dhaqaale ahaan u xooggan.</p>
                 </div>
-                <!-- Platform Card 2 -->
                 <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 150ms;">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                          <i data-feather="bar-chart-2" class="w-8 h-8 text-blue-600 rotate-90"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">Better Roads & Services</h3>
-                    <p class="text-slate-500">Making our roads, water, and public places better for everyone.</p>
+                    <h3 class="text-2xl font-bold mb-2">Wadooyin & Adeegyo Wanaagsan</h3>
+                    <p class="text-slate-500">Hagaajinta wadooyinkeena, biyaha, iyo goobaha dadweynaha si ay bulshada oo dhami uga faa'iidaysato.</p>
                 </div>
-                <!-- Platform Card 3 -->
                 <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 300ms;">
                      <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i data-feather="book-open" class="w-8 h-8 text-blue-600"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">Good Schools</h3>
-                    <p class="text-slate-500">We will put money into our schools to help our children succeed.</p>
+                    <h3 class="text-2xl font-bold mb-2">Waxbarasho Tayo Leh</h3>
+                    <p class="text-slate-500">Waxaan maalgashi ku samayn doonaa dugsiyadeena si aan ubadkeena ugu horseedno guul.</p>
                 </div>
-                <!-- Platform Card 4 -->
                 <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 450ms;">
                      <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">A Safe City</h3>
-                    <p class="text-slate-500">Making our city safe for every family.</p>
+                    <h3 class="text-2xl font-bold mb-2">Caasimad Nabad ah</h3>
+                    <p class="text-slate-500">Ka dhigista magaaladeena meel ammaan u ah qoys kasta.</p>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
         <section id="about" class="py-24 p-6">
             <div class="container mx-auto max-w-4xl text-center bg-white p-12 rounded-3xl shadow-xl border border-slate-200/80 reveal">
-               <h2 class="text-4xl font-bold mb-4">A Campaign for the People</h2>
-               <p class="text-lg text-slate-600 leading-relaxed">This website connects us with the people of Hargeisa. Every vote is an important message. Your support helps us know what you need. It helps us work for a better city. Thank you.</p>
-               <a href="#vote" class="btn-primary mt-8 inline-block">Vote Today</a>
+               <h2 class="text-4xl font-bold mb-4">Olole Bulshadu Wada Leedahay</h2>
+               <p class="text-lg text-slate-600 leading-relaxed">Websaydhkan wuxuu isku kaaya xidhayaa dadweynaha reer Hargeisa. Cod kastaa waa fariin muhiim ah. Taageeradaadu waxay naga caawinaysaa inaan ogaano baahiyahaaga. Waxay naga caawinaysaa inaan u shaqayno magaalo wanaagsan. Mahadsanid.</p>
+               <a href="#vote" class="btn-primary mt-8 inline-block">Codee Maanta</a>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="py-16 text-center border-t border-slate-200 bg-white">
         <div class="container mx-auto p-6">
-            <h4 class="text-2xl font-bold font-display text-slate-800">Campaign for Abdikareem Ahmed Moge</h4>
+            <h4 class="text-2xl font-bold font-display text-slate-800">Ololaha Taageerada Maayar Cabdikariim Axmed Mooge</h4>
             <div class="flex justify-center space-x-6 my-6">
                 <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
                 <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="facebook" class="w-6 h-6"></i></a>
                 <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="instagram" class="w-6 h-6"></i></a>
             </div>
-            <p class="text-slate-500 mt-2">&copy; 2025. All Rights Reserved.</p>
-            <p class="text-sm text-slate-400 mt-6">Design by <a href="https://mubarik.hiigsitech.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600 transition-colors">Mubarik Osman</a></p>
+            <p class="text-slate-500 mt-2">&copy; 2025. Xuquuqda oo dhan way dhawrsan tahay.</p>
+            <p class="text-sm text-slate-400 mt-6">Naqshadeeye: <a href="https://mubarik.hiigsitech.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600 transition-colors">Mubarik Osman</a></p>
         </div>
     </footer>
 
@@ -372,7 +355,7 @@
                         <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl transform transition-all duration-300 scale-95 opacity-0">
                             <h3 class="text-2xl font-bold font-display mb-4">${title}</h3>
                             <p class="text-slate-600 mb-6">${text}</p>
-                            <button id="close-modal-btn" class="btn-primary w-full">Close</button>
+                            <button id="close-modal-btn" class="btn-primary w-full">Xidh</button>
                         </div>
                     </div>
                 `;
@@ -411,11 +394,11 @@
                     { name: 'Twitter', icon: 'twitter', url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}` },
                     { name: 'Telegram', icon: 'send', url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}` },
                     { name: 'LinkedIn', icon: 'linkedin', url: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}` },
-                    { name: 'Copy Link', icon: 'copy', url: '#' }
+                    { name: 'Koobi Garee', icon: 'copy', url: '#' }
                 ];
 
                 let socialButtonsHTML = socialPlatforms.map(p => `
-                    <a href="${p.url}" ${p.name !== 'Copy Link' ? 'target="_blank" rel="noopener noreferrer"' : ''} data-name="${p.name}" class="social-share-item text-slate-700">
+                    <a href="${p.url}" ${p.name !== 'Koobi Garee' ? 'target="_blank" rel="noopener noreferrer"' : ''} data-name="${p.name}" class="social-share-item text-slate-700">
                         <i data-feather="${p.icon}" class="w-8 h-8 mb-2"></i>
                         <span class="text-sm font-semibold">${p.name}</span>
                     </a>
@@ -424,9 +407,9 @@
                 const modalHTML = `
                     <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
                         <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-xl transform transition-all duration-300 scale-95 opacity-0">
-                            <h3 class="text-2xl font-bold font-display mb-6">Share this Page</h3>
+                            <h3 class="text-2xl font-bold font-display mb-6">La Wadaag Boggan</h3>
                             <div class="social-share-grid mb-6">${socialButtonsHTML}</div>
-                            <button id="close-share-modal-btn" class="btn-secondary w-full">Close</button>
+                            <button id="close-share-modal-btn" class="btn-secondary w-full">Xidh</button>
                         </div>
                     </div>`;
                 document.body.insertAdjacentHTML('beforeend', modalHTML);
@@ -449,7 +432,7 @@
                 modalElement.querySelector('#close-share-modal-btn').addEventListener('click', closeModal);
                 modalElement.addEventListener('click', (e) => { if (e.target.id === modalId) closeModal(); });
 
-                const copyLinkButton = modalElement.querySelector('.social-share-item[data-name="Copy Link"]');
+                const copyLinkButton = modalElement.querySelector('.social-share-item[data-name="Koobi Garee"]');
                 copyLinkButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     
@@ -465,11 +448,11 @@
                     const iconElement = copyLinkButton.querySelector('i');
                     const textSpan = copyLinkButton.querySelector('span');
                     iconElement.outerHTML = '<i data-feather="check" class="w-8 h-8 mb-2 text-green-500"></i>';
-                    textSpan.textContent = 'Copied!';
+                    textSpan.textContent = 'Waa la Koobiyeeyay!';
                     feather.replace();
                     setTimeout(() => {
                         iconElement.outerHTML = '<i data-feather="copy" class="w-8 h-8 mb-2"></i>';
-                        textSpan.textContent = 'Copy Link';
+                        textSpan.textContent = 'Koobi Garee';
                         feather.replace();
                     }, 2000);
                 });
@@ -492,9 +475,9 @@
                 });
                 
                 if(animate) {
-                     const spans = voteCounterElement.querySelectorAll('span');
-                     spans[spans.length - 1]?.classList.add('updated');
-                     setTimeout(() => spans[spans.length-1]?.classList.remove('updated'), 500);
+                    const spans = voteCounterElement.querySelectorAll('span');
+                    spans[spans.length - 1]?.classList.add('updated');
+                    setTimeout(() => spans[spans.length-1]?.classList.remove('updated'), 500);
                 }
             }
             
@@ -545,11 +528,11 @@
                 clearErrors();
                 let isValid = true;
                 if (usernameInput.value.trim().length < 3) {
-                    showError('voter-username', 'Please enter your full name.');
+                    showError('voter-username', 'Fadlan geli magacaaga oo buuxa.');
                     isValid = false;
                 }
                 if (cityInput.value.trim() === '') {
-                    showError('voter-city', 'Please enter your city or district.');
+                    showError('voter-city', 'Fadlan geli magaaladaada ama degmadaada.');
                     isValid = false;
                 }
                 if (!isValid) return;
@@ -577,17 +560,16 @@
 
             shareBtn.addEventListener('click', () => {
                 const url = window.location.href;
-                const text = "Support the movement for a better Hargeisa. Abdikareem Ahmed Moge's campaign is focused on creating jobs, improving infrastructure, and building a safer city. Show your support by voting and sharing this message with your friends and family.";
-                const title = 'Vote for Abdikareem Ahmed Moge';
+                const text = "Taageer isbeddelka loo wado Hargeisa wanaagsan. Ololaha Maayar Cabdikariim Axmed Mooge wuxuu diiradda saarayaa abuurista shaqooyin, horumarinta kaabayaasha dhaqaalaha, iyo dhisidda magaalo ammaan ah. Muuji taageeradaada adigoo codaynaya oo fariintan la wadaagaya asxaabtaada iyo qoyskaaga.";
+                const title = 'U Codee Abdikareem Ahmed Moge';
                 showShareModal(title, text, url);
             });
 
             donateBtn.addEventListener('click', () => {
-                showModal('Donation Information', 'Thank you for your interest. We are not accepting donations at this time, but please check back soon.');
+                showModal('Macluumaadka Deeqda', 'Waad ku mahadsan tahay xiisahaaga. Hadda ma aqbalayno deeqo, laakiin fadlan mar kale soo eeg mustaqbalka.');
             });
 
         });
     </script>
 </body>
 </html>
-
