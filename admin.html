@@ -5,20 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard | Moge Campaign</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
     
-    <!-- Charts Library -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
-    <!-- Date Picker Library -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <!-- PDF Generation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
@@ -46,7 +41,6 @@
 </head>
 <body class="antialiased">
 
-    <!-- Login Screen -->
     <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 login-bg">
         <div class="w-full max-w-sm">
             <div class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl p-8 text-white">
@@ -65,9 +59,7 @@
         </div>
     </div>
 
-    <!-- Main Dashboard Layout -->
     <div id="dashboard" class="hidden flex h-screen bg-gray-100">
-        <!-- Sidebar -->
         <aside class="sidebar w-64 bg-white shadow-md flex flex-col">
             <div class="p-6 text-2xl font-bold text-slate-800 border-b">Admin</div>
             <nav class="flex-1 p-4 space-y-2">
@@ -91,7 +83,6 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-white border-b">
                 <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -101,7 +92,7 @@
                             <i data-feather="calendar" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
                             <input id="date-filter" class="bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 text-sm" placeholder="Filter by date range">
                         </div>
-                         <div class="flex items-center gap-2 text-sm">
+                          <div class="flex items-center gap-2 text-sm">
                             <button class="date-preset-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md" data-range="today">Today</button>
                             <button class="date-preset-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md" data-range="7d">7 Days</button>
                             <button class="date-preset-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md" data-range="30d">30 Days</button>
@@ -111,12 +102,16 @@
             </header>
             
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
-                <!-- Overview View -->
                 <div id="overview-view" class="view-content">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Views</p><p id="total-views" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Visitors</p><p id="unique-visitors" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Cities (Views)</p><p id="cities-from-views" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Countries (Views)</p><p id="countries-from-views" class="text-3xl font-bold mt-1">0</p></div>
+                        
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Votes</p><p id="total-votes" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Cities</p><p id="unique-cities" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Countries</p><p id="unique-countries" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Voter Cities</p><p id="unique-voter-cities" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Voter Countries</p><p id="unique-voter-countries" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Messages</p><p id="total-messages" class="text-3xl font-bold mt-1">0</p></div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -126,7 +121,6 @@
                     </div>
                 </div>
 
-                <!-- Reports View -->
                 <div id="reports-view" class="view-content hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-2xl font-bold text-slate-800">Detailed Reports</h2>
@@ -143,10 +137,9 @@
                            <ul id="top-cities-list" class="space-y-3"></ul>
                            <button id="load-more-cities" class="mt-4 text-sm font-semibold text-blue-600 hover:underline hidden">Load More</button>
                         </div>
-                      </div>
+                    </div>
                 </div>
 
-                <!-- Voters View -->
                 <div id="voters-view" class="view-content hidden">
                      <div class="mb-6">
                         <div class="stat-card p-5 inline-block">
@@ -178,7 +171,6 @@
                     </div>
                 </div>
                 
-                <!-- Messages View -->
                 <div id="messages-view" class="view-content hidden">
                      <div class="bg-white rounded-lg shadow-md">
                         <div class="p-4 border-b"><h2 class="text-lg font-semibold">All Messages</h2></div>
@@ -195,7 +187,6 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
 
@@ -253,7 +244,8 @@
             function initializeDashboard() {
                 // State management
                 const state = {
-                    allVotes: [], allMessages: [], filteredVotes: [],
+                    allVotes: [], allMessages: [], allViews: [],
+                    filteredVotes: [], filteredViews: [],
                     dateRange: { start: null, end: null }, searchTerm: '',
                     votersCurrentPage: 1, votersPerPage: 10, topCitiesOffset: 5
                 };
@@ -276,17 +268,30 @@
 
                 // MAIN RENDER FUNCTION
                 const render = () => {
-                    const dateFiltered = state.dateRange.start ? state.allVotes.filter(v => v.votedAt?.toDate() >= state.dateRange.start && v.votedAt?.toDate() <= state.dateRange.end) : state.allVotes;
-                    state.filteredVotes = state.searchTerm ? dateFiltered.filter(v => ['name', 'city', 'country'].some(key => v[key]?.toLowerCase().includes(state.searchTerm))) : dateFiltered;
+                    const { start, end } = state.dateRange;
+                    const dateFilter = (item, dateKey) => !start || (item[dateKey]?.toDate() >= start && item[dateKey]?.toDate() <= end);
+                    
+                    const dateFilteredVotes = state.allVotes.filter(v => dateFilter(v, 'votedAt'));
+                    state.filteredVotes = state.searchTerm ? dateFilteredVotes.filter(v => ['name', 'city', 'country'].some(key => v[key]?.toLowerCase().includes(state.searchTerm))) : dateFilteredVotes;
+                    
+                    state.filteredViews = state.allViews.filter(v => dateFilter(v, 'timestamp'));
+                    
                     renderStats(); renderCharts(); renderVotersTable(); renderReportCharts();
                 };
 
                 // UI RENDER FUNCTIONS
                 const renderStats = () => {
+                    // Render View Stats
+                    document.getElementById('total-views').textContent = state.filteredViews.length.toLocaleString();
+                    document.getElementById('unique-visitors').textContent = new Set(state.filteredViews.map(v => v.visitorId)).size.toLocaleString();
+                    document.getElementById('cities-from-views').textContent = new Set(state.filteredViews.map(v => v.city?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
+                    document.getElementById('countries-from-views').textContent = new Set(state.filteredViews.map(v => v.country?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
+
+                    // Render Vote Stats
                     const votes = state.filteredVotes;
                     document.getElementById('total-votes').textContent = votes.length.toLocaleString();
-                    document.getElementById('unique-cities').textContent = new Set(votes.map(v => v.city?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
-                    document.getElementById('unique-countries').textContent = new Set(votes.map(v => v.country?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
+                    document.getElementById('unique-voter-cities').textContent = new Set(votes.map(v => v.city?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
+                    document.getElementById('unique-voter-countries').textContent = new Set(votes.map(v => v.country?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
                 };
                 
                 const renderCharts = () => {
@@ -365,7 +370,9 @@
                 // FIREBASE LISTENERS
                 db.collection('votes').orderBy('votedAt', 'desc').onSnapshot(snap => { state.allVotes = snap.docs.map(d => d.data()); render(); }, err => console.error(err));
                 db.collection('messages').orderBy('sentAt', 'desc').onSnapshot(snap => { state.allMessages = snap.docs.map(d => d.data()); document.getElementById('total-messages').textContent = snap.size.toLocaleString(); renderReportCharts(); }, err => console.error(err));
-                
+                // New listener for views
+                db.collection('views').orderBy('timestamp', 'desc').onSnapshot(snap => { state.allViews = snap.docs.map(d => d.data()); render(); }, err => console.error(err));
+
                 // EVENT LISTENERS
                 const datePicker = flatpickr("#date-filter", { mode: "range", onChange: (dates) => {
                     state.dateRange = dates.length === 2 ? { start: dates[0], end: new Date(dates[1].setHours(23, 59, 59, 999)) } : { start: null, end: null };
@@ -414,4 +421,3 @@
     </script>
 </body>
 </html>
-
