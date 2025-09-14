@@ -3,189 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Moge Campaign</title>
+    <title>Analytics Dashboard | Moge Campaign</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Charts Library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Date Picker Library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
-        body { font-family: 'Manrope', sans-serif; background-color: #f1f5f9; }
-        .stat-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        body { font-family: 'Manrope', sans-serif; background-color: #f0f2f5; }
+        .sidebar { transition: width 0.3s ease; }
+        .sidebar-link { transition: background-color 0.2s, color 0.2s; }
+        .sidebar-link.active { background-color: #2563eb; color: white; }
+        .sidebar-link:not(.active):hover { background-color: #eef2ff; }
+        .stat-card { background: white; border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .chart-container { background: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .flatpickr-calendar { font-family: 'Manrope', sans-serif; }
+        .login-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            animation: gradient-animation 15s ease infinite;
+            background-size: 400% 400%;
         }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
-        }
-        .table-container {
-             background-color: white;
-             border-radius: 0.75rem;
-             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-             overflow: hidden;
-        }
-        table thead {
-            background-color: #f8fafc;
-        }
-        .login-card {
-             background: rgba(255, 255, 255, 0.2);
-             border-radius: 16px;
-             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-             backdrop-filter: blur(5px);
-             -webkit-backdrop-filter: blur(5px);
-             border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .input-field {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid #e2e8f0;
-            color: #1e293b;
-        }
-        .input-field::placeholder {
-            color: #94a3b8;
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
     <!-- Login Screen -->
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/1600x900/?hargeisa,cityscape');">
-        <div class="absolute inset-0 bg-black/50"></div>
-        <div class="login-card p-8 w-full max-w-md text-white text-center">
-            <h1 class="text-3xl font-bold mb-2">Admin Panel</h1>
-            <p class="mb-6 opacity-80">Fadlan geli aqoonsigaaga si aad u gasho.</p>
-            <div class="space-y-4 text-left">
-                <div>
-                    <label for="admin-id" class="font-semibold mb-1 block">Admin ID</label>
-                    <input type="text" id="admin-id" placeholder="Geli ID-gaaga" class="input-field w-full rounded-lg px-4 py-2.5">
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 login-bg">
+        <div class="w-full max-w-sm">
+            <div class="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl p-8 text-white">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold tracking-tight">Campaign Dashboard</h1>
+                    <p class="text-white/70 mt-2">Welcome back, please log in.</p>
                 </div>
-                <div>
-                    <label for="admin-password" class="font-semibold mb-1 block">Password</label>
-                    <input type="password" id="admin-password" placeholder="Geli erayga sirta ah" class="input-field w-full rounded-lg px-4 py-2.5">
+                <div class="space-y-4">
+                    <input type="text" id="admin-id" placeholder="Admin ID" class="w-full bg-white/20 border-0 rounded-lg px-4 py-3 placeholder-white/60 focus:ring-2 focus:ring-white/80 transition">
+                    <input type="password" id="admin-password" placeholder="Password" class="w-full bg-white/20 border-0 rounded-lg px-4 py-3 placeholder-white/60 focus:ring-2 focus:ring-white/80 transition">
+                    <input type="password" id="admin-secret" placeholder="Secret Word" class="w-full bg-white/20 border-0 rounded-lg px-4 py-3 placeholder-white/60 focus:ring-2 focus:ring-white/80 transition">
                 </div>
-                 <div>
-                    <label for="admin-secret" class="font-semibold mb-1 block">Secret Word</label>
-                    <input type="password" id="admin-secret" placeholder="Geli erayga qarsoon" class="input-field w-full rounded-lg px-4 py-2.5">
-                </div>
+                <button id="login-btn" class="w-full bg-white text-blue-600 font-bold py-3 rounded-lg mt-8 hover:bg-white/90 transition-all transform hover:scale-105">Login</button>
+                <p id="login-error" class="text-red-300 mt-4 text-sm text-center font-semibold hidden">Invalid credentials. Please try again.</p>
             </div>
-            <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg mt-6 transition-colors">Login</button>
-            <p id="login-error" class="text-red-300 mt-4 text-sm font-semibold hidden">Aqoonsi khaldan. Fadlan isku day mar kale.</p>
         </div>
     </div>
 
-    <!-- Main Dashboard -->
-    <div id="dashboard" class="hidden">
-        <header class="bg-white shadow-sm sticky top-0 z-40">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-slate-800">Moge Campaign Dashboard</h1>
-                <button id="logout-btn" class="text-sm font-semibold text-slate-600 hover:text-blue-600 flex items-center gap-2">
-                    <span>Logout</span>
-                    <i data-feather="log-out" class="w-4 h-4"></i>
+    <!-- Main Dashboard Layout -->
+    <div id="dashboard" class="hidden flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 bg-white shadow-md flex flex-col">
+            <div class="p-6 text-2xl font-bold text-slate-800 border-b">A. A. Moge</div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="sidebar-link active flex items-center gap-3 py-2 px-4 rounded-lg" data-view="overview">
+                    <i data-feather="home" class="w-5 h-5"></i><span>Overview</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="voters">
+                    <i data-feather="users" class="w-5 h-5"></i><span>Voters List</span>
+                </a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="messages">
+                    <i data-feather="inbox" class="w-5 h-5"></i><span>Messages</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t">
+                <button id="logout-btn" class="w-full text-left sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg">
+                    <i data-feather="log-out" class="w-5 h-5"></i><span>Logout</span>
                 </button>
             </div>
-        </header>
+        </aside>
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="stat-card">
-                    <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-slate-500">Wadarta Codadka</p>
-                        <i data-feather="bar-chart-2" class="w-6 h-6 text-blue-500"></i>
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white border-b">
+                <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                    <h1 id="view-title" class="text-xl font-semibold text-slate-800">Analytics Overview</h1>
+                    <div class="flex items-center gap-4">
+                        <div class="relative">
+                            <i data-feather="calendar" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <input id="date-filter" class="bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-72 text-sm" placeholder="Filter by date range">
+                        </div>
+                         <div class="flex items-center gap-2 text-sm">
+                            <button class="date-preset-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md" data-range="today">Today</button>
+                            <button class="date-preset-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md" data-range="7d">7 Days</button>
+                            <button class="date-preset-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md" data-range="30d">30 Days</button>
+                        </div>
                     </div>
-                    <p id="total-votes" class="text-4xl font-extrabold text-slate-800 mt-2">0</p>
                 </div>
-                <div class="stat-card">
-                    <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-slate-500">Magaalooyinka Codeeyay</p>
-                        <i data-feather="map" class="w-6 h-6 text-green-500"></i>
+            </header>
+            
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                <!-- Overview View -->
+                <div id="overview-view" class="view-content">
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Votes</p><p id="total-votes" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Cities</p><p id="unique-cities" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Countries</p><p id="unique-countries" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Messages</p><p id="total-messages" class="text-3xl font-bold mt-1">0</p></div>
                     </div>
-                    <p id="unique-cities" class="text-4xl font-extrabold text-slate-800 mt-2">0</p>
-                </div>
-                <div class="stat-card">
-                    <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-slate-500">Dalalka Codeeyay</p>
-                        <i data-feather="globe" class="w-6 h-6 text-purple-500"></i>
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="chart-container lg:col-span-2"><div id="votes-over-time-chart"></div></div>
+                        <div class="chart-container"><div id="top-countries-chart"></div></div>
+                        <div class="chart-container lg:col-span-3"><div id="top-cities-chart"></div></div>
                     </div>
-                    <p id="unique-countries" class="text-4xl font-extrabold text-slate-800 mt-2">0</p>
                 </div>
-                <div class="stat-card">
-                     <div class="flex items-center justify-between">
-                        <p class="text-sm font-medium text-slate-500">Farriimaha Cusub</p>
-                        <i data-feather="inbox" class="w-6 h-6 text-red-500"></i>
-                    </div>
-                    <p id="total-messages" class="text-4xl font-extrabold text-slate-800 mt-2">0</p>
-                </div>
-            </div>
 
-            <!-- Voters & Messages Tabs -->
-            <div class="mb-8">
-                <div class="border-b border-slate-200">
-                    <nav class="-mb-px flex space-x-6" aria-label="Tabs">
-                        <button id="voters-tab-btn" class="tab-btn border-blue-500 text-blue-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm">Codbixiyeyaasha</button>
-                        <button id="messages-tab-btn" class="tab-btn border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm">Farriimaha</button>
-                    </nav>
+                <!-- Voters View -->
+                <div id="voters-view" class="view-content hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-4 flex justify-between items-center border-b">
+                            <h2 class="text-lg font-semibold">All Voters</h2>
+                            <input id="search-voters" type="text" placeholder="Search voters..." class="w-64 border-gray-300 rounded-lg text-sm">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 text-slate-600"><tr>
+                                    <th class="p-3 text-left">Name</th><th class="p-3 text-left">City</th>
+                                    <th class="p-3 text-left">Country</th><th class="p-3 text-left">Date</th>
+                                </tr></thead>
+                                <tbody id="voters-table-body"></tbody>
+                            </table>
+                        </div>
+                        <div class="p-4 border-t flex justify-between items-center">
+                            <span id="pagination-info" class="text-sm text-slate-600"></span>
+                            <div class="flex gap-2">
+                                <button id="prev-page" class="px-3 py-1 bg-gray-200 rounded-md text-sm hover:bg-gray-300 disabled:opacity-50" disabled>Previous</button>
+                                <button id="next-page" class="px-3 py-1 bg-gray-200 rounded-md text-sm hover:bg-gray-300 disabled:opacity-50" disabled>Next</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Voters Table -->
-            <div id="voters-content" class="table-container">
-                <div class="p-4 flex justify-between items-center">
-                    <h2 class="text-lg font-semibold text-slate-700">Liiska Codbixiyeyaasha</h2>
-                    <input id="search-voters" type="text" placeholder="Raadi magac, magaalo..." class="w-64 rounded-md border-slate-300 shadow-sm text-sm">
+                
+                <!-- Messages View -->
+                <div id="messages-view" class="view-content hidden">
+                     <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-4 border-b"><h2 class="text-lg font-semibold">All Messages</h2></div>
+                        <div class="overflow-x-auto"><table class="w-full text-sm">
+                            <thead class="bg-gray-50 text-slate-600"><tr>
+                                <th class="p-3 text-left">Name</th><th class="p-3 text-left">Email</th>
+                                <th class="p-3 text-left">Message</th><th class="p-3 text-left">Date</th>
+                            </tr></thead>
+                            <tbody id="messages-table-body"></tbody>
+                        </table></div>
+                     </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-slate-500">
-                        <thead class="text-xs text-slate-700 uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Magaca</th>
-                                <th scope="col" class="px-6 py-3">Magaalada</th>
-                                <th scope="col" class="px-6 py-3">Dalka</th>
-                                <th scope="col" class="px-6 py-3">Telefoon</th>
-                                <th scope="col" class="px-6 py-3">Goorta</th>
-                            </tr>
-                        </thead>
-                        <tbody id="voters-table-body">
-                           <!-- JS will populate this -->
-                           <tr><td colspan="5" class="text-center p-8">Sug, xogta waa la soo wadayaa...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Messages Table -->
-            <div id="messages-content" class="table-container hidden">
-                <div class="p-4">
-                     <h2 class="text-lg font-semibold text-slate-700">Liiska Farriimaha</h2>
-                </div>
-                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-slate-500">
-                        <thead class="text-xs text-slate-700 uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Magaca</th>
-                                <th scope="col" class="px-6 py-3">Email</th>
-                                <th scope="col" class="px-6 py-3">Farriinta</th>
-                                <th scope="col" class="px-6 py-3">Goorta</th>
-                            </tr>
-                        </thead>
-                        <tbody id="messages-table-body">
-                           <!-- JS will populate this -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             feather.replace();
-
-            // --- FIREBASE CONFIG ---
-             const firebaseConfig = {
+            
+            // --- FIREBASE SETUP (IMPORTANT: Secure this in a real app) ---
+            const firebaseConfig = {
                 apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
                 authDomain: "maayor-mooge.firebaseapp.com",
                 projectId: "maayor-mooge",
@@ -196,23 +180,16 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
 
-            // --- ELEMENTS ---
+            // --- AUTH & PAGE STATE ---
+            const ADMIN_ID = "20202030", ADMIN_PASS = "mooge admin 2030", ADMIN_SECRET = "ma ogi";
             const loginScreen = document.getElementById('login-screen');
             const dashboard = document.getElementById('dashboard');
-            const loginBtn = document.getElementById('login-btn');
-            const logoutBtn = document.getElementById('logout-btn');
-            const loginError = document.getElementById('login-error');
             
-            // --- AUTHENTICATION & STATE LOGIC ---
-            const ADMIN_ID = "20202030";
-            const ADMIN_PASS = "mooge admin 2030";
-            const ADMIN_SECRET = "ma ogi";
-
             function showDashboard() {
                 loginScreen.classList.add('hidden');
                 dashboard.classList.remove('hidden');
                 feather.replace();
-                initializeRealtimeListeners(); // Start listening for data
+                initializeDashboard();
             }
 
             function showLogin() {
@@ -221,142 +198,194 @@
                 sessionStorage.removeItem('adminLoggedIn');
             }
 
-            loginBtn.addEventListener('click', () => {
+            document.getElementById('login-btn').addEventListener('click', () => {
                 const id = document.getElementById('admin-id').value;
                 const pass = document.getElementById('admin-password').value;
                 const secret = document.getElementById('admin-secret').value;
-
                 if (id === ADMIN_ID && pass === ADMIN_PASS && secret === ADMIN_SECRET) {
-                    sessionStorage.setItem('adminLoggedIn', 'true'); // Store login state
+                    sessionStorage.setItem('adminLoggedIn', 'true');
                     showDashboard();
                 } else {
-                    loginError.classList.remove('hidden');
+                    document.getElementById('login-error').classList.remove('hidden');
                 }
             });
 
-            logoutBtn.addEventListener('click', showLogin);
+            document.getElementById('logout-btn').addEventListener('click', showLogin);
+            
+            if (sessionStorage.getItem('adminLoggedIn') === 'true') showDashboard();
 
-            // Check session storage on page load
-            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
-                showDashboard();
-            }
+            // --- DASHBOARD INITIALIZATION ---
+            function initializeDashboard() {
+                let allVotes = [], allMessages = [];
+                let dateRange = { start: null, end: null };
+                let votersCurrentPage = 1;
+                const votersPerPage = 10;
+                
+                // CHART SETUP
+                const chartOptions = (moreOptions = {}) => ({
+                    chart: { fontFamily: 'Manrope, sans-serif', toolbar: { show: false } },
+                    grid: { show: true, borderColor: '#e2e8f0', strokeDashArray: 4 },
+                    dataLabels: { enabled: false },
+                    ...moreOptions
+                });
+                
+                const votesOverTimeChart = new ApexCharts(document.querySelector("#votes-over-time-chart"), chartOptions({
+                    series: [{ name: 'Votes', data: [] }], chart: { type: 'area', height: 350 },
+                    xaxis: { type: 'datetime', labels: { style: { colors: '#64748b' } } },
+                    yaxis: { labels: { style: { colors: '#64748b' } } },
+                    tooltip: { x: { format: 'dd MMM yyyy' } }
+                }));
+                votesOverTimeChart.render();
+                
+                const topCountriesChart = new ApexCharts(document.querySelector("#top-countries-chart"), chartOptions({
+                    series: [], chart: { type: 'donut', height: 350 },
+                    labels: [], legend: { position: 'bottom' }
+                }));
+                topCountriesChart.render();
+                
+                const topCitiesChart = new ApexCharts(document.querySelector("#top-cities-chart"), chartOptions({
+                    series: [{ name: 'Votes', data: [] }], chart: { type: 'bar', height: 350 },
+                    xaxis: { categories: [], labels: { style: { colors: '#64748b' } } },
+                    yaxis: { labels: { style: { colors: '#64748b' } } },
+                    plotOptions: { bar: { horizontal: true } }
+                }));
+                topCitiesChart.render();
 
-            // --- REAL-TIME DATA LOGIC ---
-            let allVoters = []; // Cache for searching
-
-            function initializeRealtimeListeners() {
-                // VOTERS LISTENER
-                db.collection('votes').orderBy('votedAt', 'desc').onSnapshot(snapshot => {
-                    allVoters = [];
-                    const citySet = new Set();
-                    const countrySet = new Set();
-                    
-                    const votersTableBody = document.getElementById('voters-table-body');
-                    votersTableBody.innerHTML = ''; // Clear table
-                    
-                    snapshot.forEach(doc => {
-                        const voter = doc.data();
-                        allVoters.push(voter);
-
-                        if (voter.city) citySet.add(voter.city.trim().toLowerCase());
-                        if (voter.country) countrySet.add(voter.country.trim().toLowerCase());
-
-                        const row = `
-                            <tr class="bg-white border-b hover:bg-slate-50">
-                                <td class="px-6 py-4 font-semibold text-slate-900">${voter.name || 'N/A'}</td>
-                                <td class="px-6 py-4">${voter.city || 'N/A'}</td>
-                                <td class="px-6 py-4">${voter.country || 'N/A'}</td>
-                                <td class="px-6 py-4">${voter.phone || 'N/A'}</td>
-                                <td class="px-6 py-4">${voter.votedAt ? new Date(voter.votedAt.seconds * 1000).toLocaleString() : 'N/A'}</td>
-                            </tr>
-                        `;
-                        votersTableBody.innerHTML += row;
-                    });
-                    
-                    if(snapshot.empty) {
-                        votersTableBody.innerHTML = '<tr><td colspan="5" class="text-center p-8">Wali wax codbixiyeyaal ah ma jiraan.</td></tr>';
-                    }
+                // DATA PROCESSING & RENDERING
+                const processAndRenderData = () => {
+                    let filteredVotes = dateRange.start ? allVotes.filter(v => {
+                        const voteDate = v.votedAt.toDate();
+                        return voteDate >= dateRange.start && voteDate <= dateRange.end;
+                    }) : allVotes;
 
                     // Update stats
-                    document.getElementById('total-votes').textContent = snapshot.size;
+                    const citySet = new Set(filteredVotes.map(v => v.city?.trim().toLowerCase()));
+                    const countrySet = new Set(filteredVotes.map(v => v.country?.trim().toLowerCase()));
+                    document.getElementById('total-votes').textContent = filteredVotes.length;
                     document.getElementById('unique-cities').textContent = citySet.size;
                     document.getElementById('unique-countries').textContent = countrySet.size;
-                }, err => {
-                    console.error("Error fetching votes: ", err);
-                    document.getElementById('voters-table-body').innerHTML = '<tr><td colspan="5" class="text-center p-8 text-red-500">Cilad baa dhacday.</td></tr>';
+                    
+                    // Update charts
+                    updateVotesOverTimeChart(filteredVotes);
+                    updateTopCountriesChart(filteredVotes);
+                    updateTopCitiesChart(filteredVotes);
+                    
+                    // Update tables
+                    renderVotersTable(filteredVotes);
+                };
+
+                const updateVotesOverTimeChart = (data) => {
+                    const dailyVotes = data.reduce((acc, vote) => {
+                        const date = vote.votedAt.toDate().toISOString().split('T')[0];
+                        acc[date] = (acc[date] || 0) + 1;
+                        return acc;
+                    }, {});
+                    const seriesData = Object.keys(dailyVotes).sort().map(date => [new Date(date).getTime(), dailyVotes[date]]);
+                    votesOverTimeChart.updateSeries([{ data: seriesData }]);
+                };
+
+                const updateTopCountriesChart = (data) => {
+                    const countryCounts = data.reduce((acc, { country }) => {
+                        if (country) acc[country] = (acc[country] || 0) + 1;
+                        return acc;
+                    }, {});
+                    const sorted = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+                    topCountriesChart.updateOptions({ series: sorted.map(c => c[1]), labels: sorted.map(c => c[0]) });
+                };
+                
+                const updateTopCitiesChart = (data) => {
+                    const cityCounts = data.reduce((acc, { city }) => {
+                        if (city) acc[city] = (acc[city] || 0) + 1;
+                        return acc;
+                    }, {});
+                    const sorted = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+                    topCitiesChart.updateSeries([{ data: sorted.map(c => c[1]) }]);
+                    topCitiesChart.updateOptions({ xaxis: { categories: sorted.map(c => c[0]) } });
+                };
+                
+                const renderVotersTable = (data) => {
+                    const paginatedData = data.slice((votersCurrentPage - 1) * votersPerPage, votersCurrentPage * votersPerPage);
+                    const tableBody = document.getElementById('voters-table-body');
+                    tableBody.innerHTML = paginatedData.map(v => `
+                        <tr class="border-b">
+                            <td class="p-3 font-semibold">${v.name}</td><td class="p-3">${v.city}</td>
+                            <td class="p-3">${v.country}</td><td class="p-3">${v.votedAt.toDate().toLocaleDateString()}</td>
+                        </tr>`).join('');
+
+                    document.getElementById('pagination-info').textContent = `Showing ${paginatedData.length > 0 ? (votersCurrentPage - 1) * votersPerPage + 1 : 0}-${(votersCurrentPage - 1) * votersPerPage + paginatedData.length} of ${data.length}`;
+                    document.getElementById('prev-page').disabled = votersCurrentPage === 1;
+                    document.getElementById('next-page').disabled = votersCurrentPage * votersPerPage >= data.length;
+                };
+
+                // FIREBASE LISTENERS
+                db.collection('votes').orderBy('votedAt', 'desc').onSnapshot(snapshot => {
+                    allVotes = snapshot.docs.map(doc => doc.data());
+                    processAndRenderData();
+                });
+                
+                db.collection('messages').orderBy('sentAt', 'desc').onSnapshot(snapshot => {
+                    allMessages = snapshot.docs.map(doc => doc.data());
+                    document.getElementById('total-messages').textContent = allMessages.length;
+                    document.getElementById('messages-table-body').innerHTML = allMessages.map(m => `
+                        <tr class="border-b">
+                            <td class="p-3 font-semibold">${m.name}</td><td class="p-3">${m.email}</td>
+                            <td class="p-3 max-w-sm truncate" title="${m.message}">${m.message}</td>
+                            <td class="p-3">${m.sentAt.toDate().toLocaleDateString()}</td>
+                        </tr>`).join('');
+                });
+                
+                // EVENT LISTENERS
+                const datePicker = flatpickr("#date-filter", {
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                    onChange: (selectedDates) => {
+                        if (selectedDates.length === 2) {
+                            dateRange.start = selectedDates[0];
+                            dateRange.end = new Date(selectedDates[1].setHours(23, 59, 59, 999)); // End of day
+                            processAndRenderData();
+                        }
+                    }
                 });
 
-                // MESSAGES LISTENER
-                db.collection('messages').orderBy('sentAt', 'desc').onSnapshot(snapshot => {
-                    const messagesTableBody = document.getElementById('messages-table-body');
-                    messagesTableBody.innerHTML = '';
-                    
-                    snapshot.forEach(doc => {
-                        const msg = doc.data();
-                        const row = `
-                            <tr class="bg-white border-b hover:bg-slate-50">
-                                <td class="px-6 py-4 font-semibold text-slate-900">${msg.name || 'N/A'}</td>
-                                <td class="px-6 py-4">${msg.email || 'N/A'}</td>
-                                <td class="px-6 py-4"><p class="max-w-md truncate" title="${msg.message}">${msg.message || 'N/A'}</p></td>
-                                <td class="px-6 py-4">${msg.sentAt ? new Date(msg.sentAt.seconds * 1000).toLocaleString() : 'N/A'}</td>
-                            </tr>
-                        `;
-                         messagesTableBody.innerHTML += row;
+                document.querySelectorAll('.date-preset-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const range = btn.dataset.range;
+                        const end = new Date();
+                        const start = new Date();
+                        if (range === 'today') start.setHours(0, 0, 0, 0);
+                        if (range === '7d') start.setDate(start.getDate() - 6);
+                        if (range === '30d') start.setDate(start.getDate() - 29);
+                        datePicker.setDate([start, end]);
                     });
-                     if(snapshot.empty) {
-                        messagesTableBody.innerHTML = '<tr><td colspan="4" class="text-center p-8">Wali wax farriimo ah ma jiraan.</td></tr>';
-                    }
-                    document.getElementById('total-messages').textContent = snapshot.size;
+                });
 
-                }, err => {
-                     console.error("Error fetching messages: ", err);
-                     document.getElementById('messages-table-body').innerHTML = '<tr><td colspan="4" class="text-center p-8 text-red-500">Cilad baa dhacday.</td></tr>';
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (link.id === 'logout-btn') return;
+                        const view = link.dataset.view;
+                        document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        document.querySelectorAll('.view-content').forEach(v => v.classList.add('hidden'));
+                        document.getElementById(`${view}-view`).classList.remove('hidden');
+                        document.getElementById('view-title').textContent = `${view.charAt(0).toUpperCase() + view.slice(1)} Analytics`;
+                    });
+                });
+                
+                document.getElementById('prev-page').addEventListener('click', () => { if (votersCurrentPage > 1) { votersCurrentPage--; processAndRenderData(); } });
+                document.getElementById('next-page').addEventListener('click', () => { if (votersCurrentPage * votersPerPage < allVotes.length) { votersCurrentPage++; processAndRenderData(); } });
+
+                 document.getElementById('search-voters').addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const filtered = allVotes.filter(v => 
+                        v.name?.toLowerCase().includes(term) ||
+                        v.city?.toLowerCase().includes(term) ||
+                        v.country?.toLowerCase().includes(term)
+                    );
+                    votersCurrentPage = 1; // Reset to first page
+                    renderVotersTable(filtered);
                 });
             }
-
-            // --- UI INTERACTIONS (TABS, SEARCH) ---
-            const votersTabBtn = document.getElementById('voters-tab-btn');
-            const messagesTabBtn = document.getElementById('messages-tab-btn');
-            const votersContent = document.getElementById('voters-content');
-            const messagesContent = document.getElementById('messages-content');
-
-            votersTabBtn.addEventListener('click', () => {
-                votersContent.classList.remove('hidden');
-                messagesContent.classList.add('hidden');
-                votersTabBtn.classList.add('border-blue-500', 'text-blue-600');
-                messagesTabBtn.classList.remove('border-blue-500', 'text-blue-600');
-            });
-            messagesTabBtn.addEventListener('click', () => {
-                messagesContent.classList.remove('hidden');
-                votersContent.classList.add('hidden');
-                messagesTabBtn.classList.add('border-blue-500', 'text-blue-600');
-                votersTabBtn.classList.remove('border-blue-500', 'text-blue-600');
-            });
-
-            const searchInput = document.getElementById('search-voters');
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filteredVoters = allVoters.filter(voter => 
-                    voter.name?.toLowerCase().includes(searchTerm) ||
-                    voter.city?.toLowerCase().includes(searchTerm) ||
-                    voter.country?.toLowerCase().includes(searchTerm)
-                );
-                
-                const votersTableBody = document.getElementById('voters-table-body');
-                votersTableBody.innerHTML = '';
-                 filteredVoters.forEach(voter => {
-                    const row = `
-                        <tr class="bg-white border-b hover:bg-slate-50">
-                            <td class="px-6 py-4 font-semibold text-slate-900">${voter.name || 'N/A'}</td>
-                            <td class="px-6 py-4">${voter.city || 'N/A'}</td>
-                            <td class="px-6 py-4">${voter.country || 'N/A'}</td>
-                            <td class="px-6 py-4">${voter.phone || 'N/A'}</td>
-                            <td class="px-6 py-4">${voter.votedAt ? new Date(voter.votedAt.seconds * 1000).toLocaleString() : 'N/A'}</td>
-                        </tr>
-                    `;
-                    votersTableBody.innerHTML += row;
-                 });
-            });
         });
     </script>
 </body>
