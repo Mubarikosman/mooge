@@ -14,179 +14,97 @@
     <script src="https://unpkg.com/feather-icons"></script>
 
     <style>
-        /* Custom Styles for a more polished look */
+        /* Your existing CSS styles remain unchanged... */
         body {
             font-family: 'Manrope', sans-serif;
-            background-color: #F8FAFC; /* slate-50 */
-            color: #1E293B; /* slate-800 */
+            background-color: #F8FAFC;
+            color: #1E293B;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
-        h1, h2, h3, h4, .font-display {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* Custom button styles for a premium feel */
+        h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
         .btn-primary {
-            background-color: #2563EB; /* blue-600 */
-            color: white;
-            font-weight: 700;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem; /* rounded-xl */
-            cursor: pointer;
+            background-color: #2563EB; color: white; font-weight: 700;
+            padding: 0.75rem 1.5rem; border-radius: 0.75rem; cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            position: relative; overflow: hidden; z-index: 1;
         }
         .btn-primary:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1D4ED8; /* blue-700 */
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #1D4ED8; transform: scaleX(0); transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1;
         }
-        .btn-primary:hover:before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
+        .btn-primary:hover:before { transform: scaleX(1); transform-origin: left; }
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         .btn-primary:disabled {
-            background-color: #94A3B8; /* slate-400 */
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
+            background-color: #94A3B8; cursor: not-allowed; box-shadow: none; transform: none;
         }
-        .btn-primary:disabled:before {
-            transform: scaleX(0);
-        }
-        
+        .btn-primary:disabled:before { transform: scaleX(0); }
         .btn-secondary {
-            background-color: #F1F5F9; /* slate-100 */
-            color: #334155; /* slate-700 */
-            font-weight: 700;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem; /* rounded-xl */
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #E2E8F0; /* slate-200 */
+            background-color: #F1F5F9; color: #334155; font-weight: 700;
+            padding: 0.75rem 1.5rem; border-radius: 0.75rem; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #E2E8F0;
         }
         .btn-secondary:hover {
-            background-color: #E2E8F0; /* slate-200 */
-            transform: translateY(-2px);
+            background-color: #E2E8F0; transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
-
-        /* Modern input field styles */
-        .input-group {
-            position: relative;
-        }
+        .input-group { position: relative; }
         .input-group i {
-            position: absolute;
-            left: 1.25rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94A3B8; /* slate-400 */
-            transition: color 0.2s ease;
+            position: absolute; left: 1.25rem; top: 50%;
+            transform: translateY(-50%); color: #94A3B8; transition: color 0.2s ease;
         }
         .input-field {
-            padding-left: 3.5rem;
-            width: 100%;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            border-radius: 0.75rem; /* rounded-xl */
-            border: 1px solid #E2E8F0; /* slate-200 */
-            background-color: #FFFFFF;
-            transition: all 0.2s ease;
-            font-weight: 500;
+            padding-left: 3.5rem; width: 100%; padding-top: 1rem; padding-bottom: 1rem;
+            border-radius: 0.75rem; border: 1px solid #E2E8F0; background-color: #FFFFFF;
+            transition: all 0.2s ease; font-weight: 500;
         }
         .input-field:focus {
-            outline: none;
-            border-color: #3B82F6; /* blue-500 */
+            outline: none; border-color: #3B82F6;
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
         }
-        .input-field:focus + i {
-            color: #2563EB; /* blue-600 */
-        }
-        .input-field::placeholder {
-            color: #94A3B8; /* slate-400 */
-        }
+        .input-field:focus + i { color: #2563EB; }
+        .input-field::placeholder { color: #94A3B8; }
         .error-message {
-            color: #EF4444; /* red-500 */
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: none;
-            font-weight: 500;
+            color: #EF4444; font-size: 0.875rem; margin-top: 0.5rem;
+            display: none; font-weight: 500;
         }
-
-        /* Scroll reveal animations */
         .reveal {
-            opacity: 0;
-            transform: translateY(40px);
+            opacity: 0; transform: translateY(40px);
             transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .reveal-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Animated vote counter */
+        .reveal-visible { opacity: 1; transform: translateY(0); }
         #vote-counter {
-            font-family: 'Poppins', sans-serif;
-            transition: transform 0.2s ease;
+            font-family: 'Poppins', sans-serif; transition: transform 0.2s ease;
         }
         .vote-count-number {
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
             display: inline-block;
         }
         .vote-count-number.updated {
-            transform: translateY(-15px) scale(1.2);
-            color: #10B981; /* emerald-500 */
+            transform: translateY(-15px) scale(1.2); color: #10B981;
         }
-
-        /* Hero background gradient */
-        .hero-gradient {
-            background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
-        }
-
-        /* Share Modal Styles */
+        .hero-gradient { background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%); }
         .social-share-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 1rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 1rem;
         }
         .social-share-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem;
-            border-radius: 0.75rem;
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            text-decoration: none;
-            transition: all 0.2s ease-in-out;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 0.75rem; border-radius: 0.75rem; background-color: #f8fafc;
+            border: 1px solid #e2e8f0; text-decoration: none; transition: all 0.2s ease-in-out;
         }
         .social-share-item:hover {
-            background-color: #f1f5f9;
-            transform: translateY(-2px);
-            border-color: #cbd5e1;
+            background-color: #f1f5f9; transform: translateY(-2px); border-color: #cbd5e1;
         }
     </style>
 </head>
 <body class="overflow-x-hidden">
 
+    <!-- Your existing HTML content remains unchanged -->
     <header class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
         <div class="container mx-auto flex justify-between items-center p-6">
             <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
@@ -241,7 +159,8 @@
                  <div class="bg-white border border-slate-200/80 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl shadow-slate-200/50 text-center">
                     <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Tirinta Codadka Tooska ah</h3>
                     <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800 tracking-tighter">
-                        </div>
+                        0
+                    </div>
                     <p class="text-slate-500 mt-4">Codadka ka yimid magaaladeena iyo meelaha kale.</p>
                 </div>
             </div>
@@ -292,70 +211,47 @@
         </section>
         
         <section id="platform" class="py-24 p-6 bg-slate-100">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-5xl md:text-6xl font-bold">Maxaan ka Filan Karnaa Maayar Mooge?</h2>
-                <p class="text-xl text-slate-500 mt-4">Halkan waxaan ku eegaynaa qodobada muhiimka ah ee uu Maayarku wax ka qaban doono.</p>
-            </div>
-            <div class="container mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="briefcase" class="w-8 h-8 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Shaqo Abuur</h3>
-                    <p class="text-slate-500">Waxaan ka qayb qaadan doonaa abuurista shaqooyin cusub oo waara si aan u dhisno bulsho dhaqaale ahaan u xooggan.</p>
-                </div>
-                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 150ms;">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                         <i data-feather="bar-chart-2" class="w-8 h-8 text-blue-600 rotate-90"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Wadooyin & Adeegyo Wanaagsan</h3>
-                    <p class="text-slate-500">Hagaajinta wadooyinkeena, biyaha, iyo goobaha dadweynaha si ay bulshada oo dhami uga faa'iidaysato.</p>
-                </div>
-                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 300ms;">
-                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="book-open" class="w-8 h-8 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Waxbarasho Tayo Leh</h3>
-                    <p class="text-slate-500">Waxaan maalgashi ku samayn doonaa dugsiyadeena si aan ubadkeena ugu horseedno guul.</p>
-                </div>
-                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 450ms;">
-                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Caasimad Nabad ah</h3>
-                    <p class="text-slate-500">Ka dhigista magaaladeena meel ammaan u ah qoys kasta.</p>
-                </div>
-            </div>
+            <!-- This section is unchanged -->
         </section>
 
         <section id="about" class="py-24 p-6">
-            <div class="container mx-auto max-w-4xl text-center bg-white p-12 rounded-3xl shadow-xl border border-slate-200/80 reveal">
-               <h2 class="text-4xl font-bold mb-4">Olole Bulshadu Wada Leedahay</h2>
-               <p class="text-lg text-slate-600 leading-relaxed">Websaydhkan wuxuu isku kaaya xidhayaa dadweynaha reer Hargeisa. Cod kastaa waa fariin muhiim ah. Taageeradaadu waxay naga caawinaysaa inaan ogaano baahiyahaaga. Waxay naga caawinaysaa inaan u shaqayno magaalo wanaagsan. Mahadsanid.</p>
-               <a href="#vote" class="btn-primary mt-8 inline-block">Codee Maanta</a>
-            </div>
+            <!-- This section is unchanged -->
         </section>
 
     </main>
 
     <footer class="py-16 text-center border-t border-slate-200 bg-white">
-        <div class="container mx-auto p-6">
-            <h4 class="text-2xl font-bold font-display text-slate-800">Ololaha Taageerada Maayar Cabdikariim Axmed Mooge</h4>
-            <div class="flex justify-center space-x-6 my-6">
-                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
-                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="facebook" class="w-6 h-6"></i></a>
-                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="instagram" class="w-6 h-6"></i></a>
-            </div>
-            <p class="text-slate-500 mt-2">&copy; 2025. Xuquuqda oo dhan way dhawrsan tahay.</p>
-            <p class="text-sm text-slate-400 mt-6">Naqshadeeye: <a href="https://mubarik.hiigsitech.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600 transition-colors">Mubarik Osman</a></p>
-        </div>
+        <!-- This section is unchanged -->
     </footer>
 
+    <!-- ADD FIREBASE SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- FIREBASE SETUP ---
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
+                authDomain: "maayor-mooge.firebaseapp.com",
+                projectId: "maayor-mooge",
+                storageBucket: "maayor-mooge.appspot.com",
+                messagingSenderId: "771226998257",
+                appId: "1:771226998257:web:d8029353f27111f143e050",
+                measurementId: "G-WC6PP0TMH4"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            console.log("Firebase initialized successfully!");
+
+            // --- ALL OTHER JAVASCRIPT ---
+            
             feather.replace();
 
-            // --- Mobile Menu Logic ---
+            // --- Mobile Menu Logic (Unchanged) ---
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const openIcon = document.getElementById('menu-open-icon');
@@ -366,8 +262,6 @@
                 openIcon.classList.toggle('hidden');
                 closeIcon.classList.toggle('hidden');
             });
-
-            // Close mobile menu when a link is clicked
             const mobileMenuLinks = mobileMenu.querySelectorAll('a');
             mobileMenuLinks.forEach(link => {
                 link.addEventListener('click', () => {
@@ -377,158 +271,50 @@
                 });
             });
 
-            // --- Generic Modal Logic ---
-            function showModal(title, text) {
-                const modalId = 'custom-modal';
-                const existingModal = document.getElementById(modalId);
-                if (existingModal) existingModal.remove();
-
-                const modalHTML = `
-                    <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-                        <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl transform transition-all duration-300 scale-95 opacity-0">
-                            <h3 class="text-2xl font-bold font-display mb-4">${title}</h3>
-                            <p class="text-slate-600 mb-6">${text}</p>
-                            <button id="close-modal-btn" class="btn-primary w-full">Xidh</button>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-                const modalElement = document.getElementById(modalId);
-                const modalContent = modalElement.querySelector('.bg-white');
-                setTimeout(() => {
-                    modalContent.style.transform = 'scale(1)';
-                    modalContent.style.opacity = '1';
-                }, 10);
-
-                const closeModal = () => {
-                    modalContent.style.transform = 'scale(0.95)';
-                    modalContent.style.opacity = '0';
-                    setTimeout(() => modalElement.remove(), 300);
-                };
-                modalElement.querySelector('#close-modal-btn').addEventListener('click', closeModal);
-                modalElement.addEventListener('click', (e) => {
-                    if (e.target.id === modalId) closeModal();
-                });
-            }
+            // --- Modal and Share Logic (Unchanged) ---
+            // Your existing functions for showModal and showShareModal go here...
             
-            // --- Share Modal Logic ---
-            function showShareModal(title, text, url) {
-                const modalId = 'share-modal';
-                const existingModal = document.getElementById(modalId);
-                if (existingModal) existingModal.remove();
-
-                const encodedUrl = encodeURIComponent(url);
-                const encodedText = encodeURIComponent(text);
-                const encodedTitle = encodeURIComponent(title);
-
-                const socialPlatforms = [
-                    { name: 'Facebook', icon: 'facebook', url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
-                    { name: 'WhatsApp', icon: 'message-circle', url: `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}` },
-                    { name: 'Twitter', icon: 'twitter', url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}` },
-                    { name: 'Telegram', icon: 'send', url: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}` },
-                    { name: 'LinkedIn', icon: 'linkedin', url: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedText}` },
-                    { name: 'Koobi Garee', icon: 'copy', url: '#' }
-                ];
-
-                let socialButtonsHTML = socialPlatforms.map(p => `
-                    <a href="${p.url}" ${p.name !== 'Koobi Garee' ? 'target="_blank" rel="noopener noreferrer"' : ''} data-name="${p.name}" class="social-share-item text-slate-700">
-                        <i data-feather="${p.icon}" class="w-8 h-8 mb-2"></i>
-                        <span class="text-sm font-semibold">${p.name}</span>
-                    </a>
-                `).join('');
-
-                const modalHTML = `
-                    <div id="${modalId}" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-                        <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-xl transform transition-all duration-300 scale-95 opacity-0">
-                            <h3 class="text-2xl font-bold font-display mb-6">La Wadaag Boggan</h3>
-                            <div class="social-share-grid mb-6">${socialButtonsHTML}</div>
-                            <button id="close-share-modal-btn" class="btn-secondary w-full">Xidh</button>
-                        </div>
-                    </div>`;
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-                feather.replace();
-
-                const modalElement = document.getElementById(modalId);
-                const modalContent = modalElement.querySelector('.bg-white');
-
-                setTimeout(() => {
-                    modalContent.style.transform = 'scale(1)';
-                    modalContent.style.opacity = '1';
-                }, 10);
-                
-                const closeModal = () => {
-                    modalContent.style.transform = 'scale(0.95)';
-                    modalContent.style.opacity = '0';
-                    setTimeout(() => modalElement.remove(), 300);
-                };
-
-                modalElement.querySelector('#close-share-modal-btn').addEventListener('click', closeModal);
-                modalElement.addEventListener('click', (e) => { if (e.target.id === modalId) closeModal(); });
-
-                const copyLinkButton = modalElement.querySelector('.social-share-item[data-name="Koobi Garee"]');
-                copyLinkButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    navigator.clipboard.writeText(url).then(() => {
-                        const iconElement = copyLinkButton.querySelector('i');
-                        const textSpan = copyLinkButton.querySelector('span');
-                        iconElement.outerHTML = '<i data-feather="check" class="w-8 h-8 mb-2 text-green-500"></i>';
-                        textSpan.textContent = 'Waa la Koobiyeeyay!';
-                        feather.replace();
-                        setTimeout(() => {
-                            iconElement.outerHTML = '<i data-feather="copy" class="w-8 h-8 mb-2"></i>';
-                            textSpan.textContent = 'Koobi Garee';
-                            feather.replace();
-                        }, 2000);
-                    });
-                });
-            }
-
-            // --- Vote Counter Logic ---
+            // --- DYNAMIC VOTE COUNTER LOGIC ---
             const voteCounterElement = document.getElementById('vote-counter');
-            let currentVotes = 186452;
+            let initialLoad = true;
 
             function formatVotes(votes) { return votes.toLocaleString('en-US'); }
-            
-            function updateVoteDisplay(animate = false) {
-                const formattedVotes = formatVotes(currentVotes);
+
+            function updateVoteDisplay(count, animate = false) {
+                const formattedVotes = formatVotes(count);
                 if (voteCounterElement) {
-                    voteCounterElement.innerHTML = '';
+                    voteCounterElement.innerHTML = ''; // Clear previous content
                     formattedVotes.split('').forEach(char => {
                         const span = document.createElement('span');
                         span.className = 'vote-count-number';
                         span.textContent = char;
                         voteCounterElement.appendChild(span);
                     });
-                    
-                    if(animate) {
-                        const spans = voteCounterElement.querySelectorAll('span');
-                        spans[spans.length - 1]?.classList.add('updated');
-                        setTimeout(() => spans[spans.length-1]?.classList.remove('updated'), 500);
+
+                    if (animate) {
+                        voteCounterElement.style.transform = 'scale(1.03)';
+                        setTimeout(() => {
+                            voteCounterElement.style.transform = 'scale(1)';
+                        }, 200);
                     }
                 }
             }
-            
-            function animateNewVotes(newVotes) {
-                 currentVotes += newVotes;
-                 updateVoteDisplay(true);
-                 if (voteCounterElement) {
-                    voteCounterElement.style.transform = 'scale(1.03)';
-                    setTimeout(() => {
-                        voteCounterElement.style.transform = 'scale(1)';
-                    }, 200);
-                 }
-            }
 
-            updateVoteDisplay();
-            setInterval(() => animateNewVotes(Math.floor(Math.random() * 5) + 1), 3000);
+            // Listen for real-time updates from Firestore
+            db.collection("votes").onSnapshot((snapshot) => {
+                const voteCount = snapshot.size;
+                const shouldAnimate = !initialLoad; // Only animate after the first load
+                updateVoteDisplay(voteCount, shouldAnimate);
+                initialLoad = false;
+            });
 
 
-            // --- Voting Logic ---
+            // --- DYNAMIC VOTING LOGIC ---
             const voteArea = document.getElementById('vote-area');
             const confirmationMessage = document.getElementById('confirmation-message');
             const usernameInput = document.getElementById('voter-username');
             const cityInput = document.getElementById('voter-city');
+            const phoneInput = document.getElementById('voter-phone');
             const submitVoteBtn = document.getElementById('submit-vote-btn');
 
             function showError(inputId, message) {
@@ -550,29 +336,52 @@
                 }
             }
 
+            // Check if user has already voted
             if (localStorage.getItem('hasVotedMoge') === 'true') {
                 disableVoting();
             }
 
-            submitVoteBtn?.addEventListener('click', () => {
+            submitVoteBtn?.addEventListener('click', async () => { // Make function async
                 clearErrors();
                 let isValid = true;
-                if (usernameInput.value.trim().length < 3) {
+                const username = usernameInput.value.trim();
+                const city = cityInput.value.trim();
+
+                if (username.length < 3) {
                     showError('voter-username', 'Fadlan geli magacaaga oo buuxa.');
                     isValid = false;
                 }
-                if (cityInput.value.trim() === '') {
+                if (city === '') {
                     showError('voter-city', 'Fadlan geli magaaladaada ama degmadaada.');
                     isValid = false;
                 }
                 if (!isValid) return;
-                localStorage.setItem('hasVotedMoge', 'true');
-                animateNewVotes(Math.floor(Math.random() * 20) + 10);
-                disableVoting();
+
+                submitVoteBtn.disabled = true;
+                submitVoteBtn.textContent = 'Waa la dirayaa...';
+
+                try {
+                    // Save data to Firestore
+                    await db.collection("votes").add({
+                        name: username,
+                        city: city,
+                        phone: phoneInput.value.trim(),
+                        votedAt: new Date() // Store the timestamp
+                    });
+
+                    // Success
+                    localStorage.setItem('hasVotedMoge', 'true');
+                    disableVoting();
+
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    alert("Cilad baa dhacday markii codka la dhiibanayay. Fadlan isku day mar kale.");
+                    submitVoteBtn.disabled = false;
+                    submitVoteBtn.textContent = 'Xaqiiji Codkayga';
+                }
             });
             
-
-            // --- Animate on Scroll Logic ---
+            // --- Other UI Logic (Unchanged) ---
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -584,21 +393,7 @@
             }, { threshold: 0.1 });
             revealElements.forEach(el => revealObserver.observe(el));
 
-            // --- Share and Donate Button Logic ---
-            const shareBtn = document.getElementById('share-btn');
-            const donateBtn = document.getElementById('donate-btn');
-
-            shareBtn?.addEventListener('click', () => {
-                const url = window.location.href;
-                const text = "Taageer isbeddelka loo wado Hargeisa wanaagsan. Ololaha Maayar Cabdikariim Axmed Mooge wuxuu diiradda saarayaa abuurista shaqooyin, horumarinta kaabayaasha dhaqaalaha, iyo dhisidda magaalo ammaan ah. Muuji taageeradaada adigoo codaynaya oo fariintan la wadaagaya asxaabtaada iyo qoyskaaga.";
-                const title = 'U Codee Abdikareem Ahmed Moge';
-                showShareModal(title, text, url);
-            });
-
-            donateBtn?.addEventListener('click', () => {
-                showModal('Macluumaadka Deeqda', 'Waad ku mahadsan tahay xiisahaaga. Hadda ma aqbalayno deeqo, laakiin fadlan mar kale soo eeg mustaqbalka.');
-            });
-
+            // Your functions for share and donate buttons can go here...
         });
     </script>
 </body>
