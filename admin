@@ -1,233 +1,311 @@
 <!DOCTYPE html>
-<html lang="so" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U Codee Abdikareem Ahmed Moge | Hargeisa Wanaagsan</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
-    
+    <title>Admin Panel | Moge Campaign</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* All existing CSS styles remain the same */
-        body { font-family: 'Manrope', sans-serif; background-color: #F8FAFC; color: #1E293B; }
-        h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
-        .btn-primary { background-color: #2563EB; color: white; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .btn-primary:disabled { background-color: #94A3B8; cursor: not-allowed; }
-        .btn-secondary { background-color: #F1F5F9; color: #334155; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; border: 1px solid #E2E8F0; transition: all 0.3s; }
-        .input-field { padding-left: 3.5rem; width: 100%; padding-top: 1rem; padding-bottom: 1rem; border-radius: 0.75rem; border: 1px solid #E2E8F0; }
-        .error-message { color: #EF4444; font-size: 0.875rem; margin-top: 0.5rem; display: none; }
-        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
-        .reveal-visible { opacity: 1; transform: translateY(0); }
+        body { font-family: 'Manrope', sans-serif; background-color: #f1f5f9; }
+        .sidebar { transition: transform 0.3s ease-in-out; }
+        .content { transition: margin-left 0.3s ease-in-out; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        /* Scrollbar styles */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
 
-    <!-- Header and Hero Sections are unchanged -->
-    <header class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
-        <div class="container mx-auto flex justify-between items-center p-6">
-            <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
-            <nav class="hidden md:flex items-center space-x-10 text-slate-600 font-semibold">
-                <a href="#vote" class="hover:text-blue-600">Codee</a>
-                <a href="#platform" class="hover:text-blue-600">Qorshaha</a>
-                <a href="#contact" class="hover:text-blue-600">La Xidhiidh</a>
+    <!-- LOGIN OVERLAY -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl text-center">
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Admin Panel Login</h2>
+            <p class="text-slate-500 mb-8">Enter your credentials to continue</p>
+            <div class="space-y-4">
+                <input id="login-id" type="text" placeholder="ID (e.g., 20202030)" class="w-full p-4 text-center rounded-lg bg-slate-100 border-2 border-transparent focus:outline-none focus:border-sky-500 transition">
+                <input id="login-password" type="password" placeholder="Password" class="w-full p-4 text-center rounded-lg bg-slate-100 border-2 border-transparent focus:outline-none focus:border-sky-500 transition">
+                <input id="login-secret" type="password" placeholder="Secret Phrase" class="w-full p-4 text-center rounded-lg bg-slate-100 border-2 border-transparent focus:outline-none focus:border-sky-500 transition">
+                <button id="login-btn" class="w-full bg-sky-600 text-white font-bold p-4 rounded-lg hover:bg-sky-700 transition-colors shadow-lg">Login</button>
+            </div>
+            <p id="login-error" class="text-red-500 mt-4 font-semibold hidden">Invalid credentials. Please try again.</p>
+            <div class="mt-8 text-xs text-slate-400">
+                <p class="font-bold text-orange-500">Warning: This is a client-side login for demonstration. For production, always use a secure, server-based authentication system.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN PANEL -->
+    <div id="admin-panel" class="hidden">
+        <!-- SIDEBAR -->
+        <aside class="sidebar bg-slate-800 text-slate-100 w-64 fixed h-full p-4 flex flex-col">
+            <div class="text-2xl font-bold text-white mb-10 text-center">Moge Admin</div>
+            <nav class="flex-grow">
+                <a href="#" data-view="dashboard" class="nav-link bg-slate-700 flex items-center p-3 rounded-lg mb-2"><i data-feather="home" class="mr-3"></i>Dashboard</a>
+                <a href="#" data-view="voters" class="nav-link hover:bg-slate-700 flex items-center p-3 rounded-lg mb-2"><i data-feather="users" class="mr-3"></i>Voters List</a>
+                <a href="#" data-view="messages" class="nav-link hover:bg-slate-700 flex items-center p-3 rounded-lg mb-2 relative">
+                    <i data-feather="message-square" class="mr-3"></i>Messages
+                    <span id="unread-messages-badge" class="absolute top-2 right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full hidden">0</span>
+                </a>
             </nav>
-            <div class="flex items-center gap-4">
-                <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Codee Hadda</a>
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md"><i data-feather="menu"></i></button>
-            </div>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
-             <a href="#vote" class="block py-3 px-6 hover:bg-slate-100">Codee</a>
-             <a href="#platform" class="block py-3 px-6 hover:bg-slate-100">Qorshaha</a>
-             <a href="#contact" class="block py-3 px-6 hover:bg-slate-100">La Xidhiidh</a>
-        </div>
-    </header>
-    
-    <main>
-        <!-- Hero, Vote Counter, and Voting Sections are unchanged -->
-        <section class="py-24 pb-32">
-            <!-- Hero content here -->
-        </section>
+            <button id="logout-btn" class="mt-auto hover:bg-slate-700 flex items-center p-3 rounded-lg w-full"><i data-feather="log-out" class="mr-3"></i>Logout</button>
+        </aside>
 
-        <section class="py-16 -mt-20">
-            <div class="container mx-auto px-6 reveal">
-                 <div class="bg-white border rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl text-center">
-                    <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Tirinta Codadka Tooska ah</h3>
-                    <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800">0</div>
-                </div>
+        <!-- CONTENT -->
+        <main id="content" class="content ml-64 p-8">
+            <h1 id="view-title" class="text-4xl font-bold text-slate-800 mb-8">Dashboard</h1>
+            <div id="view-content">
+                <!-- Content will be dynamically loaded here -->
             </div>
-        </section>
-
-        <section id="vote" class="py-24 p-6">
-             <div class="text-center mb-16 reveal">
-                <h2 class="text-5xl md:text-6xl font-bold">U Codee Maayar Mooge</h2>
-             </div>
-            <div class="container mx-auto max-w-xl">
-                <div id="vote-area" class="reveal">
-                    <!-- Voting Form is unchanged -->
-                </div>
-                <div id="confirmation-message" class="hidden text-center reveal">
-                     <!-- Confirmation message is unchanged -->
-                </div>
-            </div>
-        </section>
-        
-        <!-- Platform Section is unchanged -->
-        <section id="platform" class="py-24 p-6 bg-slate-100">
-            <!-- Platform content here -->
-        </section>
-
-        <!-- *** NEW SECTION: CONTACT FORM *** -->
-        <section id="contact" class="py-24 p-6">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-5xl md:text-6xl font-bold">Farriin u Dir Ololaha</h2>
-                <p class="text-xl text-slate-500 mt-4 max-w-2xl mx-auto">Fikradaada, su'aashaada, ama fariintaada taageerada ah halkan noogu reeb.</p>
-            </div>
-            
-            <div class="container mx-auto max-w-xl">
-                <div id="message-area" class="reveal">
-                    <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-200/80">
-                        <div id="message-form">
-                            <div class="space-y-6">
-                                <div class="relative">
-                                    <input id="msg-name" type="text" placeholder="Magacaaga" class="input-field">
-                                    <i data-feather="user" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                </div>
-                                <div class="relative">
-                                    <input id="msg-contact" type="text" placeholder="Email ama Telefoon" class="input-field">
-                                    <i data-feather="mail" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                </div>
-                                <div class="relative">
-                                    <textarea id="msg-text" placeholder="Fariintaada..." rows="5" class="input-field !p-4 !pl-14"></textarea>
-                                    <i data-feather="message-square" class="absolute left-5 top-7 -translate-y-1/2 text-slate-400"></i>
-                                </div>
-                                <button id="submit-message-btn" class="w-full btn-primary !p-4 text-lg">Dir Fariinta</button>
-                            </div>
-                        </div>
-                         <div id="message-confirmation" class="hidden text-center">
-                            <i data-feather="check-circle" class="w-20 h-20 mx-auto text-emerald-500 mb-6"></i>
-                            <h3 class="text-4xl font-bold font-display mb-4">Waa la diray!</h3>
-                            <p class="text-emerald-800 text-lg">Waad ku mahadsan tahay fariintaada. Waanu kula soo xidhiidhi doonaa haddii loo baahdo.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="py-16 text-center border-t border-slate-200 bg-white">
-        <!-- Footer is unchanged -->
-    </footer>
+        </main>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const firebaseConfig = {
-                apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
-                authDomain: "maayor-mooge.firebaseapp.com",
-                projectId: "maayor-mooge",
-                storageBucket: "maayor-mooge.appspot.com",
-                messagingSenderId: "771226998257",
-                appId: "1:771226998257:web:d8029353f27111f143e050"
-            };
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
             feather.replace();
 
-            // --- VOTE COUNTER (Real-time) ---
-            db.collection("votes").onSnapshot((snapshot) => {
-                document.getElementById('vote-counter').textContent = snapshot.size.toLocaleString('en-US');
-            });
+            const loginModal = document.getElementById('login-modal');
+            const adminPanel = document.getElementById('admin-panel');
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const viewTitle = document.getElementById('view-title');
+            const viewContent = document.getElementById('view-content');
 
-            // --- VOTE SUBMISSION (with IP Geolocation) ---
-            const submitVoteBtn = document.getElementById('submit-vote-btn');
-            submitVoteBtn?.addEventListener('click', async () => {
-                const usernameInput = document.getElementById('voter-username');
-                const cityInput = document.getElementById('voter-city');
-                // Basic validation...
-                if (usernameInput.value.trim().length < 3 || cityInput.value.trim() === '') {
-                    alert("Fadlan buuxi magaca iyo magaalada.");
-                    return;
-                }
+            // --- AUTHENTICATION ---
+            const ADMIN_ID = "20202030";
+            const ADMIN_PASS = "mooge admin 2030";
+            const ADMIN_SECRET = "ma ogi";
+
+            loginBtn.addEventListener('click', () => {
+                const id = document.getElementById('login-id').value;
+                const pass = document.getElementById('login-password').value;
+                const secret = document.getElementById('login-secret').value;
                 
-                submitVoteBtn.disabled = true;
-                submitVoteBtn.textContent = 'Waa la dirayaa...';
-
-                try {
-                    // Fetch location data from user's IP
-                    const geoResponse = await fetch('https://ipapi.co/json/');
-                    const geoData = await geoResponse.json();
-
-                    // Save vote AND location data to Firestore
-                    await db.collection("votes").add({
-                        name: usernameInput.value.trim(),
-                        city: cityInput.value.trim(),
-                        phone: document.getElementById('voter-phone').value.trim(),
-                        votedAt: new Date(),
-                        ip: geoData.ip,
-                        geo_city: geoData.city,
-                        geo_region: geoData.region,
-                        geo_country_name: geoData.country_name,
-                        geo_country_code: geoData.country_code
-                    });
-
-                    localStorage.setItem('hasVotedMoge', 'true');
-                    document.getElementById('vote-area').classList.add('hidden');
-                    document.getElementById('confirmation-message').classList.remove('hidden');
-
-                } catch (error) {
-                    console.error("Error submitting vote: ", error);
-                    alert("Cilad baa dhacday. Fadlan isku day mar kale.");
-                    submitVoteBtn.disabled = false;
-                    submitVoteBtn.textContent = 'Xaqiiji Codkayga';
+                if (id === ADMIN_ID && pass === ADMIN_PASS && secret === ADMIN_SECRET) {
+                    loginModal.classList.add('hidden');
+                    adminPanel.classList.remove('hidden');
+                    sessionStorage.setItem('isAdminAuthenticated', 'true');
+                    initializeApp();
+                } else {
+                    document.getElementById('login-error').classList.remove('hidden');
                 }
             });
 
-            // --- MESSAGE SUBMISSION ---
-            const submitMessageBtn = document.getElementById('submit-message-btn');
-            submitMessageBtn?.addEventListener('click', async () => {
-                const name = document.getElementById('msg-name').value.trim();
-                const contact = document.getElementById('msg-contact').value.trim();
-                const message = document.getElementById('msg-text').value.trim();
-                if (!name || !contact || !message) {
-                    alert("Fadlan buuxi dhammaan qaybaha fariinta.");
-                    return;
-                }
-                submitMessageBtn.disabled = true;
-                submitMessageBtn.textContent = 'Waa la dirayaa...';
-                
-                try {
-                    await db.collection("messages").add({
-                        name,
-                        contact,
-                        message,
-                        sentAt: new Date(),
-                        isRead: false
-                    });
-                    document.getElementById('message-form').classList.add('hidden');
-                    document.getElementById('message-confirmation').classList.remove('hidden');
-                } catch (error) {
-                    console.error("Error sending message:", error);
-                    alert("Cilad ayaa dhacday, fadlan isku day mar kale.");
-                    submitMessageBtn.disabled = false;
-                    submitMessageBtn.textContent = 'Dir Fariinta';
-                }
+            logoutBtn.addEventListener('click', () => {
+                sessionStorage.removeItem('isAdminAuthenticated');
+                location.reload();
             });
             
-            if (localStorage.getItem('hasVotedMoge') === 'true') {
-                document.getElementById('vote-area').classList.add('hidden');
-                document.getElementById('confirmation-message').classList.remove('hidden');
+            if (sessionStorage.getItem('isAdminAuthenticated') === 'true') {
+                 loginModal.classList.add('hidden');
+                 adminPanel.classList.remove('hidden');
+                 initializeApp();
+            }
+
+            // --- FIREBASE & APP LOGIC ---
+            let db;
+            let allVotes = [];
+            let allMessages = [];
+            let charts = {};
+
+            function initializeApp() {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
+                    authDomain: "maayor-mooge.firebaseapp.com",
+                    projectId: "maayor-mooge",
+                    storageBucket: "maayor-mooge.appspot.com",
+                    messagingSenderId: "771226998257",
+                    appId: "1:771226998257:web:d8029353f27111f143e050"
+                };
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                db = firebase.firestore();
+                loadData();
+            }
+
+            async function loadData() {
+                viewContent.innerHTML = `<div class="text-center p-12"><p class="text-slate-500">Loading data...</p></div>`;
+                
+                const votesSnapshot = await db.collection('votes').orderBy('votedAt', 'desc').get();
+                allVotes = votesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const messagesSnapshot = await db.collection('messages').orderBy('sentAt', 'desc').get();
+                allMessages = messagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                renderView('dashboard');
+                updateUnreadBadge();
+            }
+
+            // --- NAVIGATION ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const view = link.dataset.view;
+                    renderView(view);
+                    // Style active link
+                    navLinks.forEach(l => l.classList.remove('bg-slate-700'));
+                    link.classList.add('bg-slate-700');
+                });
+            });
+
+            function renderView(view) {
+                viewTitle.textContent = view.charAt(0).toUpperCase() + view.slice(1);
+                if (charts.cityChart) charts.cityChart.destroy();
+                if (charts.countryChart) charts.countryChart.destroy();
+
+                switch(view) {
+                    case 'dashboard':
+                        renderDashboard();
+                        break;
+                    case 'voters':
+                        renderVoters();
+                        break;
+                    case 'messages':
+                        renderMessages();
+                        break;
+                }
+                feather.replace();
+            }
+
+            function updateUnreadBadge() {
+                const unreadCount = allMessages.filter(m => !m.isRead).length;
+                const badge = document.getElementById('unread-messages-badge');
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+            
+            // --- RENDER FUNCTIONS ---
+            function renderDashboard() {
+                // KPIs
+                const uniqueCities = [...new Set(allVotes.map(v => v.geo_city).filter(Boolean))].length;
+                const uniqueCountries = [...new Set(allVotes.map(v => v.geo_country_name).filter(Boolean))].length;
+                const unreadMessages = allMessages.filter(m => !m.isRead).length;
+
+                // City & Country Data for Charts
+                const cityCounts = allVotes.reduce((acc, vote) => {
+                    if (vote.geo_city) { acc[vote.geo_city] = (acc[vote.geo_city] || 0) + 1; }
+                    return acc;
+                }, {});
+                const sortedCities = Object.entries(cityCounts).sort(([,a],[,b]) => b-a).slice(0, 10);
+                
+                const countryCounts = allVotes.reduce((acc, vote) => {
+                    if (vote.geo_country_name) { acc[vote.geo_country_name] = (acc[vote.geo_country_name] || 0) + 1; }
+                    return acc;
+                }, {});
+
+                viewContent.innerHTML = `
+                    <!-- Stat Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card bg-white p-6 rounded-xl shadow-md transition-all flex items-center"><i data-feather="bar-chart-2" class="w-10 h-10 text-sky-500 mr-4"></i><div><p class="text-slate-500">Total Votes</p><p class="text-3xl font-bold">${allVotes.length}</p></div></div>
+                        <div class="stat-card bg-white p-6 rounded-xl shadow-md transition-all flex items-center"><i data-feather="map-pin" class="w-10 h-10 text-emerald-500 mr-4"></i><div><p class="text-slate-500">Unique Cities</p><p class="text-3xl font-bold">${uniqueCities}</p></div></div>
+                        <div class="stat-card bg-white p-6 rounded-xl shadow-md transition-all flex items-center"><i data-feather="globe" class="w-10 h-10 text-amber-500 mr-4"></i><div><p class="text-slate-500">Countries</p><p class="text-3xl font-bold">${uniqueCountries}</p></div></div>
+                        <div class="stat-card bg-white p-6 rounded-xl shadow-md transition-all flex items-center"><i data-feather="inbox" class="w-10 h-10 text-red-500 mr-4"></i><div><p class="text-slate-500">Unread Messages</p><p class="text-3xl font-bold">${unreadMessages}</p></div></div>
+                    </div>
+                    <!-- Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
+                        <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-md"><h3 class="font-bold mb-4">Votes by City (Top 10)</h3><canvas id="cityChart"></canvas></div>
+                        <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md"><h3 class="font-bold mb-4">Votes by Country</h3><canvas id="countryChart"></canvas></div>
+                    </div>
+                     <!-- Recent Votes -->
+                    <div class="bg-white p-6 rounded-xl shadow-md"><h3 class="font-bold mb-4">Recent Votes</h3>${createVotersTable(allVotes.slice(0, 5))}</div>
+                `;
+
+                // Init Charts
+                charts.cityChart = new Chart(document.getElementById('cityChart'), {
+                    type: 'bar',
+                    data: { labels: sortedCities.map(c => c[0]), datasets: [{ label: 'Votes', data: sortedCities.map(c => c[1]), backgroundColor: '#38bdf8' }] },
+                    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                });
+                charts.countryChart = new Chart(document.getElementById('countryChart'), {
+                    type: 'doughnut',
+                    data: { labels: Object.keys(countryCounts), datasets: [{ data: Object.values(countryCounts), backgroundColor: ['#38bdf8', '#34d399', '#f59e0b', '#ef4444', '#8b5cf6'] }] },
+                    options: { responsive: true }
+                });
+            }
+
+            function renderVoters() {
+                viewContent.innerHTML = `
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <input id="voter-search" type="text" placeholder="Search by name, city, or country..." class="w-full mb-4 p-3 rounded-lg bg-slate-100 border focus:outline-none focus:border-sky-500">
+                        <div id="voters-table-container">${createVotersTable(allVotes)}</div>
+                    </div>
+                `;
+                document.getElementById('voter-search').addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filteredVotes = allVotes.filter(v => 
+                        v.name.toLowerCase().includes(searchTerm) ||
+                        v.city.toLowerCase().includes(searchTerm) ||
+                        (v.geo_city && v.geo_city.toLowerCase().includes(searchTerm)) ||
+                        (v.geo_country_name && v.geo_country_name.toLowerCase().includes(searchTerm))
+                    );
+                    document.getElementById('voters-table-container').innerHTML = createVotersTable(filteredVotes);
+                });
+            }
+            
+            function createVotersTable(data) {
+                if (data.length === 0) return `<p class="text-center text-slate-500 p-8">No voters found.</p>`;
+                const tableHead = `<thead><tr class="text-left text-slate-500"><th class="p-3">Name</th><th class="p-3">Location (IP)</th><th class="p-3">Country</th><th class="p-3">Phone</th><th class="p-3">Date</th></tr></thead>`;
+                const tableBody = data.map(vote => `
+                    <tr class="border-t border-slate-100 hover:bg-slate-50">
+                        <td class="p-3 font-semibold">${vote.name}<br><span class="font-normal text-sm text-slate-500">${vote.city} (declared)</span></td>
+                        <td class="p-3">${vote.geo_city || 'N/A'}, ${vote.geo_region || 'N/A'}<br><span class="font-normal text-sm text-slate-500">${vote.ip}</span></td>
+                        <td class="p-3">${vote.geo_country_code ? `<img src="https://flagcdn.com/w20/${vote.geo_country_code.toLowerCase()}.png" class="inline mr-2 h-4">` : ''} ${vote.geo_country_name || 'N/A'}</td>
+                        <td class="p-3">${vote.phone || 'N/A'}</td>
+                        <td class="p-3 text-sm text-slate-500">${new Date(vote.votedAt.seconds * 1000).toLocaleString()}</td>
+                    </tr>
+                `).join('');
+                return `<div class="overflow-x-auto"><table class="w-full text-sm">${tableHead}<tbody>${tableBody}</tbody></table></div>`;
+            }
+
+            function renderMessages() {
+                 if (allMessages.length === 0) {
+                     viewContent.innerHTML = `<div class="text-center p-12 bg-white rounded-xl"><p class="text-slate-500">You have no messages.</p></div>`;
+                     return;
+                 }
+                viewContent.innerHTML = allMessages.map(msg => `
+                    <div class="bg-white rounded-xl shadow-md mb-4 p-6 border-l-4 ${msg.isRead ? 'border-transparent' : 'border-sky-500'}">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-lg">${msg.name} <span class="text-sm font-normal text-slate-500 ml-2">${msg.contact}</span></p>
+                                <p class="text-xs text-slate-400">${new Date(msg.sentAt.seconds * 1000).toLocaleString()}</p>
+                            </div>
+                            <button data-id="${msg.id}" class="mark-read-btn p-2 rounded-full ${msg.isRead ? 'text-slate-400' : 'text-sky-500 hover:bg-slate-100'}">
+                                <i data-feather="${msg.isRead ? 'check-circle' : 'circle'}"></i>
+                            </button>
+                        </div>
+                        <p class="mt-4 text-slate-700">${msg.message}</p>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.mark-read-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const id = e.currentTarget.dataset.id;
+                        const msg = allMessages.find(m => m.id === id);
+                        const newStatus = !msg.isRead;
+                        await db.collection('messages').doc(id).update({ isRead: newStatus });
+                        msg.isRead = newStatus; // update local state
+                        renderMessages(); // re-render
+                        updateUnreadBadge();
+                    });
+                });
             }
         });
     </script>
 </body>
 </html>
-
