@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="so" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U Codee Abdikareem Ahmed Moge | Hargeisa Wanaagsan</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Manrope:wght@400;500;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* All existing CSS styles remain the same */
+        body { font-family: 'Manrope', sans-serif; background-color: #F8FAFC; color: #1E293B; }
+        h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
+        .btn-primary { background-color: #2563EB; color: white; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .btn-primary:disabled { background-color: #94A3B8; cursor: not-allowed; }
+        .btn-secondary { background-color: #F1F5F9; color: #334155; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; border: 1px solid #E2E8F0; transition: all 0.3s; }
+        .input-field { padding-left: 3.5rem; width: 100%; padding-top: 1rem; padding-bottom: 1rem; border-radius: 0.75rem; border: 1px solid #E2E8F0; }
+        .error-message { color: #EF4444; font-size: 0.875rem; margin-top: 0.5rem; display: none; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+        .reveal-visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header and Hero Sections are unchanged -->
+    <header class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
+        <div class="container mx-auto flex justify-between items-center p-6">
+            <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
+            <nav class="hidden md:flex items-center space-x-10 text-slate-600 font-semibold">
+                <a href="#vote" class="hover:text-blue-600">Codee</a>
+                <a href="#platform" class="hover:text-blue-600">Qorshaha</a>
+                <a href="#contact" class="hover:text-blue-600">La Xidhiidh</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="#vote" class="hidden md:block btn-primary px-6 py-2.5 text-sm">Codee Hadda</a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md"><i data-feather="menu"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+             <a href="#vote" class="block py-3 px-6 hover:bg-slate-100">Codee</a>
+             <a href="#platform" class="block py-3 px-6 hover:bg-slate-100">Qorshaha</a>
+             <a href="#contact" class="block py-3 px-6 hover:bg-slate-100">La Xidhiidh</a>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Hero, Vote Counter, and Voting Sections are unchanged -->
+        <section class="py-24 pb-32">
+            <!-- Hero content here -->
+        </section>
+
+        <section class="py-16 -mt-20">
+            <div class="container mx-auto px-6 reveal">
+                 <div class="bg-white border rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl text-center">
+                    <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Tirinta Codadka Tooska ah</h3>
+                    <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800">0</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vote" class="py-24 p-6">
+             <div class="text-center mb-16 reveal">
+                <h2 class="text-5xl md:text-6xl font-bold">U Codee Maayar Mooge</h2>
+             </div>
+            <div class="container mx-auto max-w-xl">
+                <div id="vote-area" class="reveal">
+                    <!-- Voting Form is unchanged -->
+                </div>
+                <div id="confirmation-message" class="hidden text-center reveal">
+                     <!-- Confirmation message is unchanged -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Platform Section is unchanged -->
+        <section id="platform" class="py-24 p-6 bg-slate-100">
+            <!-- Platform content here -->
+        </section>
+
+        <!-- *** NEW SECTION: CONTACT FORM *** -->
+        <section id="contact" class="py-24 p-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-5xl md:text-6xl font-bold">Farriin u Dir Ololaha</h2>
+                <p class="text-xl text-slate-500 mt-4 max-w-2xl mx-auto">Fikradaada, su'aashaada, ama fariintaada taageerada ah halkan noogu reeb.</p>
+            </div>
+            
+            <div class="container mx-auto max-w-xl">
+                <div id="message-area" class="reveal">
+                    <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-200/80">
+                        <div id="message-form">
+                            <div class="space-y-6">
+                                <div class="relative">
+                                    <input id="msg-name" type="text" placeholder="Magacaaga" class="input-field">
+                                    <i data-feather="user" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                </div>
+                                <div class="relative">
+                                    <input id="msg-contact" type="text" placeholder="Email ama Telefoon" class="input-field">
+                                    <i data-feather="mail" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                </div>
+                                <div class="relative">
+                                    <textarea id="msg-text" placeholder="Fariintaada..." rows="5" class="input-field !p-4 !pl-14"></textarea>
+                                    <i data-feather="message-square" class="absolute left-5 top-7 -translate-y-1/2 text-slate-400"></i>
+                                </div>
+                                <button id="submit-message-btn" class="w-full btn-primary !p-4 text-lg">Dir Fariinta</button>
+                            </div>
+                        </div>
+                         <div id="message-confirmation" class="hidden text-center">
+                            <i data-feather="check-circle" class="w-20 h-20 mx-auto text-emerald-500 mb-6"></i>
+                            <h3 class="text-4xl font-bold font-display mb-4">Waa la diray!</h3>
+                            <p class="text-emerald-800 text-lg">Waad ku mahadsan tahay fariintaada. Waanu kula soo xidhiidhi doonaa haddii loo baahdo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-16 text-center border-t border-slate-200 bg-white">
+        <!-- Footer is unchanged -->
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const firebaseConfig = {
+                apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
+                authDomain: "maayor-mooge.firebaseapp.com",
+                projectId: "maayor-mooge",
+                storageBucket: "maayor-mooge.appspot.com",
+                messagingSenderId: "771226998257",
+                appId: "1:771226998257:web:d8029353f27111f143e050"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            feather.replace();
+
+            // --- VOTE COUNTER (Real-time) ---
+            db.collection("votes").onSnapshot((snapshot) => {
+                document.getElementById('vote-counter').textContent = snapshot.size.toLocaleString('en-US');
+            });
+
+            // --- VOTE SUBMISSION (with IP Geolocation) ---
+            const submitVoteBtn = document.getElementById('submit-vote-btn');
+            submitVoteBtn?.addEventListener('click', async () => {
+                const usernameInput = document.getElementById('voter-username');
+                const cityInput = document.getElementById('voter-city');
+                // Basic validation...
+                if (usernameInput.value.trim().length < 3 || cityInput.value.trim() === '') {
+                    alert("Fadlan buuxi magaca iyo magaalada.");
+                    return;
+                }
+                
+                submitVoteBtn.disabled = true;
+                submitVoteBtn.textContent = 'Waa la dirayaa...';
+
+                try {
+                    // Fetch location data from user's IP
+                    const geoResponse = await fetch('https://ipapi.co/json/');
+                    const geoData = await geoResponse.json();
+
+                    // Save vote AND location data to Firestore
+                    await db.collection("votes").add({
+                        name: usernameInput.value.trim(),
+                        city: cityInput.value.trim(),
+                        phone: document.getElementById('voter-phone').value.trim(),
+                        votedAt: new Date(),
+                        ip: geoData.ip,
+                        geo_city: geoData.city,
+                        geo_region: geoData.region,
+                        geo_country_name: geoData.country_name,
+                        geo_country_code: geoData.country_code
+                    });
+
+                    localStorage.setItem('hasVotedMoge', 'true');
+                    document.getElementById('vote-area').classList.add('hidden');
+                    document.getElementById('confirmation-message').classList.remove('hidden');
+
+                } catch (error) {
+                    console.error("Error submitting vote: ", error);
+                    alert("Cilad baa dhacday. Fadlan isku day mar kale.");
+                    submitVoteBtn.disabled = false;
+                    submitVoteBtn.textContent = 'Xaqiiji Codkayga';
+                }
+            });
+
+            // --- MESSAGE SUBMISSION ---
+            const submitMessageBtn = document.getElementById('submit-message-btn');
+            submitMessageBtn?.addEventListener('click', async () => {
+                const name = document.getElementById('msg-name').value.trim();
+                const contact = document.getElementById('msg-contact').value.trim();
+                const message = document.getElementById('msg-text').value.trim();
+                if (!name || !contact || !message) {
+                    alert("Fadlan buuxi dhammaan qaybaha fariinta.");
+                    return;
+                }
+                submitMessageBtn.disabled = true;
+                submitMessageBtn.textContent = 'Waa la dirayaa...';
+                
+                try {
+                    await db.collection("messages").add({
+                        name,
+                        contact,
+                        message,
+                        sentAt: new Date(),
+                        isRead: false
+                    });
+                    document.getElementById('message-form').classList.add('hidden');
+                    document.getElementById('message-confirmation').classList.remove('hidden');
+                } catch (error) {
+                    console.error("Error sending message:", error);
+                    alert("Cilad ayaa dhacday, fadlan isku day mar kale.");
+                    submitMessageBtn.disabled = false;
+                    submitMessageBtn.textContent = 'Dir Fariinta';
+                }
+            });
+            
+            if (localStorage.getItem('hasVotedMoge') === 'true') {
+                document.getElementById('vote-area').classList.add('hidden');
+                document.getElementById('confirmation-message').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+
