@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
         body { font-family: 'Manrope', sans-serif; background-color: #f0f2f5; }
@@ -65,10 +69,13 @@
     <div id="dashboard" class="hidden flex h-screen bg-gray-100">
         <!-- Sidebar -->
         <aside class="sidebar w-64 bg-white shadow-md flex flex-col">
-            <div class="p-6 text-2xl font-bold text-slate-800 border-b">A. A. Moge</div>
+            <div class="p-6 text-2xl font-bold text-slate-800 border-b">Admin</div>
             <nav class="flex-1 p-4 space-y-2">
                 <a href="#" class="sidebar-link active flex items-center gap-3 py-2 px-4 rounded-lg" data-view="overview">
                     <i data-feather="home" class="w-5 h-5"></i><span>Overview</span>
+                </a>
+                 <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="reports">
+                    <i data-feather="bar-chart-2" class="w-5 h-5"></i><span>Reports</span>
                 </a>
                 <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="voters">
                     <i data-feather="users" class="w-5 h-5"></i><span>Voters List</span>
@@ -106,14 +113,12 @@
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
                 <!-- Overview View -->
                 <div id="overview-view" class="view-content">
-                    <!-- Stats Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Votes</p><p id="total-votes" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Cities</p><p id="unique-cities" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Countries</p><p id="unique-countries" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Messages</p><p id="total-messages" class="text-3xl font-bold mt-1">0</p></div>
                     </div>
-                    <!-- Charts Grid -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="chart-container lg:col-span-2"><div id="votes-over-time-chart"></div></div>
                         <div class="chart-container"><div id="top-countries-chart"></div></div>
@@ -121,8 +126,34 @@
                     </div>
                 </div>
 
+                <!-- Reports View -->
+                <div id="reports-view" class="view-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">Detailed Reports</h2>
+                        <button id="download-pdf-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors">
+                            <i data-feather="download" class="w-5 h-5"></i>
+                            <span>Download PDF</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="chart-container"><div id="votes-vs-messages-chart"></div></div>
+                        <div class="chart-container"><div id="top-countries-report-chart"></div></div>
+                        <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
+                           <h3 class="text-lg font-semibold mb-4">Top Cities by Voters</h3>
+                           <ul id="top-cities-list" class="space-y-3"></ul>
+                           <button id="load-more-cities" class="mt-4 text-sm font-semibold text-blue-600 hover:underline hidden">Load More</button>
+                        </div>
+                      </div>
+                </div>
+
                 <!-- Voters View -->
                 <div id="voters-view" class="view-content hidden">
+                     <div class="mb-6">
+                        <div class="stat-card p-5 inline-block">
+                            <p class="text-sm text-slate-500">Total Filtered Voters</p>
+                            <p id="voters-view-total" class="text-3xl font-bold mt-1">0</p>
+                        </div>
+                    </div>
                     <div class="bg-white rounded-lg shadow-md">
                         <div class="p-4 flex justify-between items-center border-b">
                             <h2 class="text-lg font-semibold">All Voters</h2>
@@ -164,11 +195,15 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             feather.replace();
             
-            // --- FIREBASE SETUP (IMPORTANT: Secure this in a real app) ---
+            // --- FIREBASE SETUP ---
             const firebaseConfig = {
                 apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
                 authDomain: "maayor-mooge.firebaseapp.com",
@@ -216,174 +251,163 @@
 
             // --- DASHBOARD INITIALIZATION ---
             function initializeDashboard() {
-                let allVotes = [], allMessages = [];
-                let dateRange = { start: null, end: null };
-                let votersCurrentPage = 1;
-                const votersPerPage = 10;
+                // State management
+                const state = {
+                    allVotes: [], allMessages: [], filteredVotes: [],
+                    dateRange: { start: null, end: null }, searchTerm: '',
+                    votersCurrentPage: 1, votersPerPage: 10, topCitiesOffset: 5
+                };
                 
                 // CHART SETUP
                 const chartOptions = (moreOptions = {}) => ({
                     chart: { fontFamily: 'Manrope, sans-serif', toolbar: { show: false } },
                     grid: { show: true, borderColor: '#e2e8f0', strokeDashArray: 4 },
-                    dataLabels: { enabled: false },
-                    ...moreOptions
+                    dataLabels: { enabled: false }, ...moreOptions
                 });
                 
-                const votesOverTimeChart = new ApexCharts(document.querySelector("#votes-over-time-chart"), chartOptions({
-                    series: [{ name: 'Votes', data: [] }], chart: { type: 'area', height: 350 },
-                    xaxis: { type: 'datetime', labels: { style: { colors: '#64748b' } } },
-                    yaxis: { labels: { style: { colors: '#64748b' } } },
-                    tooltip: { x: { format: 'dd MMM yyyy' } }
-                }));
-                votesOverTimeChart.render();
+                const votesOverTimeChart = new ApexCharts(document.querySelector("#votes-over-time-chart"), chartOptions({ series: [], chart: { type: 'area', height: 350 }, xaxis: { type: 'datetime' }, noData: { text: 'Loading...' } }));
+                const topCountriesChart = new ApexCharts(document.querySelector("#top-countries-chart"), chartOptions({ series: [], chart: { type: 'donut', height: 350 }, labels: [], legend: { position: 'bottom' }, noData: { text: 'Loading...' } }));
+                const topCitiesChart = new ApexCharts(document.querySelector("#top-cities-chart"), chartOptions({ series: [], chart: { type: 'bar', height: 350 }, plotOptions: { bar: { horizontal: true } }, noData: { text: 'Loading...' } }));
+                const votesVsMessagesChart = new ApexCharts(document.querySelector("#votes-vs-messages-chart"), chartOptions({ series: [], chart: { type: 'line', height: 350 }, xaxis: { type: 'datetime' }, stroke: { curve: 'smooth' }, noData: { text: 'Loading...' } }));
+                const topCountriesReportChart = new ApexCharts(document.querySelector("#top-countries-report-chart"), chartOptions({ series: [], chart: { type: 'bar', height: 350 }, plotOptions: { bar: { borderRadius: 4, horizontal: true } }, noData: { text: 'Loading...' } }));
                 
-                const topCountriesChart = new ApexCharts(document.querySelector("#top-countries-chart"), chartOptions({
-                    series: [], chart: { type: 'donut', height: 350 },
-                    labels: [], legend: { position: 'bottom' }
-                }));
-                topCountriesChart.render();
-                
-                const topCitiesChart = new ApexCharts(document.querySelector("#top-cities-chart"), chartOptions({
-                    series: [{ name: 'Votes', data: [] }], chart: { type: 'bar', height: 350 },
-                    xaxis: { categories: [], labels: { style: { colors: '#64748b' } } },
-                    yaxis: { labels: { style: { colors: '#64748b' } } },
-                    plotOptions: { bar: { horizontal: true } }
-                }));
-                topCitiesChart.render();
+                votesOverTimeChart.render(); topCountriesChart.render(); topCitiesChart.render();
+                votesVsMessagesChart.render(); topCountriesReportChart.render();
 
-                // DATA PROCESSING & RENDERING
-                const processAndRenderData = () => {
-                    let filteredVotes = dateRange.start ? allVotes.filter(v => {
-                        const voteDate = v.votedAt.toDate();
-                        return voteDate >= dateRange.start && voteDate <= dateRange.end;
-                    }) : allVotes;
-
-                    // Update stats
-                    const citySet = new Set(filteredVotes.map(v => v.city?.trim().toLowerCase()));
-                    const countrySet = new Set(filteredVotes.map(v => v.country?.trim().toLowerCase()));
-                    document.getElementById('total-votes').textContent = filteredVotes.length;
-                    document.getElementById('unique-cities').textContent = citySet.size;
-                    document.getElementById('unique-countries').textContent = countrySet.size;
-                    
-                    // Update charts
-                    updateVotesOverTimeChart(filteredVotes);
-                    updateTopCountriesChart(filteredVotes);
-                    updateTopCitiesChart(filteredVotes);
-                    
-                    // Update tables
-                    renderVotersTable(filteredVotes);
+                // MAIN RENDER FUNCTION
+                const render = () => {
+                    const dateFiltered = state.dateRange.start ? state.allVotes.filter(v => v.votedAt?.toDate() >= state.dateRange.start && v.votedAt?.toDate() <= state.dateRange.end) : state.allVotes;
+                    state.filteredVotes = state.searchTerm ? dateFiltered.filter(v => ['name', 'city', 'country'].some(key => v[key]?.toLowerCase().includes(state.searchTerm))) : dateFiltered;
+                    renderStats(); renderCharts(); renderVotersTable(); renderReportCharts();
                 };
 
-                const updateVotesOverTimeChart = (data) => {
-                    const dailyVotes = data.reduce((acc, vote) => {
-                        const date = vote.votedAt.toDate().toISOString().split('T')[0];
+                // UI RENDER FUNCTIONS
+                const renderStats = () => {
+                    const votes = state.filteredVotes;
+                    document.getElementById('total-votes').textContent = votes.length.toLocaleString();
+                    document.getElementById('unique-cities').textContent = new Set(votes.map(v => v.city?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
+                    document.getElementById('unique-countries').textContent = new Set(votes.map(v => v.country?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
+                };
+                
+                const renderCharts = () => {
+                    const votes = state.filteredVotes;
+                    const dailyData = votes.reduce((acc, { votedAt }) => {
+                        if (!votedAt?.toDate) return acc;
+                        const date = votedAt.toDate().toISOString().split('T')[0];
                         acc[date] = (acc[date] || 0) + 1;
                         return acc;
                     }, {});
-                    const seriesData = Object.keys(dailyVotes).sort().map(date => [new Date(date).getTime(), dailyVotes[date]]);
-                    votesOverTimeChart.updateSeries([{ data: seriesData }]);
+                    votesOverTimeChart.updateSeries([{ name: 'Votes', data: Object.entries(dailyData).sort().map(([date, count]) => [new Date(date).getTime(), count]) }]);
+                    
+                    const countryCounts = votes.reduce((acc, { country }) => { acc[country || 'Unknown'] = (acc[country || 'Unknown'] || 0) + 1; return acc; }, {});
+                    const sortedCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+                    topCountriesChart.updateOptions({ series: sortedCountries.map(c => c[1]), labels: sortedCountries.map(c => c[0]) });
+
+                    const cityCounts = votes.reduce((acc, { city }) => { acc[city || 'Unknown'] = (acc[city || 'Unknown'] || 0) + 1; return acc; }, {});
+                    const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).reverse();
+                    topCitiesChart.updateSeries([{ name: 'Votes', data: sortedCities.map(c => c[1]) }]);
+                    topCitiesChart.updateOptions({ xaxis: { categories: sortedCities.map(c => c[0]) } });
                 };
 
-                const updateTopCountriesChart = (data) => {
-                    const countryCounts = data.reduce((acc, { country }) => {
-                        if (country) acc[country] = (acc[country] || 0) + 1;
-                        return acc;
-                    }, {});
-                    const sorted = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-                    topCountriesChart.updateOptions({ series: sorted.map(c => c[1]), labels: sorted.map(c => c[0]) });
+                const renderReportCharts = () => {
+                    const votes = state.filteredVotes;
+                    const messages = state.allMessages.filter(m => state.dateRange.start ? m.sentAt?.toDate() >= state.dateRange.start && m.sentAt?.toDate() <= state.dateRange.end : true);
+                    
+                    const dailyVotes = votes.reduce((acc, { votedAt }) => { if(votedAt?.toDate) { const d = votedAt.toDate().toISOString().split('T')[0]; acc[d] = (acc[d] || 0) + 1; } return acc; }, {});
+                    const dailyMessages = messages.reduce((acc, { sentAt }) => { if(sentAt?.toDate) { const d = sentAt.toDate().toISOString().split('T')[0]; acc[d] = (acc[d] || 0) + 1; } return acc; }, {});
+                    const allDates = [...new Set([...Object.keys(dailyVotes), ...Object.keys(dailyMessages)])].sort();
+                    
+                    votesVsMessagesChart.updateSeries([
+                        { name: 'Votes', data: allDates.map(d => [new Date(d).getTime(), dailyVotes[d] || 0]) },
+                        { name: 'Messages', data: allDates.map(d => [new Date(d).getTime(), dailyMessages[d] || 0]) }
+                    ]);
+
+                    const countryCounts = votes.reduce((acc, { country }) => { acc[country || 'Unknown'] = (acc[country || 'Unknown'] || 0) + 1; return acc; }, {});
+                    const sortedCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).reverse();
+                    topCountriesReportChart.updateSeries([{ name: 'Voters', data: sortedCountries.map(c => c[1]) }]);
+                    topCountriesReportChart.updateOptions({ xaxis: { categories: sortedCountries.map(c => c[0]) } });
+
+                    renderTopCitiesList(true);
+                };
+
+                const renderTopCitiesList = (initial = false) => {
+                    if (initial) state.topCitiesOffset = 5;
+                    const cityCounts = state.filteredVotes.reduce((acc, { city }) => { acc[city || 'Unknown'] = (acc[city || 'Unknown'] || 0) + 1; return acc; }, {});
+                    const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]);
+                    const citiesToShow = sortedCities.slice(0, state.topCitiesOffset);
+                    
+                    document.getElementById('top-cities-list').innerHTML = citiesToShow.map(([city, count]) => `
+                        <li class="flex justify-between items-center py-2 border-b border-gray-100">
+                            <span class="font-semibold text-slate-700">${city}</span>
+                            <span class="text-slate-500">${count.toLocaleString()} voters</span>
+                        </li>`).join('');
+                    
+                    const loadMoreBtn = document.getElementById('load-more-cities');
+                    if (sortedCities.length > state.topCitiesOffset) loadMoreBtn.classList.remove('hidden');
+                    else loadMoreBtn.classList.add('hidden');
                 };
                 
-                const updateTopCitiesChart = (data) => {
-                    const cityCounts = data.reduce((acc, { city }) => {
-                        if (city) acc[city] = (acc[city] || 0) + 1;
-                        return acc;
-                    }, {});
-                    const sorted = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
-                    topCitiesChart.updateSeries([{ data: sorted.map(c => c[1]) }]);
-                    topCitiesChart.updateOptions({ xaxis: { categories: sorted.map(c => c[0]) } });
-                };
-                
-                const renderVotersTable = (data) => {
-                    const paginatedData = data.slice((votersCurrentPage - 1) * votersPerPage, votersCurrentPage * votersPerPage);
+                const renderVotersTable = () => {
+                    const data = state.filteredVotes, page = state.votersCurrentPage, perPage = state.votersPerPage;
+                    const paginatedData = data.slice((page - 1) * perPage, page * perPage);
                     const tableBody = document.getElementById('voters-table-body');
-                    tableBody.innerHTML = paginatedData.map(v => `
-                        <tr class="border-b">
-                            <td class="p-3 font-semibold">${v.name}</td><td class="p-3">${v.city}</td>
-                            <td class="p-3">${v.country}</td><td class="p-3">${v.votedAt.toDate().toLocaleDateString()}</td>
-                        </tr>`).join('');
+                    
+                    document.getElementById('voters-view-total').textContent = data.length.toLocaleString();
+                    tableBody.innerHTML = data.length === 0 ? `<tr><td colspan="4" class="text-center p-8">No voters found.</td></tr>` : paginatedData.map(v => `
+                        <tr class="border-b"><td class="p-3 font-semibold">${v.name || 'N/A'}</td><td class="p-3">${v.city || 'N/A'}</td>
+                        <td class="p-3">${v.country || 'N/A'}</td><td class="p-3">${v.votedAt?.toDate().toLocaleDateString() || 'N/A'}</td></tr>`).join('');
 
-                    document.getElementById('pagination-info').textContent = `Showing ${paginatedData.length > 0 ? (votersCurrentPage - 1) * votersPerPage + 1 : 0}-${(votersCurrentPage - 1) * votersPerPage + paginatedData.length} of ${data.length}`;
-                    document.getElementById('prev-page').disabled = votersCurrentPage === 1;
-                    document.getElementById('next-page').disabled = votersCurrentPage * votersPerPage >= data.length;
+                    document.getElementById('pagination-info').textContent = `Showing ${paginatedData.length > 0 ? (page - 1) * perPage + 1 : 0}-${(page - 1) * perPage + paginatedData.length} of ${data.length}`;
+                    document.getElementById('prev-page').disabled = page === 1;
+                    document.getElementById('next-page').disabled = page * perPage >= data.length;
                 };
 
                 // FIREBASE LISTENERS
-                db.collection('votes').orderBy('votedAt', 'desc').onSnapshot(snapshot => {
-                    allVotes = snapshot.docs.map(doc => doc.data());
-                    processAndRenderData();
-                });
-                
-                db.collection('messages').orderBy('sentAt', 'desc').onSnapshot(snapshot => {
-                    allMessages = snapshot.docs.map(doc => doc.data());
-                    document.getElementById('total-messages').textContent = allMessages.length;
-                    document.getElementById('messages-table-body').innerHTML = allMessages.map(m => `
-                        <tr class="border-b">
-                            <td class="p-3 font-semibold">${m.name}</td><td class="p-3">${m.email}</td>
-                            <td class="p-3 max-w-sm truncate" title="${m.message}">${m.message}</td>
-                            <td class="p-3">${m.sentAt.toDate().toLocaleDateString()}</td>
-                        </tr>`).join('');
-                });
+                db.collection('votes').orderBy('votedAt', 'desc').onSnapshot(snap => { state.allVotes = snap.docs.map(d => d.data()); render(); }, err => console.error(err));
+                db.collection('messages').orderBy('sentAt', 'desc').onSnapshot(snap => { state.allMessages = snap.docs.map(d => d.data()); document.getElementById('total-messages').textContent = snap.size.toLocaleString(); renderReportCharts(); }, err => console.error(err));
                 
                 // EVENT LISTENERS
-                const datePicker = flatpickr("#date-filter", {
-                    mode: "range",
-                    dateFormat: "Y-m-d",
-                    onChange: (selectedDates) => {
-                        if (selectedDates.length === 2) {
-                            dateRange.start = selectedDates[0];
-                            dateRange.end = new Date(selectedDates[1].setHours(23, 59, 59, 999)); // End of day
-                            processAndRenderData();
-                        }
-                    }
-                });
+                const datePicker = flatpickr("#date-filter", { mode: "range", onChange: (dates) => {
+                    state.dateRange = dates.length === 2 ? { start: dates[0], end: new Date(dates[1].setHours(23, 59, 59, 999)) } : { start: null, end: null };
+                    state.votersCurrentPage = 1; render();
+                }});
 
-                document.querySelectorAll('.date-preset-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const range = btn.dataset.range;
-                        const end = new Date();
-                        const start = new Date();
-                        if (range === 'today') start.setHours(0, 0, 0, 0);
-                        if (range === '7d') start.setDate(start.getDate() - 6);
-                        if (range === '30d') start.setDate(start.getDate() - 29);
-                        datePicker.setDate([start, end]);
-                    });
-                });
+                document.querySelectorAll('.date-preset-btn').forEach(btn => btn.addEventListener('click', () => {
+                    const end = new Date(), start = new Date();
+                    if (btn.dataset.range === 'today') start.setHours(0,0,0,0);
+                    else if (btn.dataset.range === '7d') start.setDate(start.getDate() - 6);
+                    else if (btn.dataset.range === '30d') start.setDate(start.getDate() - 29);
+                    if (btn.dataset.range !== 'today') start.setHours(0,0,0,0);
+                    datePicker.setDate([start, end], true);
+                }));
 
-                document.querySelectorAll('.sidebar-link').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        if (link.id === 'logout-btn') return;
-                        const view = link.dataset.view;
-                        document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-                        link.classList.add('active');
-                        document.querySelectorAll('.view-content').forEach(v => v.classList.add('hidden'));
-                        document.getElementById(`${view}-view`).classList.remove('hidden');
-                        document.getElementById('view-title').textContent = `${view.charAt(0).toUpperCase() + view.slice(1)} Analytics`;
-                    });
-                });
+                document.querySelectorAll('.sidebar-link').forEach(link => link.addEventListener('click', (e) => {
+                    e.preventDefault(); if (link.id === 'logout-btn') return;
+                    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    const view = link.dataset.view;
+                    document.querySelectorAll('.view-content').forEach(v => v.classList.add('hidden'));
+                    document.getElementById(`${view}-view`).classList.remove('hidden');
+                    document.getElementById('view-title').textContent = `${view.charAt(0).toUpperCase() + view.slice(1)} View`;
+                }));
                 
-                document.getElementById('prev-page').addEventListener('click', () => { if (votersCurrentPage > 1) { votersCurrentPage--; processAndRenderData(); } });
-                document.getElementById('next-page').addEventListener('click', () => { if (votersCurrentPage * votersPerPage < allVotes.length) { votersCurrentPage++; processAndRenderData(); } });
-
-                 document.getElementById('search-voters').addEventListener('input', (e) => {
-                    const term = e.target.value.toLowerCase();
-                    const filtered = allVotes.filter(v => 
-                        v.name?.toLowerCase().includes(term) ||
-                        v.city?.toLowerCase().includes(term) ||
-                        v.country?.toLowerCase().includes(term)
-                    );
-                    votersCurrentPage = 1; // Reset to first page
-                    renderVotersTable(filtered);
+                document.getElementById('prev-page').addEventListener('click', () => { if (state.votersCurrentPage > 1) { state.votersCurrentPage--; renderVotersTable(); } });
+                document.getElementById('next-page').addEventListener('click', () => { if (state.votersCurrentPage * state.votersPerPage < state.filteredVotes.length) { state.votersCurrentPage++; renderVotersTable(); } });
+                document.getElementById('search-voters').addEventListener('input', e => { state.searchTerm = e.target.value.toLowerCase(); state.votersCurrentPage = 1; render(); });
+                document.getElementById('load-more-cities').addEventListener('click', () => { state.topCitiesOffset += 5; renderTopCitiesList(); });
+                
+                document.getElementById('download-pdf-btn').addEventListener('click', () => {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    doc.text("Voters Report", 14, 16);
+                    doc.setFontSize(10);
+                    doc.text(`Date Range: ${state.dateRange.start ? state.dateRange.start.toLocaleDateString() : 'All Time'} - ${state.dateRange.end ? state.dateRange.end.toLocaleDateString() : 'Now'}`, 14, 22);
+                    doc.autoTable({
+                        startY: 30,
+                        head: [['Name', 'City', 'Country', 'Date']],
+                        body: state.filteredVotes.map(v => [v.name, v.city, v.country, v.votedAt?.toDate().toLocaleDateString()]),
+                    });
+                    doc.save(`voters-report-${new Date().toISOString().split('T')[0]}.pdf`);
                 });
             }
         });
