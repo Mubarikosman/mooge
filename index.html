@@ -14,102 +14,210 @@
     <script src="https://unpkg.com/feather-icons"></script>
 
     <style>
-        /* Your existing CSS styles remain unchanged... */
+        /* --- Original CSS --- */
         body {
             font-family: 'Manrope', sans-serif;
-            background-color: #F8FAFC;
-            color: #1E293B;
+            background-color: #F8FAFC; /* slate-50 */
+            color: #1E293B; /* slate-800 */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
+        
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
         .btn-primary {
-            background-color: #2563EB; color: white; font-weight: 700;
-            padding: 0.75rem 1.5rem; border-radius: 0.75rem; cursor: pointer;
+            background-color: #2563EB; /* blue-600 */
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            position: relative; overflow: hidden; z-index: 1;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
         .btn-primary:before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #1D4ED8; transform: scaleX(0); transform-origin: right;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1D4ED8; /* blue-700 */
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
         }
-        .btn-primary:hover:before { transform: scaleX(1); transform-origin: left; }
+        .btn-primary:hover:before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         .btn-primary:disabled {
-            background-color: #94A3B8; cursor: not-allowed; box-shadow: none; transform: none;
+            background-color: #94A3B8; /* slate-400 */
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
         }
-        .btn-primary:disabled:before { transform: scaleX(0); }
+        .btn-primary:disabled:before {
+            transform: scaleX(0);
+        }
+        
         .btn-secondary {
-            background-color: #F1F5F9; color: #334155; font-weight: 700;
-            padding: 0.75rem 1.5rem; border-radius: 0.75rem; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #E2E8F0;
+            background-color: #F1F5F9; /* slate-100 */
+            color: #334155; /* slate-700 */
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #E2E8F0; /* slate-200 */
         }
         .btn-secondary:hover {
-            background-color: #E2E8F0; transform: translateY(-2px);
+            background-color: #E2E8F0; /* slate-200 */
+            transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
-        .input-group { position: relative; }
+        .input-group {
+            position: relative;
+        }
         .input-group i {
-            position: absolute; left: 1.25rem; top: 50%;
-            transform: translateY(-50%); color: #94A3B8; transition: color 0.2s ease;
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94A3B8; /* slate-400 */
+            transition: color 0.2s ease;
         }
         .input-field {
-            padding-left: 3.5rem; width: 100%; padding-top: 1rem; padding-bottom: 1rem;
-            border-radius: 0.75rem; border: 1px solid #E2E8F0; background-color: #FFFFFF;
-            transition: all 0.2s ease; font-weight: 500;
+            padding-left: 3.5rem;
+            width: 100%;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 1px solid #E2E8F0; /* slate-200 */
+            background-color: #FFFFFF;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
         .input-field:focus {
-            outline: none; border-color: #3B82F6;
+            outline: none;
+            border-color: #3B82F6; /* blue-500 */
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
         }
-        .input-field:focus + i { color: #2563EB; }
-        .input-field::placeholder { color: #94A3B8; }
+        .input-field:focus + i {
+            color: #2563EB; /* blue-600 */
+        }
+        .input-field::placeholder {
+            color: #94A3B8; /* slate-400 */
+        }
         .error-message {
-            color: #EF4444; font-size: 0.875rem; margin-top: 0.5rem;
-            display: none; font-weight: 500;
+            color: #EF4444; /* red-500 */
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+            font-weight: 500;
         }
         .reveal {
-            opacity: 0; transform: translateY(40px);
+            opacity: 0;
+            transform: translateY(40px);
             transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .reveal-visible { opacity: 1; transform: translateY(0); }
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         #vote-counter {
-            font-family: 'Poppins', sans-serif; transition: transform 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+            transition: transform 0.2s ease;
         }
-        .vote-count-number {
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
-            display: inline-block;
+        .hero-gradient {
+            background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
         }
-        .vote-count-number.updated {
-            transform: translateY(-15px) scale(1.2); color: #10B981;
+       
+        /* === NEW STYLES FOR ADVANCED CAROUSEL === */
+        .tab-btn {
+            background-color: #F1F5F9; /* slate-100 */
+            color: #334155; /* slate-700 */
+            font-weight: 600; /* Made slightly less bold for modern feel */
+            border: 1px solid #E2E8F0; /* slate-200 */
         }
-        .hero-gradient { background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%); }
-        .social-share-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 1rem;
+        .tab-btn.active {
+            background-color: #2563EB; /* blue-600 */
+            color: white;
+            border-color: #2563EB;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
         }
-        .social-share-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 0.75rem; border-radius: 0.75rem; background-color: #f8fafc;
-            border: 1px solid #e2e8f0; text-decoration: none; transition: all 0.2s ease-in-out;
+        
+        .carousel {
+            position: relative;
         }
-        .social-share-item:hover {
-            background-color: #f1f5f9; transform: translateY(-2px); border-color: #cbd5e1;
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            visibility: hidden;
+        }
+        .carousel-item.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Ken Burns Effect */
+        @keyframes kenburns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(-1%, 1%); }
+        }
+        .carousel-item.active img {
+            animation: kenburns 12s ease-out forwards;
+        }
+
+        .carousel-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dots .dot.active {
+            background-color: white;
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+        
+        .carousel:hover .prev,
+        .carousel:hover .next {
+            opacity: 1;
         }
     </style>
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- Your existing HTML content remains unchanged -->
     <header class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
         <div class="container mx-auto flex justify-between items-center p-6">
             <h4 class="text-2xl font-bold font-display text-slate-800">A. A. Moge</h4>
             <nav class="hidden md:flex items-center space-x-10 text-slate-600 font-semibold">
                 <a href="#vote" class="hover:text-blue-600 transition-colors duration-200">Codee</a>
+                <a href="#achievements" class="hover:text-blue-600 transition-colors duration-200">Waxqabad</a>
                 <a href="#platform" class="hover:text-blue-600 transition-colors duration-200">Qorshaha</a>
                 <a href="#about" class="hover:text-blue-600 transition-colors duration-200">Nagu Saabsan</a>
             </nav>
@@ -123,6 +231,7 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
              <a href="#vote" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Codee</a>
+             <a href="#achievements" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Waxqabad</a>
              <a href="#platform" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Qorshaha</a>
              <a href="#about" class="block py-3 px-6 text-slate-700 font-semibold hover:bg-slate-100">Nagu Saabsan</a>
         </div>
@@ -158,9 +267,7 @@
             <div class="container mx-auto px-6 reveal">
                  <div class="bg-white border border-slate-200/80 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl shadow-slate-200/50 text-center">
                     <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Tirinta Codadka Tooska ah</h3>
-                    <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800 tracking-tighter">
-                        0
-                    </div>
+                    <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800 tracking-tighter">0</div>
                     <p class="text-slate-500 mt-4">Codadka ka yimid magaaladeena iyo meelaha kale.</p>
                 </div>
             </div>
@@ -209,49 +316,231 @@
                 </div>
             </div>
         </section>
+
+        <!-- === REDESIGNED WAXQABADKII HORE SECTION === -->
+        <section id="achievements" class="py-24 bg-white reveal">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl md:text-6xl font-bold">Guulihii Waxqabad ee la Taaban Karay</h2>
+                    <p class="text-xl text-slate-500 mt-4 max-w-2xl mx-auto">Waxaan ku faanaynaa horumarka aan ka samaynay kaabayaasha dhaqaalaha, waxbarashada, iyo bilicda magaaladeena.</p>
+                </div>
+        
+                <!-- Tabs -->
+                <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
+                    <button class="tab-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 active" data-tab="roads">Wadooyin</button>
+                    <button class="tab-btn px-4 py-2 text-sm rounded-lg transition-all duration-300" data-tab="schools">Dugsiyo</button>
+                    <button class="tab-btn px-4 py-2 text-sm rounded-lg transition-all duration-300" data-tab="buildings">Dhismayaal</button>
+                    <button class="tab-btn px-4 py-2 text-sm rounded-lg transition-all duration-300" data-tab="water">Biyo & Koronto</button>
+                    <button class="tab-btn px-4 py-2 text-sm rounded-lg transition-all duration-300" data-tab="beauty">Bilicda & Nabadgelyada</button>
+                </div>
+        
+                <!-- Tab Content -->
+                <div id="tab-contents" class="max-w-4xl mx-auto">
+                    <div id="roads" class="tab-content">
+                        <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold font-display">50+ Wadooyin Laami ah</h3>
+                            <p class="text-slate-500 mt-1">Isku xidhka xaafadaha iyo fududaynta isku socodka.</p>
+                        </div>
+                        <div class="carousel aspect-video relative overflow-hidden rounded-2xl shadow-2xl shadow-slate-300/50 group">
+                            <div class="carousel-track h-full">
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1542223616-740d5dff7f26?q=80&w=1470" alt="Road 1"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1599951648483-4712b8bd322d?q=80&w=1470" alt="Road 2"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1517436034005-2d9263721343?q=80&w=1384" alt="Road 3"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1519683994689-e0839a99738c?q=80&w=1470" alt="Road 4"></div>
+                            </div>
+                            <button class="prev absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-left" class="w-5 h-5"></i></button>
+                            <button class="next absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-right" class="w-5 h-5"></i></button>
+                            <div class="carousel-dots absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"></div>
+                        </div>
+                    </div>
+        
+                    <div id="schools" class="tab-content hidden">
+                        <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold font-display">15 Dugsiyo Cusub & Dayactir</h3>
+                            <p class="text-slate-500 mt-1">Maalgelinta mustaqbalka caruurteena.</p>
+                        </div>
+                        <div class="carousel aspect-video relative overflow-hidden rounded-2xl shadow-2xl shadow-slate-300/50 group">
+                            <div class="carousel-track h-full">
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1632" alt="School 1"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?q=80&w=1548" alt="School 2"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1607590638312-89f8b414583b?q=80&w=1470" alt="School 3"></div>
+                            </div>
+                            <button class="prev absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-left" class="w-5 h-5"></i></button>
+                            <button class="next absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-right" class="w-5 h-5"></i></button>
+                            <div class="carousel-dots absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"></div>
+                        </div>
+                    </div>
+        
+                    <div id="buildings" class="tab-content hidden">
+                         <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold font-display">Xarumo Bulsho oo Casri ah</h3>
+                            <p class="text-slate-500 mt-1">Goobo loogu talagalay horumarinta iyo is-dhexgalka bulshada.</p>
+                        </div>
+                        <div class="carousel aspect-video relative overflow-hidden rounded-2xl shadow-2xl shadow-slate-300/50 group">
+                            <div class="carousel-track h-full">
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb4e3f?q=80&w=1470" alt="Building 1"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1470" alt="Building 2"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1470" alt="Building 3"></div>
+                            </div>
+                            <button class="prev absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-left" class="w-5 h-5"></i></button>
+                            <button class="next absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-right" class="w-5 h-5"></i></button>
+                            <div class="carousel-dots absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="water" class="tab-content hidden">
+                         <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold font-display">Biyo & Koronto La Gaarsiiyay Xaafado Badan</h3>
+                            <p class="text-slate-500 mt-1">Kor u qaadida helitaanka adeegyada aasaasiga ah ee nolosha.</p>
+                        </div>
+                        <div class="carousel aspect-video relative overflow-hidden rounded-2xl shadow-2xl shadow-slate-300/50 group">
+                            <div class="carousel-track h-full">
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1598214886232-0991893c4955?q=80&w=1470" alt="Water Well"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1474667648220-e62bab3537a8?q=80&w=1470" alt="Street Lights"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1509390234729-2e3b5a45741f?q=80&w=1470" alt="Solar Energy"></div>
+                            </div>
+                            <button class="prev absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-left" class="w-5 h-5"></i></button>
+                            <button class="next absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-right" class="w-5 h-5"></i></button>
+                            <div class="carousel-dots absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"></div>
+                        </div>
+                    </div>
+        
+                    <div id="beauty" class="tab-content hidden">
+                         <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold font-display">Nadaafadda & Bilicda Caasimadda</h3>
+                            <p class="text-slate-500 mt-1">Ka dhigista Hargeisa mid soo jiidasho leh, nadiif ah, oo nabdoon.</p>
+                        </div>
+                         <div class="carousel aspect-video relative overflow-hidden rounded-2xl shadow-2xl shadow-slate-300/50 group">
+                            <div class="carousel-track h-full">
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1617823909434-2c353d96af66?q=80&w=1470" alt="City Park"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1604335399102-a1b3293e7e0c?q=80&w=1470" alt="Clean Streets"></div>
+                                <div class="carousel-item"><img src="https://images.unsplash.com/photo-1549921297-c290a3c22c07?q=80&w=1470" alt="City Beauty"></div>
+                            </div>
+                            <button class="prev absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-left" class="w-5 h-5"></i></button>
+                            <button class="next absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/70 hover:bg-white text-slate-800 rounded-full p-2.5 shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100"><i data-feather="chevron-right" class="w-5 h-5"></i></button>
+                            <div class="carousel-dots absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- === END OF REDESIGNED SECTION === -->
         
         <section id="platform" class="py-24 p-6 bg-slate-100">
-            <!-- This section is unchanged -->
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-5xl md:text-6xl font-bold">Qorshaha Mustaqbalka ee Maayar Mooge</h2>
+                <p class="text-xl text-slate-500 mt-4 max-w-3xl mx-auto">Waxaan diiradda saaraynaa siddeed qodob oo muhiim ah si aan u dhisno Hargeisa horumarsan, nabdoon, oo casri ah.</p>
+            </div>
+            <div class="container mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1: Ganacsiga -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="trending-up" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Kobcinta Fursadaha Ganacsi</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Dhiirrigelinta ganacsiyada yaryar iyo kuwa cusub si loo abuuro shaqooyin iyo hal-abuur.</p>
+                </div>
+                <!-- Card 2: Kaabayaasha -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 100ms;">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                         <i data-feather="truck" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Casriyeynta Kaabayaasha</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Hagaajinta wadooyinka, biyaha, iyo adeegyada dadweynaha si nolosha loo fududeeyo.</p>
+                </div>
+                <!-- Card 3: Waxbarashada -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 200ms;">
+                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="cpu" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Waxbarasho Tiknoolaji ah</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Horumarinta dugsiyada iyadoo la adeegsanayo tiknoolajiyad casri ah si ardaydu u helaan xirfado cusub.</p>
+                </div>
+                <!-- Card 4: Ammaanka -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 300ms;">
+                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Ammaan & Nabad Waarta</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Xoojinta amniga bulshada iyo ka hortagga dambiyada si loo helo magaalo nabdoon.</p>
+                </div>
+                <!-- Card 5: Deegaanka -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 400ms;">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="leaf" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Deegaanka & Bilicda</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Qurxinta magaalada, abuurista jardiinooyin, iyo ilaalinta deegaanka si loogu raaxaysto.</p>
+                </div>
+                <!-- Card 6: Caafimaadka -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 500ms;">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                         <i data-feather="heart" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Adeegyo Caafimaad oo Casri ah</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Balaarinta xarumaha caafimaadka si bulshada loo siiyo daryeel caafimaad oo tayo leh.</p>
+                </div>
+                <!-- Card 7: Dhaqanka & Isboortiga -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 600ms;">
+                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="award" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Dhaqanka & Isboortiga</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Dhiirrigelinta barnaamijyada dhaqanka iyo isboortiga si dhalinyaradu u helaan madadaalo.</p>
+                </div>
+                <!-- Card 8: Tiknoolajiyada -->
+                <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 700ms;">
+                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="zap" class="w-8 h-8 text-blue-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Tiknoolajiyada & Hal-abuurka</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Abuurista xarumo casri ah oo lagu taageero hal-abuurka si bulshada loogu diyaariyo mustaqbalka.</p>
+                </div>
+            </div>
         </section>
 
         <section id="about" class="py-24 p-6">
-            <!-- This section is unchanged -->
+            <div class="container mx-auto max-w-4xl text-center bg-white p-12 rounded-3xl shadow-xl border border-slate-200/80 reveal">
+               <h2 class="text-4xl font-bold mb-4">Olole Bulshadu Wada Leedahay</h2>
+               <p class="text-lg text-slate-600 leading-relaxed">Websaydhkan wuxuu isku kaaya xidhayaa dadweynaha reer Hargeisa. Cod kastaa waa fariin muhiim ah. Taageeradaadu waxay naga caawinaysaa inaan ogaano baahiyahaaga. Waxay naga caawinaysaa inaan u shaqeyno magaalo wanaagsan. Mahadsanid.</p>
+               <a href="#vote" class="btn-primary mt-8 inline-block">Codee Maanta</a>
+            </div>
         </section>
 
     </main>
 
     <footer class="py-16 text-center border-t border-slate-200 bg-white">
-        <!-- This section is unchanged -->
+        <div class="container mx-auto p-6">
+            <h4 class="text-2xl font-bold font-display text-slate-800">Ololaha Taageerada Maayar Cabdikariim Axmed Mooge</h4>
+            <div class="flex justify-center space-x-6 my-6">
+                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
+                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="facebook" class="w-6 h-6"></i></a>
+                <a href="#" class="text-slate-500 hover:text-blue-600 transition-colors"><i data-feather="instagram" class="w-6 h-6"></i></a>
+            </div>
+            <p class="text-slate-500 mt-2">&copy; 2025. Xuquuqda oo dhan way dhawrsan tahay.</p>
+            <p class="text-sm text-slate-400 mt-6">Naqshadeeye: <a href="https://mubarik.hiigsitech.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600 transition-colors">Mubarik Osman</a></p>
+        </div>
     </footer>
-
-    <!-- ADD FIREBASE SDKs -->
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- FIREBASE SETUP ---
-            // Your web app's Firebase configuration
             const firebaseConfig = {
                 apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
                 authDomain: "maayor-mooge.firebaseapp.com",
                 projectId: "maayor-mooge",
                 storageBucket: "maayor-mooge.appspot.com",
                 messagingSenderId: "771226998257",
-                appId: "1:771226998257:web:d8029353f27111f143e050",
-                measurementId: "G-WC6PP0TMH4"
+                appId: "1:771226998257:web:d8029353f27111f143e050"
             };
-
-            // Initialize Firebase
             firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
-            console.log("Firebase initialized successfully!");
-
-            // --- ALL OTHER JAVASCRIPT ---
-            
             feather.replace();
 
-            // --- Mobile Menu Logic (Unchanged) ---
+            // --- Mobile Menu Logic ---
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const openIcon = document.getElementById('menu-open-icon');
@@ -271,45 +560,19 @@
                 });
             });
 
-            // --- Modal and Share Logic (Unchanged) ---
-            // Your existing functions for showModal and showShareModal go here...
-            
-            // --- DYNAMIC VOTE COUNTER LOGIC ---
+
+            // --- DYNAMIC VOTE COUNTER ---
             const voteCounterElement = document.getElementById('vote-counter');
-            let initialLoad = true;
-
-            function formatVotes(votes) { return votes.toLocaleString('en-US'); }
-
-            function updateVoteDisplay(count, animate = false) {
-                const formattedVotes = formatVotes(count);
-                if (voteCounterElement) {
-                    voteCounterElement.innerHTML = ''; // Clear previous content
-                    formattedVotes.split('').forEach(char => {
-                        const span = document.createElement('span');
-                        span.className = 'vote-count-number';
-                        span.textContent = char;
-                        voteCounterElement.appendChild(span);
-                    });
-
-                    if (animate) {
-                        voteCounterElement.style.transform = 'scale(1.03)';
-                        setTimeout(() => {
-                            voteCounterElement.style.transform = 'scale(1)';
-                        }, 200);
-                    }
-                }
-            }
-
-            // Listen for real-time updates from Firestore
             db.collection("votes").onSnapshot((snapshot) => {
                 const voteCount = snapshot.size;
-                const shouldAnimate = !initialLoad; // Only animate after the first load
-                updateVoteDisplay(voteCount, shouldAnimate);
-                initialLoad = false;
+                if (voteCounterElement) {
+                   voteCounterElement.textContent = voteCount.toLocaleString('en-US');
+                }
+            }, (error) => {
+                console.error("Error fetching vote count: ", error);
             });
 
-
-            // --- DYNAMIC VOTING LOGIC ---
+            // --- DYNAMIC VOTE SUBMISSION ---
             const voteArea = document.getElementById('vote-area');
             const confirmationMessage = document.getElementById('confirmation-message');
             const usernameInput = document.getElementById('voter-username');
@@ -319,9 +582,14 @@
 
             function showError(inputId, message) {
                 const errorSpan = document.querySelector(`.error-message[data-for="${inputId}"]`);
-                errorSpan.textContent = message;
-                errorSpan.style.display = 'block';
-                document.getElementById(inputId).style.borderColor = '#EF4444';
+                if(errorSpan) {
+                    errorSpan.textContent = message;
+                    errorSpan.style.display = 'block';
+                }
+                const inputEl = document.getElementById(inputId);
+                if(inputEl) {
+                    inputEl.style.borderColor = '#EF4444';
+                }
             }
 
             function clearErrors() {
@@ -336,52 +604,47 @@
                 }
             }
 
-            // Check if user has already voted
             if (localStorage.getItem('hasVotedMoge') === 'true') {
                 disableVoting();
             }
 
-            submitVoteBtn?.addEventListener('click', async () => { // Make function async
+            submitVoteBtn?.addEventListener('click', async () => {
                 clearErrors();
                 let isValid = true;
-                const username = usernameInput.value.trim();
-                const city = cityInput.value.trim();
-
-                if (username.length < 3) {
+                if (usernameInput.value.trim().length < 3) {
                     showError('voter-username', 'Fadlan geli magacaaga oo buuxa.');
                     isValid = false;
                 }
-                if (city === '') {
+                if (cityInput.value.trim() === '') {
                     showError('voter-city', 'Fadlan geli magaaladaada ama degmadaada.');
                     isValid = false;
                 }
                 if (!isValid) return;
 
                 submitVoteBtn.disabled = true;
-                submitVoteBtn.textContent = 'Waa la dirayaa...';
+                submitVoteBtn.textContent = "Waa la dirayaa...";
 
                 try {
-                    // Save data to Firestore
-                    await db.collection("votes").add({
-                        name: username,
-                        city: city,
+                    await db.collection('votes').add({
+                        name: usernameInput.value.trim(),
+                        city: cityInput.value.trim(),
                         phone: phoneInput.value.trim(),
-                        votedAt: new Date() // Store the timestamp
+                        votedAt: new Date()
                     });
-
-                    // Success
+                    
                     localStorage.setItem('hasVotedMoge', 'true');
                     disableVoting();
-
                 } catch (error) {
-                    console.error("Error adding document: ", error);
-                    alert("Cilad baa dhacday markii codka la dhiibanayay. Fadlan isku day mar kale.");
+                    console.error("Error writing document: ", error);
+                    // Using a custom modal/alert is better, but alert is used for simplicity here.
+                    // A proper implementation would use a UI element instead of `alert`.
+                    console.log("Cilad baa dhacday markii codka la gudbinayey. Fadlan isku day mar kale.");
                     submitVoteBtn.disabled = false;
-                    submitVoteBtn.textContent = 'Xaqiiji Codkayga';
+                    submitVoteBtn.textContent = "Xaqiiji Codkayga";
                 }
             });
-            
-            // --- Other UI Logic (Unchanged) ---
+
+            // --- Animate on Scroll Logic ---
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -392,9 +655,148 @@
                 });
             }, { threshold: 0.1 });
             revealElements.forEach(el => revealObserver.observe(el));
+            
+            // --- Modal logic ---
+            const shareBtn = document.getElementById('share-btn');
+            shareBtn?.addEventListener('click', () => {
+                 if (navigator.share) {
+                    navigator.share({
+                        title: 'U Codee Abdikareem Ahmed Moge',
+                        text: 'Nagu soo biir si aan Hargeisa u hormarino. U codee Abdikareem Ahmed Moge.',
+                        url: window.location.href
+                    }).catch(console.error);
+                } else {
+                    // Fallback for browsers that don't support navigator.share
+                    console.log('Sharing is not supported on this browser. Please copy the link manually: ' + window.location.href);
+                }
+            });
+            const donateBtn = document.getElementById('donate-btn');
+            donateBtn?.addEventListener('click', () => {
+                console.log('Waad ku mahadsan tahay xiisahaaga. Hadda ma aqbalayno deeqo, laakiin fadlan mar kale soo eeg mustaqbalka.');
+            });
 
-            // Your functions for share and donate buttons can go here...
+            // --- JS FOR WAXQABADKII HORE SECTION (ADVANCED) ---
+            const achievementsSection = document.getElementById('achievements');
+            if (achievementsSection) {
+                const tabs = achievementsSection.querySelectorAll('.tab-btn');
+                const contents = achievementsSection.querySelectorAll('.tab-content');
+                let carousels = {}; // Store carousel instances to manage them
+
+                // --- Tab Switching Logic ---
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        
+                        // Stop all carousels before switching
+                        Object.values(carousels).forEach(c => c.stopAutoplay());
+
+                        contents.forEach(c => c.classList.add('hidden'));
+                        const activeContent = document.getElementById(tab.dataset.tab);
+                        if(activeContent) {
+                            activeContent.classList.remove('hidden');
+                            // Start the carousel for the active tab
+                            const activeCarouselId = activeContent.querySelector('.carousel').id;
+                            if (carousels[activeCarouselId]) {
+                                carousels[activeCarouselId].startAutoplay();
+                            }
+                        }
+                    });
+                });
+
+                // --- Advanced Carousel Logic Factory ---
+                function setupCarousel(carousel) {
+                    const items = carousel.querySelectorAll('.carousel-item');
+                    const dotsContainer = carousel.querySelector('.carousel-dots');
+                    const nextBtn = carousel.querySelector('.next');
+                    const prevBtn = carousel.querySelector('.prev');
+                    let currentIndex = 0;
+                    let intervalId = null;
+
+                    if (items.length <= 1) {
+                         if (nextBtn) nextBtn.style.display = 'none';
+                         if (prevBtn) prevBtn.style.display = 'none';
+                         if (dotsContainer) dotsContainer.style.display = 'none';
+                         return; // No need for controls or autoplay if only one item
+                    }
+                    
+                    function showSlide(index) {
+                        items.forEach((item, i) => {
+                            item.classList.remove('active');
+                            const img = item.querySelector('img');
+                            if (img) {
+                               img.style.animation = 'none';
+                            }
+                        });
+            
+                        const currentItem = items[index];
+                        if (currentItem) {
+                            currentItem.classList.add('active');
+                            const currentImg = currentItem.querySelector('img');
+                            if (currentImg) {
+                                void currentImg.offsetWidth; // Trigger reflow
+                                currentImg.style.animation = '';
+                            }
+                        }
+
+                        if (dotsContainer) {
+                            Array.from(dotsContainer.children).forEach((dot, i) => {
+                                dot.classList.toggle('active', i === index);
+                            });
+                        }
+                        currentIndex = index;
+                    }
+
+                    function nextSlide() { showSlide((currentIndex + 1) % items.length); }
+                    function prevSlide() { showSlide((currentIndex - 1 + items.length) % items.length); }
+                    function startAutoplay() {
+                        stopAutoplay(); // Clear existing interval
+                        intervalId = setInterval(nextSlide, 5000);
+                    }
+                    function stopAutoplay() { clearInterval(intervalId); }
+                    function resetAutoplay() {
+                        stopAutoplay();
+                        startAutoplay();
+                    }
+
+                    if (dotsContainer) {
+                        dotsContainer.innerHTML = '';
+                        items.forEach((_, i) => {
+                            const dot = document.createElement('button');
+                            dot.classList.add('dot');
+                            dot.addEventListener('click', () => { showSlide(i); resetAutoplay(); });
+                            dotsContainer.appendChild(dot);
+                        });
+                    }
+
+                    nextBtn?.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+                    prevBtn?.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+                    carousel.addEventListener('mouseenter', stopAutoplay);
+                    carousel.addEventListener('mouseleave', startAutoplay);
+                    
+                    showSlide(0); // Initial setup
+
+                    return { startAutoplay, stopAutoplay };
+                }
+
+                achievementsSection.querySelectorAll('.carousel').forEach((carousel, index) => {
+                    const carouselId = `carousel-${index}`;
+                    carousel.id = carouselId;
+                    const instance = setupCarousel(carousel);
+                    carousels[carouselId] = instance;
+                    // Initially stop all carousels except the first one
+                    if(index > 0) {
+                        instance.stopAutoplay();
+                    }
+                });
+
+                // Start the first carousel initially
+                if (carousels['carousel-0']) {
+                    carousels['carousel-0'].startAutoplay();
+                }
+            }
         });
     </script>
 </body>
 </html>
+
