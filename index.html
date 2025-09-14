@@ -680,223 +680,265 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- FIREBASE SETUP ---
-            const firebaseConfig = {
-                apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
-                authDomain: "maayor-mooge.firebaseapp.com",
-                projectId: "maayor-mooge",
-                storageBucket: "maayor-mooge.appspot.com",
-                messagingSenderId: "771226998257",
-                appId: "1:771226998257:web:d8029353f27111f143e050"
-            };
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            feather.replace();
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- FIREBASE SETUP ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
+            authDomain: "maayor-mooge.firebaseapp.com",
+            projectId: "maayor-mooge",
+            storageBucket: "maayor-mooge.appspot.com",
+            messagingSenderId: "771226998257",
+            appId: "1:771226998257:web:d8029353f27111f143e050"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        feather.replace();
 
-            // --- Mobile Menu Logic ---
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-            });
+        // --- Mobile Menu Logic ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
 
-            // --- DYNAMIC VOTE COUNTER ---
-            const voteCounterElement = document.getElementById('vote-counter');
-            db.collection("votes").onSnapshot((snapshot) => {
-                if (voteCounterElement) voteCounterElement.textContent = snapshot.size.toLocaleString('en-US');
-            }, console.error);
+        // --- DYNAMIC VOTE COUNTER ---
+        const voteCounterElement = document.getElementById('vote-counter');
+        db.collection("votes").onSnapshot((snapshot) => {
+            if (voteCounterElement) voteCounterElement.textContent = snapshot.size.toLocaleString('en-US');
+        }, console.error);
 
-            // --- DYNAMIC VOTE SUBMISSION ---
-            const voteArea = document.getElementById('vote-area');
-            const confirmationMessage = document.getElementById('confirmation-message');
-            const usernameInput = document.getElementById('voter-username');
-            const cityInput = document.getElementById('voter-city');
-            const phoneInput = document.getElementById('voter-phone');
-            const submitVoteBtn = document.getElementById('submit-vote-btn');
+        // --- DYNAMIC VOTE SUBMISSION (NOW FULLY FUNCTIONAL) ---
+        const voteArea = document.getElementById('vote-area');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const usernameInput = document.getElementById('voter-username');
+        const cityInput = document.getElementById('voter-city');
+        const phoneInput = document.getElementById('voter-phone');
+        const submitVoteBtn = document.getElementById('submit-vote-btn');
 
-            const disableVoting = () => {
-                if (voteArea && confirmationMessage) {
-                    voteArea.classList.add('hidden');
-                    confirmationMessage.classList.remove('hidden');
-                }
-            };
+        const disableVoting = () => {
+            if (voteArea && confirmationMessage) {
+                voteArea.classList.add('hidden');
+                confirmationMessage.classList.remove('hidden');
+            }
+        };
 
-            if (localStorage.getItem('hasVotedMoge') === 'true') {
-                disableVoting();
+        if (localStorage.getItem('hasVotedMoge') === 'true') {
+            disableVoting();
+        }
+        
+        const validateInput = (input) => {
+            const errorMessage = document.querySelector(`.error-message[data-for="${input.id}"]`);
+            if (input.value.trim() === '') {
+                errorMessage.style.display = 'block';
+                input.classList.add('border-red-500');
+                return false;
+            } else {
+                errorMessage.style.display = 'none';
+                input.classList.remove('border-red-500');
+                return true;
+            }
+        };
+
+        [usernameInput, cityInput].forEach(input => {
+            input.addEventListener('input', () => validateInput(input));
+        });
+
+        submitVoteBtn?.addEventListener('click', async () => {
+            const isUsernameValid = validateInput(usernameInput);
+            const isCityValid = validateInput(cityInput);
+
+            if (!isUsernameValid || !isCityValid) {
+                return; // Stop if validation fails
             }
 
-            submitVoteBtn?.addEventListener('click', async () => {
-                // ... (vote submission logic remains the same)
+            submitVoteBtn.disabled = true;
+            submitVoteBtn.textContent = 'Waa la dirayaa...'; // Sending...
+
+            try {
+                await db.collection("votes").add({
+                    username: usernameInput.value.trim(),
+                    city: cityInput.value.trim(),
+                    phone: phoneInput.value.trim(),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                localStorage.setItem('hasVotedMoge', 'true');
+                disableVoting();
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Cilad baa dhacday, fadlan isku day mar kale."); // An error occurred, please try again.
+                submitVoteBtn.disabled = false;
+                submitVoteBtn.textContent = 'Xaqiiji Codkayga'; // Revert button text
+            }
+        });
+
+        // --- Animate on Scroll Logic ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                    revealObserver.unobserve(entry.target);
+                }
             });
-
-            // --- Animate on Scroll Logic ---
-            const revealElements = document.querySelectorAll('.reveal');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal-visible');
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            revealElements.forEach(el => revealObserver.observe(el));
-            
-            // === SHARE FUNCTIONALITY (NEW) ===
-            const shareAction = async () => {
-                const shareData = {
-                    title: document.title,
-                    text: "Kalkaali barnaamijka Hargeisa Wanaagsan. Codkaagu waa muhiim!",
-                    url: window.location.href
-                };
-                try {
-                    if (navigator.share) {
-                        await navigator.share(shareData);
-                    } else {
-                        await navigator.clipboard.writeText(window.location.href);
-                        alert("Linkiga waa la koobiyeeyay! La wadaag asxaabtaada."); // Link copied! Share with your friends.
-                    }
-                } catch (err) {
-                    console.error("Error sharing:", err);
-                }
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => revealObserver.observe(el));
+        
+        // === SHARE FUNCTIONALITY ===
+        const shareAction = async () => {
+            const shareData = {
+                title: document.title,
+                text: "Kalkaali barnaamijka Hargeisa Wanaagsan. Codkaagu waa muhiim!",
+                url: window.location.href
             };
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert("Linkiga waa la koobiyeeyay! La wadaag asxaabtaada."); // Link copied! Share with your friends.
+                }
+            } catch (err) {
+                console.error("Error sharing:", err);
+            }
+        };
 
-            // Attach share action to buttons
-            document.getElementById('share-btn')?.addEventListener('click', shareAction);
-            document.getElementById('share-confirmation-btn')?.addEventListener('click', shareAction);
+        // Attach share action to buttons
+        document.getElementById('share-btn')?.addEventListener('click', shareAction);
+        document.getElementById('share-confirmation-btn')?.addEventListener('click', shareAction);
 
 
-            // === CAROUSEL SCRIPT (UPDATED) ===
-            function setupCarousel(carouselElement) {
-                const track = carouselElement.querySelector('.carousel-track');
-                const items = Array.from(track.children);
-                const nextButton = carouselElement.querySelector('.next');
-                const prevButton = carouselElement.querySelector('.prev');
-                const dotsContainer = carouselElement.querySelector('.carousel-dots');
-                let currentIndex = 0;
-                let autoScrollInterval;
-                
-                dotsContainer.innerHTML = '';
-                items.forEach((_, index) => {
-                    const dot = document.createElement('button');
-                    dot.classList.add('dot');
-                    dot.addEventListener('click', () => {
-                        goToSlide(index);
-                        resetAutoScroll();
-                    });
-                    dotsContainer.appendChild(dot);
+        // === CAROUSEL SCRIPT ===
+        function setupCarousel(carouselElement) {
+            const track = carouselElement.querySelector('.carousel-track');
+            const items = Array.from(track.children);
+            const nextButton = carouselElement.querySelector('.next');
+            const prevButton = carouselElement.querySelector('.prev');
+            const dotsContainer = carouselElement.querySelector('.carousel-dots');
+            let currentIndex = 0;
+            let autoScrollInterval;
+            
+            dotsContainer.innerHTML = '';
+            items.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetAutoScroll();
                 });
-                const dots = Array.from(dotsContainer.children);
+                dotsContainer.appendChild(dot);
+            });
+            const dots = Array.from(dotsContainer.children);
 
-                function updateUI() {
-                    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-                    dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
-                    
-                    const currentItem = items[currentIndex];
-                    const textData = currentItem.querySelector('img').dataset.text;
-                    // Clear old text from all items to be safe
-                    items.forEach(item => {
-                        const oldText = item.querySelector('.carousel-text');
-                        if(oldText) oldText.remove();
-                    });
+            function updateUI() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
+                
+                const currentItem = items[currentIndex];
+                const textData = currentItem.querySelector('img').dataset.text;
+                items.forEach(item => {
+                    const oldText = item.querySelector('.carousel-text');
+                    if(oldText) oldText.remove();
+                });
 
-                    if (textData) {
-                       const textElement = document.createElement('div');
-                       textElement.className = 'carousel-text';
-                       textElement.textContent = textData;
-                       currentItem.appendChild(textElement);
-                    }
+                if (textData) {
+                   const textElement = document.createElement('div');
+                   textElement.className = 'carousel-text';
+                   textElement.textContent = textData;
+                   currentItem.appendChild(textElement);
                 }
+            }
 
-                function goToSlide(index) {
-                    currentIndex = index;
-                    updateUI();
-                }
+            function goToSlide(index) {
+                currentIndex = index;
+                updateUI();
+            }
 
-                function next() { 
-                    if (items.length > 1) {
-                        goToSlide((currentIndex + 1) % items.length);
-                    }
+            function next() { 
+                if (items.length > 1) {
+                    goToSlide((currentIndex + 1) % items.length);
                 }
-                function prev() { 
-                    if (items.length > 1) {
-                        goToSlide((currentIndex - 1 + items.length) % items.length);
-                    }
+            }
+            function prev() { 
+                if (items.length > 1) {
+                    goToSlide((currentIndex - 1 + items.length) % items.length);
                 }
+            }
 
-                function startAutoScroll() {
-                    stopAutoScroll();
-                    if (items.length > 1) {
-                        autoScrollInterval = setInterval(next, 5000);
-                    }
+            function startAutoScroll() {
+                stopAutoScroll();
+                if (items.length > 1) {
+                    autoScrollInterval = setInterval(next, 5000);
                 }
-                function stopAutoScroll() {
-                    clearInterval(autoScrollInterval);
-                }
-                function resetAutoScroll() {
-                    startAutoScroll();
-                }
-
-                nextButton.addEventListener('click', (e) => { e.preventDefault(); next(); resetAutoScroll(); });
-                prevButton.addEventListener('click', (e) => { e.preventDefault(); prev(); resetAutoScroll(); });
-                carouselElement.addEventListener('mouseenter', stopAutoScroll);
-                carouselElement.addEventListener('mouseleave', startAutoScroll);
-
-                goToSlide(0);
+            }
+            function stopAutoScroll() {
+                clearInterval(autoScrollInterval);
+            }
+            function resetAutoScroll() {
                 startAutoScroll();
             }
 
-            // --- WAXQABADKII HORE TABS & CAROUSELS ---
-            const achievementsSection = document.getElementById('achievements');
-            if (achievementsSection) {
-                const tabs = achievementsSection.querySelectorAll('.tab-btn');
-                const contents = achievementsSection.querySelectorAll('.tab-content');
-                achievementsSection.querySelectorAll('.carousel').forEach(setupCarousel);
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        tabs.forEach(t => t.classList.remove('active'));
-                        tab.classList.add('active');
-                        contents.forEach(c => c.classList.add('hidden'));
-                        document.getElementById(tab.dataset.tab)?.classList.remove('hidden');
-                    });
+            nextButton.addEventListener('click', (e) => { e.preventDefault(); next(); resetAutoScroll(); });
+            prevButton.addEventListener('click', (e) => { e.preventDefault(); prev(); resetAutoScroll(); });
+            carouselElement.addEventListener('mouseenter', stopAutoScroll);
+            carouselElement.addEventListener('mouseleave', startAutoScroll);
+
+            goToSlide(0);
+            startAutoScroll();
+        }
+
+        // --- WAXQABADKII HORE TABS & CAROUSELS ---
+        const achievementsSection = document.getElementById('achievements');
+        if (achievementsSection) {
+            const tabs = achievementsSection.querySelectorAll('.tab-btn');
+            const contents = achievementsSection.querySelectorAll('.tab-content');
+            achievementsSection.querySelectorAll('.carousel').forEach(setupCarousel);
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    contents.forEach(c => c.classList.add('hidden'));
+                    document.getElementById(tab.dataset.tab)?.classList.remove('hidden');
                 });
-            }
+            });
+        }
 
-            // === MOUSE CIRCLE TRACKER SCRIPT ===
-            const cursorDot = document.getElementById('cursor-dot');
-            const cursorOutline = document.getElementById('cursor-outline');
-            window.addEventListener('mousemove', (e) => {
-                cursorDot.style.left = `${e.clientX}px`;
-                cursorDot.style.top = `${e.clientY}px`;
-                cursorOutline.animate({
-                    left: `${e.clientX}px`,
-                    top: `${e.clientY}px`
-                }, { duration: 500, fill: 'forwards' });
-            });
-            const interactiveElements = document.querySelectorAll('a, button, .tab-btn, .input-field');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
-            });
-            window.addEventListener('mousedown', () => cursorOutline.classList.add('click'));
-            window.addEventListener('mouseup', () => cursorOutline.classList.remove('click'));
-
-            // === JUMP TO TOP BUTTON SCRIPT ===
-            const jumpBtn = document.getElementById('jump-to-top-btn');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    jumpBtn.classList.add('visible');
-                } else {
-                    jumpBtn.classList.remove('visible');
-                }
-            });
-            jumpBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
+        // === MOUSE CIRCLE TRACKER SCRIPT ===
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`
+            }, { duration: 500, fill: 'forwards' });
         });
-    </script>
+        const interactiveElements = document.querySelectorAll('a, button, .tab-btn, .input-field');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+        });
+        window.addEventListener('mousedown', () => cursorOutline.classList.add('click'));
+        window.addEventListener('mouseup', () => cursorOutline.classList.remove('click'));
+
+        // === JUMP TO TOP BUTTON SCRIPT ===
+        const jumpBtn = document.getElementById('jump-to-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                jumpBtn.classList.add('visible');
+            } else {
+                jumpBtn.classList.remove('visible');
+            }
+        });
+        jumpBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+    });
+</script>
 </body>
 </html>
