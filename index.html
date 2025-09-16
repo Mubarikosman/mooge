@@ -324,7 +324,7 @@
         }
          #cursor-outline.click {
             transform: translate(-50%, -50%) scale(0.8);
-        }
+         }
 
         /* === JUMP TO TOP BUTTON STYLES === */
         #jump-to-top-btn {
@@ -356,7 +356,7 @@
             transform: scale(1.1);
         }
 
-        /* === MODAL STYLES (NEW) === */
+        /* === MODAL STYLES === */
         .modal {
             position: fixed;
             inset: 0;
@@ -411,6 +411,37 @@
         .social-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        /* === NEW POLL MODAL STYLES === */
+        .poll-option {
+            border: 2px solid #E2E8F0; /* slate-200 */
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.125rem; /* text-lg */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .poll-option:hover {
+            border-color: #94A3B8; /* slate-400 */
+            background-color: #F8FAFC; /* slate-50 */
+        }
+        .poll-option.selected {
+            border-color: #2563EB; /* blue-600 */
+            background-color: #EFF6FF; /* blue-50 */
+            color: #1D4ED8; /* blue-700 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        .poll-option.selected:before {
+            content: '✔';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            font-size: 1rem;
+            color: #2563EB;
         }
     </style>
 </head>
@@ -667,6 +698,7 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2">Waxbarasho Tiknoolaji ah</h3>
                     <p class="text-slate-500 text-sm leading-relaxed">Horumarinta dugsiyada iyadoo la adeegsanayo tiknoolajiyad casri ah si ardaydu u helaan xirfado cusub.</p>
+
                 </div>
                 <div class="bg-white text-center p-8 rounded-2xl border border-slate-200/80 reveal hover:shadow-xl hover:-translate-y-2 transition-all duration-300" style="transition-delay: 300ms;">
                      <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -775,6 +807,30 @@
             </div>
         </div>
     </div>
+
+    <div id="poll-modal" class="modal">
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-content text-center">
+            <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors" data-close-modal>
+                <i data-feather="x" class="w-6 h-6"></i>
+            </button>
+            <i data-feather="message-circle" class="w-16 h-16 mx-auto text-blue-600 mb-4"></i>
+            <h3 class="text-lg font-semibold text-slate-600 mb-2">Asc mudane/marwo,</h3>
+            <p class="text-2xl font-bold font-display text-slate-800 mb-6">Ma doonaysaa Cabdikariim Axmed Mooge inuu soo laabto Mar kale?</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="poll-option" data-choice="HAA">
+                    <span>HAA</span>
+                </div>
+                <div class="poll-option" data-choice="MAYA">
+                    <span>MAYA</span>
+                </div>
+            </div>
+            
+            <button id="submit-poll-btn" class="w-full btn-primary !p-3 text-base">Dir Codkaaga</button>
+            <p id="poll-error" class="text-red-500 text-sm mt-3 hidden">Fadlan dooro mid ka mid ah xulashooyinka.</p>
+        </div>
+    </div>
     
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
@@ -851,7 +907,7 @@
                         username: usernameInput.value.trim(),
                         city: cityInput.value.trim(),
                         phone: phoneInput.value.trim(),
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp() // Changed to 'timestamp' for consistency
                     });
                     localStorage.setItem('hasVotedMoge', 'true');
                     disableVoting();
@@ -875,15 +931,17 @@
             }, { threshold: 0.1 });
             revealElements.forEach(el => revealObserver.observe(el));
 
-            // === MODAL FUNCTIONALITY (NEW) ===
+            // === MODAL FUNCTIONALITY ===
             const allModals = document.querySelectorAll('.modal');
             const shareModal = document.getElementById('share-modal');
             const donateModal = document.getElementById('donate-modal');
+            const pollModal = document.getElementById('poll-modal'); // New Poll Modal
 
             const openModal = (modal) => {
                 if (modal) {
                     modal.classList.add('open');
                     document.body.style.overflow = 'hidden';
+                    feather.replace(); // Re-run feather icons for modal
                 }
             };
 
@@ -928,6 +986,56 @@
                 });
             }
             
+            // === NEW POLL MODAL LOGIC ===
+            if (pollModal) {
+                // 1. Timer to trigger modal
+                setTimeout(() => {
+                    if (localStorage.getItem('hasVotedPoll') !== 'true') {
+                        openModal(pollModal);
+                    }
+                }, 8000); // 8 seconds
+
+                // 2. Handle option selection
+                let selectedPollChoice = null;
+                const pollOptions = pollModal.querySelectorAll('.poll-option');
+                const pollError = document.getElementById('poll-error');
+                
+                pollOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        pollOptions.forEach(opt => opt.classList.remove('selected'));
+                        option.classList.add('selected');
+                        selectedPollChoice = option.dataset.choice;
+                        pollError.classList.add('hidden'); // Hide error on selection
+                    });
+                });
+
+                // 3. Handle poll submission
+                const submitPollBtn = document.getElementById('submit-poll-btn');
+                submitPollBtn.addEventListener('click', async () => {
+                    if (!selectedPollChoice) {
+                        pollError.classList.remove('hidden');
+                        return;
+                    }
+
+                    submitPollBtn.disabled = true;
+                    submitPollBtn.textContent = 'Waa la dirayaa...';
+
+                    try {
+                        await db.collection("pollResponses").add({
+                            choice: selectedPollChoice,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        localStorage.setItem('hasVotedPoll', 'true');
+                        closeModal(pollModal);
+                    } catch (error) {
+                        console.error("Error saving poll response: ", error);
+                        alert("Cilad baa dhacday, fadlan mar kale isku day.");
+                        submitPollBtn.disabled = false;
+                        submitPollBtn.textContent = 'Dir Codkaaga';
+                    }
+                });
+            }
+
             // === CAROUSEL SCRIPT ===
             function setupCarousel(carouselElement) {
                 const track = carouselElement.querySelector('.carousel-track');
@@ -1034,7 +1142,7 @@
                     top: `${e.clientY}px`
                 }, { duration: 500, fill: 'forwards' });
             });
-            const interactiveElements = document.querySelectorAll('a, button, .tab-btn, .input-field');
+            const interactiveElements = document.querySelectorAll('a, button, .tab-btn, .input-field, .poll-option'); // Added .poll-option
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
                 el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
