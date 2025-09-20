@@ -590,8 +590,7 @@
                         <div class="carousel aspect-[2/1] relative rounded-2xl shadow-2xl shadow-slate-300/50">
                             <div class="carousel-viewport rounded-2xl h-full">
                                 <div class="carousel-track h-full">
-                                    <!-- Dynamic Images for Wadooyin -->
-                                </div>
+                                    </div>
                             </div>
                             <div class="carousel-nav"><a href="#" class="prev">Prev</a><a href="#" class="next">Next</a></div>
                             <div class="carousel-dots"></div>
@@ -601,8 +600,7 @@
                         <div class="carousel aspect-[2/1] relative rounded-2xl shadow-2xl shadow-slate-300/50">
                            <div class="carousel-viewport rounded-2xl h-full">
                                 <div class="carousel-track h-full">
-                                    <!-- Dynamic Images for Dugsiyo -->
-                                </div>
+                                    </div>
                             </div>
                             <div class="carousel-nav"><a href="#" class="prev">Prev</a><a href="#" class="next">Next</a></div>
                             <div class="carousel-dots"></div>
@@ -612,8 +610,7 @@
                         <div class="carousel aspect-[2/1] relative rounded-2xl shadow-2xl shadow-slate-300/50">
                             <div class="carousel-viewport rounded-2xl h-full">
                                 <div class="carousel-track h-full">
-                                    <!-- Dynamic Images for Dhismayaal -->
-                                </div>
+                                    </div>
                             </div>
                             <div class="carousel-nav"><a href="#" class="prev">Prev</a><a href="#" class="next">Next</a></div>
                             <div class="carousel-dots"></div>
@@ -623,8 +620,7 @@
                          <div class="carousel aspect-[2/1] relative rounded-2xl shadow-2xl shadow-slate-300/50">
                             <div class="carousel-viewport rounded-2xl h-full">
                                 <div class="carousel-track h-full">
-                                   <!-- Dynamic Images for Bilicda & Nabadgelyada -->
-                                </div>
+                                   </div>
                             </div>
                             <div class="carousel-nav"><a href="#" class="prev">Prev</a><a href="#" class="next">Next</a></div>
                             <div class="carousel-dots"></div>
@@ -1025,9 +1021,9 @@
                 let autoScrollInterval;
                 
                 if (items.length <= 1) {
-                    nextButton.style.display = 'none';
-                    prevButton.style.display = 'none';
-                    dotsContainer.style.display = 'none';
+                    if (nextButton) nextButton.style.display = 'none';
+                    if (prevButton) prevButton.style.display = 'none';
+                    if (dotsContainer) dotsContainer.style.display = 'none';
                     return; // No need for controls or dots if 1 or 0 items
                 }
 
