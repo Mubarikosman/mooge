@@ -1024,8 +1024,23 @@
                     if (nextButton) nextButton.style.display = 'none';
                     if (prevButton) prevButton.style.display = 'none';
                     if (dotsContainer) dotsContainer.style.display = 'none';
-                    return; // No need for controls or dots if 1 or 0 items
+                    // Display the text for the single item
+                    if (items.length === 1) {
+                        const currentItem = items[0];
+                        const textData = currentItem.querySelector('img').dataset.text;
+                        if (textData) {
+                            const textElement = document.createElement('div');
+                            textElement.className = 'carousel-text';
+                            textElement.textContent = textData;
+                            // Make it visible immediately
+                            textElement.style.opacity = 1;
+                            textElement.style.transform = 'translateY(0)';
+                            currentItem.appendChild(textElement);
+                        }
+                    }
+                    return; 
                 }
+
 
                 dotsContainer.innerHTML = '';
                 items.forEach((_, index) => {
@@ -1095,23 +1110,32 @@
             const achievementsSection = document.getElementById('achievements');
             async function loadAchievements() {
                 try {
-                    const snapshot = await db.collection('achievements').orderBy('timestamp', 'desc').get();
+                    // **** FIX 1: Changed 'achievements' to 'images' and removed orderBy ****
+                    const snapshot = await db.collection('images').get();
                     const achievementsByType = {};
 
                     snapshot.forEach(doc => {
                         const data = doc.data();
-                        if (!achievementsByType[data.type]) {
-                            achievementsByType[data.type] = [];
+                        // Ensure type exists and is a string before processing
+                        if (data.type && typeof data.type === 'string') {
+                            const dataType = data.type.toLowerCase(); // Standardize to lowercase
+                             if (!achievementsByType[dataType]) {
+                                achievementsByType[dataType] = [];
+                            }
+                            achievementsByType[dataType].push(data);
                         }
-                        achievementsByType[data.type].push(data);
                     });
 
-                    for (const type in achievementsByType) {
-                        const track = document.querySelector(`#${CSS.escape(type)} .carousel-track`);
+                    for (const type in achievementsByType) { // The 'type' here will be lowercase e.g. "wadooyin"
+                        // **** FIX 3: Capitalize the first letter to match HTML ID (e.g. "Wadooyin") ****
+                        const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+                        const track = document.querySelector(`#${CSS.escape(capitalizedType)} .carousel-track`);
+                        
                         if (track) {
                             track.innerHTML = achievementsByType[type].map(ach => `
                                 <div class="carousel-item h-full">
-                                    <img src="${ach.imageUrl}" alt="${ach.title}" data-text="${ach.title}">
+                                    // **** FIX 2: Changed 'ach.imageUrl' to 'ach.link' ****
+                                    <img src="${ach.link}" alt="${ach.title}" data-text="${ach.title}">
                                 </div>
                             `).join('');
                         }
@@ -1120,7 +1144,7 @@
                      achievementsSection.querySelectorAll('.carousel').forEach(setupCarousel);
 
                 } catch (error) {
-                    console.error("Error loading achievements:", error);
+                    console.error("Error loading images:", error);
                 }
             }
 
