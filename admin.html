@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https="cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
@@ -34,7 +34,7 @@
                 <a href="#" class="sidebar-link active flex items-center gap-3 py-2 px-4 rounded-lg" data-view="overview">
                     <i data-feather="home" class="w-5 h-5"></i><span>Overview</span>
                 </a>
-                 <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="reports">
+                <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="reports">
                     <i data-feather="bar-chart-2" class="w-5 h-5"></i><span>Reports</span>
                 </a>
                 <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="voters">
@@ -42,9 +42,6 @@
                 </a>
                 <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="achievements">
                     <i data-feather="image" class="w-5 h-5"></i><span>Achievements</span>
-                </a>
-                <a href="#" class="sidebar-link flex items-center gap-3 py-2 px-4 rounded-lg" data-view="messages">
-                    <i data-feather="inbox" class="w-5 h-5"></i><span>Messages</span>
                 </a>
             </nav>
         </aside>
@@ -79,19 +76,14 @@
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Votes</p><p id="total-votes" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Voter Cities</p><p id="unique-voter-cities" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5"><p class="text-sm text-slate-500">Voter Countries</p><p id="unique-voter-countries" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Messages</p><p id="total-messages" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Views</p><p id="total-views" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Unique Visitors</p><p id="unique-visitors" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Cities (from Views)</p><p id="cities-from-views" class="text-3xl font-bold mt-1">0</p></div>
-                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Countries (from Views)</p><p id="countries-from-views" class="text-3xl font-bold mt-1">0</p></div>
+                        <div class="stat-card p-5"><p class="text-sm text-slate-500">Total Polls</p><p id="total-polls" class="text-3xl font-bold mt-1">0</p></div>
                         <div class="stat-card p-5 col-span-1 md:col-span-2 lg:col-span-2"><p class="text-sm text-slate-500">Poll Votes (HAA)</p><p id="poll-votes-haa" class="text-3xl font-bold mt-1 text-emerald-600">0</p></div>
                         <div class="stat-card p-5 col-span-1 md:col-span-2 lg:col-span-2"><p class="text-sm text-slate-500">Poll Votes (MAYA)</p><p id="poll-votes-maya" class="text-3xl font-bold mt-1 text-red-600">0</p></div>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="chart-container lg:col-span-1"><h3 class="font-semibold mb-2">Votes Over Time</h3><div id="votes-over-time-chart" style="min-height: 350px;"></div></div>
-                        <div class="chart-container lg:col-span-1"><h3 class="font-semibold mb-2">Top Countries (Voters)</h3><div id="top-countries-chart" style="min-height: 350px;"></div></div>
-                        <div class="chart-container lg:col-span-1"><h3 class="font-semibold mb-2">Poll Results (HAA vs MAYA)</h3><div id="poll-chart" style="min-height: 350px;"></div></div>
-                        <div class="chart-container lg:col-span-3"><h3 class="font-semibold mb-2">Top Cities (Voters)</h3><div id="top-cities-chart" style="min-height: 350px;"></div></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="chart-container"><h3 class="font-semibold mb-2">Votes Over Time</h3><div id="votes-over-time-chart" style="min-height: 350px;"></div></div>
+                        <div class="chart-container"><h3 class="font-semibold mb-2">Top Countries (Voters)</h3><div id="top-countries-chart" style="min-height: 350px;"></div></div>
+                        <div class="chart-container lg:col-span-2"><h3 class="font-semibold mb-2">Poll Results (HAA vs MAYA)</h3><div id="poll-chart" style="min-height: 350px;"></div></div>
                     </div>
                 </div>
 
@@ -187,19 +179,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="messages-view" class="view-content hidden">
-                     <div class="bg-white rounded-lg shadow-md">
-                         <div class="p-4 border-b"><h2 class="text-lg font-semibold">All Messages</h2></div>
-                         <div class="overflow-x-auto"><table class="w-full text-sm">
-                             <thead class="bg-gray-50 text-slate-600"><tr>
-                                 <th class="p-3 text-left">Name</th><th class="p-3 text-left">Email</th>
-                                 <th class="p-3 text-left">Message</th><th class="p-3 text-left">Date</th>
-                             </tr></thead>
-                             <tbody id="messages-table-body"></tbody>
-                         </table></div>
-                    </div>
-                </div>
             </main>
         </div>
     </div>
@@ -216,7 +195,7 @@
                 apiKey: "AIzaSyAnsvGANXpSJVq6B2Yd4woI4caflDvzrYI",
                 authDomain: "maayor-mooge.firebaseapp.com",
                 projectId: "maayor-mooge",
-                storageBucket: "maayor-mooge.appspot.com",
+                storageBucket: "maayor-mooge.firebasestorage.app", // <-- THE FIX IS HERE
                 messagingSenderId: "771226998257",
                 appId: "1:771226998257:web:d8029353f27111f143e050"
             };
@@ -237,8 +216,8 @@
             function initializeDashboard(db, storage) {
                 // State management
                 const state = {
-                    allVotes: [], allMessages: [], allViews: [], allPollResponses: [],
-                    filteredVotes: [], filteredViews: [], filteredPolls: [],
+                    allVotes: [], allMessages: [], allPollResponses: [],
+                    filteredVotes: [], filteredPolls: [],
                     dateRange: { start: null, end: null }, searchTerm: '',
                     votersCurrentPage: 1, votersPerPage: 10, topCitiesOffset: 5
                 };
@@ -256,13 +235,13 @@
                     series: [], chart: { type: 'donut', height: 350 }, labels: ["HAA", "MAYA"], 
                     colors: ['#10B981', '#EF4444'], legend: { position: 'bottom' }, noData: { text: 'Loading...' } 
                 }));
-                const topCitiesChart = new ApexCharts(document.querySelector("#top-cities-chart"), chartOptions({ series: [], chart: { type: 'bar', height: 350 }, plotOptions: { bar: { horizontal: true } }, noData: { text: 'Loading...' } }));
                 const votesVsMessagesChart = new ApexCharts(document.querySelector("#votes-vs-messages-chart"), chartOptions({ series: [], chart: { type: 'line', height: 350 }, xaxis: { type: 'datetime' }, stroke: { curve: 'smooth' }, noData: { text: 'Loading...' } }));
                 const topCountriesReportChart = new ApexCharts(document.querySelector("#top-countries-report-chart"), chartOptions({ series: [], chart: { type: 'bar', height: 350 }, plotOptions: { bar: { borderRadius: 4, horizontal: true } }, noData: { text: 'Loading...' } }));
+
                 
                 votesOverTimeChart.render(); topCountriesChart.render(); pollChart.render();
-                topCitiesChart.render(); votesVsMessagesChart.render(); topCountriesReportChart.render();
-
+                votesVsMessagesChart.render(); topCountriesReportChart.render();
+              
                 // MAIN RENDER FUNCTION
                 const render = () => {
                     const { start, end } = state.dateRange;
@@ -270,7 +249,6 @@
                     
                     const dateFilteredVotes = state.allVotes.filter(v => dateFilter(v, 'timestamp'));
                     state.filteredVotes = state.searchTerm ? dateFilteredVotes.filter(v => ['username', 'city'].some(key => v[key]?.toLowerCase().includes(state.searchTerm))) : dateFilteredVotes;
-                    state.filteredViews = state.allViews.filter(v => dateFilter(v, 'timestamp'));
                     state.filteredPolls = state.allPollResponses.filter(p => dateFilter(p, 'timestamp'));
                     
                     renderStats(); renderCharts(); renderVotersTable(); renderReportCharts();
@@ -278,16 +256,12 @@
 
                 // UI RENDER FUNCTIONS
                 const renderStats = () => {
-                    document.getElementById('total-views').textContent = state.filteredViews.length.toLocaleString();
-                    document.getElementById('unique-visitors').textContent = new Set(state.filteredViews.map(v => v.visitorId)).size.toLocaleString();
-                    document.getElementById('cities-from-views').textContent = new Set(state.filteredViews.map(v => v.city?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
-                    document.getElementById('countries-from-views').textContent = new Set(state.filteredViews.map(v => v.country?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
-
                     const votes = state.filteredVotes;
                     document.getElementById('total-votes').textContent = votes.length.toLocaleString();
                     document.getElementById('unique-voter-cities').textContent = new Set(votes.map(v => v.city?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
                     document.getElementById('unique-voter-countries').textContent = new Set(votes.map(v => v.country?.trim().toLowerCase()).filter(Boolean)).size.toLocaleString();
                     
+                    document.getElementById('total-polls').textContent = state.filteredPolls.length.toLocaleString();
                     const haaVotes = state.filteredPolls.filter(p => p.choice === 'HAA').length;
                     const mayaVotes = state.filteredPolls.filter(p => p.choice === 'MAYA').length;
                     document.getElementById('poll-votes-haa').textContent = haaVotes.toLocaleString();
@@ -311,22 +285,31 @@
                     const haaVotes = state.filteredPolls.filter(p => p.choice === 'HAA').length;
                     const mayaVotes = state.filteredPolls.filter(p => p.choice === 'MAYA').length;
                     pollChart.updateSeries([haaVotes, mayaVotes]);
-
-                    const cityCounts = votes.reduce((acc, { city }) => { acc[city || 'Unknown'] = (acc[city || 'Unknown'] || 0) + 1; return acc; }, {});
-                    const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).reverse();
-                    topCitiesChart.updateSeries([{ name: 'Votes', data: sortedCities.map(c => c[1]) }]);
-                    topCitiesChart.updateOptions({ xaxis: { categories: sortedCities.map(c => c[0]) } });
+                };
+                
+                const renderVotersTable = () => {
+                    const data = state.filteredVotes, page = state.votersCurrentPage, perPage = state.votersPerPage;
+                    const paginatedData = data.slice((page - 1) * perPage, page * perPage);
+                    const tableBody = document.getElementById('voters-table-body');
+                    document.getElementById('voters-view-total').textContent = data.length.toLocaleString();
+                    tableBody.innerHTML = data.length === 0 ? `<tr><td colspan="4" class="text-center p-8">No voters found.</td></tr>` : paginatedData.map(v => `
+                        <tr class="border-b"><td class="p-3 font-semibold">${v.username || 'N/A'}</td><td class="p-3">${v.city || 'N/A'}</td>
+                        <td class="p-3">${v.country || 'N/A'}</td><td class="p-3">${v.timestamp?.toDate().toLocaleDateString() || 'N/A'}</td></tr>`).join('');
+                    document.getElementById('pagination-info').textContent = `Showing ${paginatedData.length > 0 ? (page - 1) * perPage + 1 : 0}-${(page - 1) * perPage + paginatedData.length} of ${data.length}`;
+                    document.getElementById('prev-page').disabled = page === 1;
+                    document.getElementById('next-page').disabled = page * perPage >= data.length;
                 };
 
-                const renderReportCharts = () => {
+                 const renderReportCharts = () => {
                     const votes = state.filteredVotes;
-                    const messages = state.allMessages.filter(m => state.dateRange.start ? m.sentAt?.toDate() >= state.dateRange.start && m.sentAt?.toDate() <= state.dateRange.end : true);
+                    // Note: messages collection listener is removed for simplicity, add it back if needed
+                    // const messages = state.allMessages.filter(m => state.dateRange.start ? m.sentAt?.toDate() >= state.dateRange.start && m.sentAt?.toDate() <= state.dateRange.end : true);
                     const dailyVotes = votes.reduce((acc, { timestamp }) => { if(timestamp?.toDate) { const d = timestamp.toDate().toISOString().split('T')[0]; acc[d] = (acc[d] || 0) + 1; } return acc; }, {});
-                    const dailyMessages = messages.reduce((acc, { sentAt }) => { if(sentAt?.toDate) { const d = sentAt.toDate().toISOString().split('T')[0]; acc[d] = (acc[d] || 0) + 1; } return acc; }, {});
-                    const allDates = [...new Set([...Object.keys(dailyVotes), ...Object.keys(dailyMessages)])].sort();
+                    // const dailyMessages = messages.reduce((acc, { sentAt }) => { if(sentAt?.toDate) { const d = sentAt.toDate().toISOString().split('T')[0]; acc[d] = (acc[d] || 0) + 1; } return acc; }, {});
+                    const allDates = [...new Set(Object.keys(dailyVotes))].sort();
                     votesVsMessagesChart.updateSeries([
                         { name: 'Votes', data: allDates.map(d => [new Date(d).getTime(), dailyVotes[d] || 0]) },
-                        { name: 'Messages', data: allDates.map(d => [new Date(d).getTime(), dailyMessages[d] || 0]) }
+                        // { name: 'Messages', data: allDates.map(d => [new Date(d).getTime(), dailyMessages[d] || 0]) }
                     ]);
                     const countryCounts = votes.reduce((acc, { country }) => { acc[country || 'Unknown'] = (acc[country || 'Unknown'] || 0) + 1; return acc; }, {});
                     const sortedCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).reverse();
@@ -348,19 +331,6 @@
                     const loadMoreBtn = document.getElementById('load-more-cities');
                     if (sortedCities.length > state.topCitiesOffset) loadMoreBtn.classList.remove('hidden');
                     else loadMoreBtn.classList.add('hidden');
-                };
-                
-                const renderVotersTable = () => {
-                    const data = state.filteredVotes, page = state.votersCurrentPage, perPage = state.votersPerPage;
-                    const paginatedData = data.slice((page - 1) * perPage, page * perPage);
-                    const tableBody = document.getElementById('voters-table-body');
-                    document.getElementById('voters-view-total').textContent = data.length.toLocaleString();
-                    tableBody.innerHTML = data.length === 0 ? `<tr><td colspan="4" class="text-center p-8">No voters found.</td></tr>` : paginatedData.map(v => `
-                        <tr class="border-b"><td class="p-3 font-semibold">${v.username || 'N/A'}</td><td class="p-3">${v.city || 'N/A'}</td>
-                        <td class="p-3">${v.country || 'N/A'}</td><td class="p-3">${v.timestamp?.toDate().toLocaleDateString() || 'N/A'}</td></tr>`).join('');
-                    document.getElementById('pagination-info').textContent = `Showing ${paginatedData.length > 0 ? (page - 1) * perPage + 1 : 0}-${(page - 1) * perPage + paginatedData.length} of ${data.length}`;
-                    document.getElementById('prev-page').disabled = page === 1;
-                    document.getElementById('next-page').disabled = page * perPage >= data.length;
                 };
 
                 // --- ACHIEVEMENTS MANAGEMENT ---
@@ -416,26 +386,36 @@
                         }, 
                         (error) => {
                             console.error("Upload error:", error);
-                            statusEl.textContent = "Upload failed. Check console and Firebase Storage rules.";
-                            statusEl.className = 'text-sm text-center text-red-500';
+                            let errorMessage = "Upload failed. Please check the console for details.";
+                            if (error.code === 'storage/unauthorized') {
+                                errorMessage = "Upload failed: Permission Error. Please fix your Firebase Storage Rules.";
+                            }
+                            statusEl.textContent = errorMessage;
+                            statusEl.className = 'text-sm text-center text-red-500 font-bold';
                             progressContainer.classList.add('hidden');
                         }, 
                         async () => {
-                            const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                            await db.collection('images').add({
-                                title,
-                                type,
-                                link: downloadURL,
-                                storagePath,
-                                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                            });
-                            statusEl.textContent = "Upload successful!";
-                            statusEl.className = 'text-sm text-center text-green-500';
-                            achievementForm.reset();
-                            setTimeout(() => {
-                                statusEl.textContent = '';
-                                progressContainer.classList.add('hidden');
-                            }, 3000);
+                            try {
+                                const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                                await db.collection('images').add({
+                                    title,
+                                    type,
+                                    link: downloadURL,
+                                    storagePath,
+                                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                                });
+                                statusEl.textContent = "Upload successful!";
+                                statusEl.className = 'text-sm text-center text-green-500';
+                                achievementForm.reset();
+                                setTimeout(() => {
+                                    statusEl.textContent = '';
+                                    progressContainer.classList.add('hidden');
+                                }, 3000);
+                            } catch (dbError) {
+                                console.error("Database write error:", dbError);
+                                statusEl.textContent = "Upload OK, but failed to save to database. Check Firestore rules.";
+                                statusEl.className = 'text-sm text-center text-red-500 font-bold';
+                            }
                         }
                     );
                 });
@@ -458,8 +438,6 @@
 
                 // FIREBASE LISTENERS
                 db.collection('votes').orderBy('timestamp', 'desc').onSnapshot(snap => { state.allVotes = snap.docs.map(d => d.data()); render(); }, err => console.error(err));
-                db.collection('messages').orderBy('sentAt', 'desc').onSnapshot(snap => { state.allMessages = snap.docs.map(d => d.data()); document.getElementById('total-messages').textContent = snap.size.toLocaleString(); renderReportCharts(); }, err => console.error(err));
-                db.collection('views').orderBy('timestamp', 'desc').onSnapshot(snap => { state.allViews = snap.docs.map(d => d.data()); render(); }, err => console.error(err));
                 db.collection('pollResponses').orderBy('timestamp', 'desc').onSnapshot(snap => { state.allPollResponses = snap.docs.map(d => d.data()); render(); }, err => console.error(err));
                 db.collection('images').orderBy('timestamp', 'desc').onSnapshot(snap => { renderAchievements(snap.docs.map(doc => ({id: doc.id, ...doc.data()}))) }, err => console.error(err));
 
@@ -496,46 +474,8 @@
                 document.getElementById('prev-page').addEventListener('click', () => { if (state.votersCurrentPage > 1) { state.votersCurrentPage--; renderVotersTable(); } });
                 document.getElementById('next-page').addEventListener('click', () => { if (state.votersCurrentPage * state.votersPerPage < state.filteredVotes.length) { state.votersCurrentPage++; renderVotersTable(); } });
                 document.getElementById('search-voters').addEventListener('input', e => { state.searchTerm = e.target.value.toLowerCase(); state.votersCurrentPage = 1; render(); });
-                document.getElementById('load-more-cities').addEventListener('click', () => { state.topCitiesOffset += 10; renderTopCitiesList(); });
-                
-                // PDF DOWNLOAD
-                document.getElementById('download-pdf-btn').addEventListener('click', () => {
-                    const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF();
-                    const { start, end } = state.dateRange;
-                    const dateRangeText = `Date Range: ${start ? start.toLocaleDateString() : 'All Time'} - ${end ? end.toLocaleDateString() : 'Now'}`;
-                    const haaVotes = state.filteredPolls.filter(p => p.choice === 'HAA').length;
-                    const mayaVotes = state.filteredPolls.filter(p => p.choice === 'MAYA').length;
-                    let finalY = 0;
-
-                    doc.setFontSize(18); doc.text("Campaign Analytics Report", 14, 22);
-                    doc.setFontSize(11); doc.setTextColor(100); doc.text(dateRangeText, 14, 29);
-                    doc.setFontSize(12); doc.setTextColor(0); doc.text("Key Metrics", 14, 45);
-                    doc.autoTable({ startY: 50, theme: 'plain', bodyStyles: { fontSize: 11 }, body: [
-                        ['Total Votes:', state.filteredVotes.length.toLocaleString()],
-                        ['Total Page Views:', state.filteredViews.length.toLocaleString()],
-                        ['Unique Visitors:', new Set(state.filteredViews.map(v => v.visitorId)).size.toLocaleString()],
-                    ]});
-                    finalY = doc.lastAutoTable.finalY;
-                    doc.setFontSize(12); doc.text("Quick Poll Results", 14, finalY + 10);
-                    doc.autoTable({ startY: finalY + 15, theme: 'plain', bodyStyles: { fontSize: 11 }, body: [
-                        ['"HAA" (Yes) Votes:', haaVotes.toLocaleString()],
-                        ['"MAYA" (No) Votes:', mayaVotes.toLocaleString()],
-                    ]});
-                    finalY = doc.lastAutoTable.finalY;
-                    const countryCounts = state.filteredVotes.reduce((acc, { country }) => { acc[country || 'Unknown'] = (acc[country || 'Unknown'] || 0) + 1; return acc; }, {});
-                    const sortedCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-                    doc.setFontSize(12); doc.text("Top 5 Countries (by Voters)", 14, finalY + 15);
-                    doc.autoTable({ startY: finalY + 20, theme: 'striped', headStyles: { fillColor: [37, 99, 235] }, head: [['Country', 'Votes']], body: sortedCountries.map(([c, n]) => [c, n.toLocaleString()]) });
-                    finalY = doc.lastAutoTable.finalY;
-                    const cityCounts = state.filteredVotes.reduce((acc, { city }) => { acc[city || 'Unknown'] = (acc[city || 'Unknown'] || 0) + 1; return acc; }, {});
-                    const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-                    doc.setFontSize(12); doc.text("Top 5 Cities (by Voters)", 14, finalY + 15);
-                    doc.autoTable({ startY: finalY + 20, theme: 'striped', headStyles: { fillColor: [37, 99, 235] }, head: [['City', 'Votes']], body: sortedCities.map(([c, n]) => [c, n.toLocaleString()]) });
-                    doc.save(`campaign-analytics-report-${new Date().toISOString().split('T')[0]}.pdf`);
-                });
-
-
+                document.getElementById('load-more-cities')?.addEventListener('click', () => { state.topCitiesOffset += 10; renderTopCitiesList(); });
+               
                 // --- RESPONSIVE SIDEBAR LOGIC ---
                 const sidebar = document.querySelector('.sidebar');
                 const sidebarToggle = document.getElementById('mobile-sidebar-toggle');
