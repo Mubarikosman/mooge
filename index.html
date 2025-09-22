@@ -87,6 +87,13 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
+        .btn-secondary:disabled {
+            background-color: #E2E8F0; /* slate-200 */
+            color: #94A3B8; /* slate-400 */
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
         .input-group {
             position: relative;
         }
@@ -495,7 +502,7 @@
                             <i data-feather="share-2" class="w-5 h-5"></i>
                             <span>La Wadaag</span>
                         </button>
-                        <button id="donate-btn" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2">
+                        <button id="donate-btn" class="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2" disabled>
                             <i data-feather="gift" class="w-5 h-5"></i>
                             <span>Ku Deeq</span>
                         </button>
@@ -509,16 +516,6 @@
                         <div class="orbit-circle"></div>
                         <div class="orbit-circle"></div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-16 -mt-20">
-            <div class="container mx-auto px-6 reveal">
-                 <div class="bg-white border border-slate-200/80 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl shadow-slate-200/50 text-center">
-                    <h3 class="text-lg uppercase tracking-widest text-emerald-600 font-semibold mb-4">Tirinta Codadka Tooska ah</h3>
-                    <div id="vote-counter" class="text-7xl md:text-8xl font-bold text-slate-800 tracking-tighter">0</div>
-                    <p class="text-slate-500 mt-4">Codadka ka yimid magaaladeena iyo meelaha kale.</p>
                 </div>
             </div>
         </section>
@@ -750,18 +747,9 @@
             <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors" data-close-modal>
                 <i data-feather="x" class="w-6 h-6"></i>
             </button>
-            <h3 class="text-2xl font-bold font-display text-center mb-2">Taageer Ololaha</h3>
-            <p class="text-slate-500 text-center mb-6">Deeqdaadu waxay gacan ka geysanaysaa dhismaha Hargeisa wanaagsan.</p>
-            <div class="space-y-4 text-center bg-slate-50 p-6 rounded-2xl border">
-                <p class="font-semibold text-slate-700">Fadlan ku soo hagaaji deeqdaada lambaradan:</p>
-                <div>
-                    <p class="text-sm text-slate-500">ZAAD Adeeg</p>
-                    <p class="text-2xl font-bold tracking-wider text-slate-800">063 400 0000</p>
-                </div>
-                <div>
-                    <p class="text-sm text-slate-500">E-DAHAB Adeeg</p>
-                    <p class="text-2xl font-bold tracking-wider text-slate-800">065 900 0000</p>
-                </div>
+            <div class="text-center p-6">
+                 <p class="text-slate-700 text-xl font-semibold">Hada ma aqbalayno wax deeqa.</p>
+                 <p class="text-slate-600 mt-2">Waad mahadsantahay.</p>
             </div>
         </div>
     </div>
@@ -831,9 +819,12 @@
 
             // --- DYNAMIC VOTE COUNTER ---
             const voteCounterElement = document.getElementById('vote-counter');
-            db.collection("votes").onSnapshot((snapshot) => {
-                if (voteCounterElement) voteCounterElement.textContent = snapshot.size.toLocaleString('en-US');
-            }, console.error);
+            if (voteCounterElement) {
+                db.collection("votes").onSnapshot((snapshot) => {
+                    voteCounterElement.textContent = snapshot.size.toLocaleString('en-US');
+                }, console.error);
+            }
+            
 
             // --- DYNAMIC VOTE SUBMISSION ---
             const voteArea = document.getElementById('vote-area');
